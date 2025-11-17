@@ -8,9 +8,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$3,200",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", 
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
     description:
-      "A powerful and efficient Bitcoin ASIC miner designed for maximum performance and reliability with a 110 TH/s hash rate.",
+      "A powerful and efficient Bitcoin ASIC miner designed for maximum performance and reliability with a 110 TH/s hash rate. It features advanced thermal architecture and stable long-term mining capability, making it ideal for large-scale mining farms.",
   },
   {
     id: 2,
@@ -21,9 +21,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$3,500",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // 1st image
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
     description:
-      "The M30S++ delivers high hash-rate and stability, making it a top choice for professional mining operations.",
+      "The M30S++ delivers high hash-rate and stability, making it a top choice for professional mining operations. Known for its durability and low failure rates, it ensures consistent output even under heavy workloads.",
   },
   {
     id: 3,
@@ -34,9 +34,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$2,700",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp", // 2nd image
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp",
     description:
-      "Canaan's AvalonMiner 1246 provides efficient Bitcoin mining with high performance and a durable design.",
+      "Canaan's AvalonMiner 1246 provides efficient Bitcoin mining with high performance and a durable design. Its strong cooling system and robust build make it suitable for long-term mining environments.",
   },
   {
     id: 4,
@@ -47,12 +47,10 @@ const miningProducts = [
     algorithm: "Kadena",
     price: "$4,000",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp", // 3rd image
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp",
     description:
-      "A premium Kadena miner designed for exceptional energy efficiency and long-term profitability.",
+      "A premium Kadena miner designed for exceptional energy efficiency and long-term profitability. Its optimized power usage and stable output make it a preferred choice for Kadena-focused mining setups.",
   },
-
-  // Continue the cycle: 4 → 1 → 2 → 3
 
   {
     id: 5,
@@ -63,9 +61,9 @@ const miningProducts = [
     algorithm: "Ethash (Ethereum)",
     price: "$1,850",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // cycle image 4
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
     description:
-      "A reliable and profitable Ethereum miner built for consistent long-term performance and low power use.",
+      "A reliable and profitable Ethereum miner built for consistent long-term performance and low power use. It offers strong mining efficiency, making it ideal for users looking to maximize ETH returns.",
   },
   {
     id: 6,
@@ -76,9 +74,9 @@ const miningProducts = [
     algorithm: "Ethash (ETC)",
     price: "$1,100",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // cycle image 1
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
     description:
-      "A silent, high-efficiency miner perfect for at-home or data centre use with incredible energy savings.",
+      "A silent, high-efficiency miner perfect for at-home or data centre use with incredible energy savings. Its ultra-low power draw makes it ideal for cost-efficient long-term operation.",
   },
   {
     id: 7,
@@ -89,9 +87,9 @@ const miningProducts = [
     algorithm: "Scrypt (Litecoin, Dogecoin)",
     price: "$6,200",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp", // cycle image 2
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp",
     description:
-      "One of the fastest Litecoin/Dogecoin miners, offering high throughput for Scrypt algorithm coins.",
+      "One of the fastest Litecoin/Dogecoin miners, offering high throughput for Scrypt algorithm coins. Its top-tier performance makes it the leading choice for serious Scrypt miners.",
   },
   {
     id: 8,
@@ -102,12 +100,10 @@ const miningProducts = [
     algorithm: "Blake2b (HandsomeCoin)",
     price: "$3,300",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp", // cycle image 3
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp",
     description:
-      "High-performance Blake2b miner suitable for niche alt-coins and high-end mining setups.",
+      "High-performance Blake2b miner suitable for niche alt-coins and high-end mining setups. Its dual-mode mining capability allows flexible switching between supported algorithms.",
   },
-
-  // Continue...
 
   {
     id: 9,
@@ -118,9 +114,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$2,900",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // image 4
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
     description:
-      "Cost-effective Bitcoin miner with strong hash-rate vs power consumption ratio.",
+      "Cost-effective Bitcoin miner with strong hash-rate vs power consumption ratio. Reliable hardware ensures smooth operation even under continuous usage.",
   },
   {
     id: 10,
@@ -131,8 +127,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$700",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // image 1
-    description: "Compact Bitcoin miner ideal for small farms or beginners.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
+    description:
+      "Compact Bitcoin miner ideal for small farms or beginners. Its minimal heat output and small form factor make it suitable even for home mining environments.",
   },
   {
     id: 11,
@@ -143,8 +140,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$2,800",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp", // image 2
-    description: "Efficient ASIC miner delivering strong performance.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp",
+    description:
+      "Efficient ASIC miner delivering strong performance. Known for its reliability, it offers excellent balance between output and energy usage.",
   },
   {
     id: 12,
@@ -155,8 +153,9 @@ const miningProducts = [
     algorithm: "Kadena",
     price: "$3,600",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp", // image 3
-    description: "High-throughput Kadena miner with strong profitability.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761562900/yw8szyrhheqd3k0tmpra.webp",
+    description:
+      "High-throughput Kadena miner with strong profitability. Its advanced cooling design helps maintain stable performance during heavy load mining sessions.",
   },
   {
     id: 13,
@@ -167,8 +166,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$1,900",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // image 4
-    description: "Reliable Bitcoin miner with solid performance.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
+    description:
+      "Reliable Bitcoin miner with solid performance. It remains a favorite among mid-level mining setups due to its operational stability and strong build quality.",
   },
   {
     id: 14,
@@ -179,8 +179,9 @@ const miningProducts = [
     algorithm: "SHA-256 (Bitcoin)",
     price: "$1,300",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp", // image 1
-    description: "Good performance for the price, but older generation.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761647590/f1p0vsb8ccr8ips340hz.webp",
+    description:
+      "Good performance for the price, but older generation. Still a dependable option for budget miners seeking steady and consistent output.",
   },
   {
     id: 15,
@@ -191,8 +192,9 @@ const miningProducts = [
     algorithm: "Ethash (Ethereum)",
     price: "$2,400",
     image:
-      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp", // image 2
-    description: "High-end Ethash miner designed for strong and stable mining.",
+      "https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp",
+    description:
+      "High-end Ethash miner designed for strong and stable mining. Its high memory capacity and optimized architecture make it one of the top choices for ETH mining.",
   },
 ];
 
