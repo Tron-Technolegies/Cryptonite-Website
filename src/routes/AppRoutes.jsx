@@ -7,6 +7,9 @@ import AboutPage from "../pages/AboutPage";
 import HostingPage from "../pages/HostingPage";
 import ShopPage from "../pages/shop/ShopPage";
 import ProductDetailsPage from "../pages/shop/ProductDetailsPage";
+import SignupPage from "../pages/SignupPage";
+import LoginPage from "../pages/LoginPage";
+import CartPage from "../pages/shop/CartPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -31,6 +34,15 @@ const AppRoutes = () => {
         },
         {
           path: "/product/:id", element: <ProductDetailsPage/>
+        },
+        {
+          path: "/cart", element: <CartPage/>
+        },
+        {
+          path : "/signup", element: <SignupPage/>
+        },
+        {
+          path : "/login", element: <LoginPage/>
         }
       ],
     },

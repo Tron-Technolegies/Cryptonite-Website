@@ -1,9 +1,14 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import miningProducts from "../../utils/products";
+import { useCart } from "../../context/CartContext";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
+
+  const {addToCart} =  useCart();
+
+  const navigate = useNavigate();
 
   // find product in dummy data
   const product = miningProducts.find((item) => item.id === Number(id));
@@ -52,7 +57,7 @@ const ProductDetailsPage = () => {
             {product.price}
           </p>
 
-          <button className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all">
+          <button className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all" onClick={()=>{addToCart(product); navigate("/cart");}}>
             Buy Now
           </button>
         </div>
