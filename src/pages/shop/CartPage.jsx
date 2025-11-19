@@ -1,9 +1,14 @@
-import React from "react";
-// import { useCart } from "../context/CartContext";
+import React, { useEffect } from "react";
 import { useCart } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const { cart, removeFromCart, updateQty } = useCart();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (cart.length === 0) {
     return (
@@ -12,6 +17,12 @@ const CartPage = () => {
       </div>
     );
   }
+
+  //total anmount calculations
+  const total = cart.reduce((acc, item) => {
+    const price = Number(item.price.replace(/[^0-9.-]+/g, ""));
+    return acc + price * item.qty;
+  }, 0);
 
   return (
     <div className="min-h-screen bg-[#000000] text-white px-6 md:px-20 py-16">
@@ -35,7 +46,7 @@ const CartPage = () => {
               </div>
             </div>
 
-            {/* Qty Controls */}
+            {/* product quantity updations */}
             <div className="flex items-center gap-4">
               <button
                 onClick={() =>
@@ -56,7 +67,7 @@ const CartPage = () => {
               </button>
             </div>
 
-            {/* Remove */}
+           {/* remove an item from cart */}
             <button
               onClick={() => removeFromCart(item.id)}
               className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
@@ -65,6 +76,20 @@ const CartPage = () => {
             </button>
           </div>
         ))}
+      </div>
+
+      {/* SUMMARY BOX */}
+      <div className="mt-10 bg-[#0a1628] p-6 rounded-xl max-w-md ml-auto">
+        <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+        <p className="text-lg">Total Amount:</p>
+        <p className="text-3xl text-green-400 font-bold">${total}</p>
+
+        <button
+          onClick={() => navigate("/checkout")}
+          className="mt-6 w-full bg-green-500 py-3 rounded-lg text-lg font-semibold hover:bg-green-600"
+        >
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   );

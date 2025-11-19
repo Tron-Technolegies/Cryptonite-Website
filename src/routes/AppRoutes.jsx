@@ -10,6 +10,7 @@ import ProductDetailsPage from "../pages/shop/ProductDetailsPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/shop/CartPage";
+import CheckoutPage from "../pages/shop/CheckoutPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -37,6 +38,9 @@ const AppRoutes = () => {
         },
         {
           path: "/cart", element: <CartPage/>
+        },
+        {
+          path: "/checkout", element: <CheckoutPage/>
         },
         {
           path : "/signup", element: <SignupPage/>

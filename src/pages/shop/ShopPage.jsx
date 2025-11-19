@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import miningProducts from "../../utils/products";
 
 const ShopPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("ALL");
   const [algorithm, setAlgorithm] = useState("ALL");

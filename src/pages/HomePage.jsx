@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import HeroSection from '../components/home/HeroSection'
 import PartnerCompanies from '../components/home/PartnerCompanies'
 import ProductCards from '../components/home/ProductCards'
@@ -8,6 +9,9 @@ import Achievements from '../components/home/Achievements'
 import Gallery from '../components/home/Gallery'
 
 const HomePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <HeroSection/>
