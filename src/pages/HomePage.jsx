@@ -7,6 +7,8 @@ import MiningLocations from '../components/home/MiningLocations'
 import FAQ from '../components/home/FAQ'
 import Achievements from '../components/home/Achievements'
 import Gallery from '../components/home/Gallery'
+import Calculator from '../components/home/Calculator'
+
 
 const HomePage = () => {
   useEffect(() => {
@@ -19,6 +21,7 @@ const HomePage = () => {
       <ProductCards/>
       <MiningLocations/>
       <Achievements/>
+       <Calculator/>
       <Gallery/>
       <FAQ/>
     </div>
