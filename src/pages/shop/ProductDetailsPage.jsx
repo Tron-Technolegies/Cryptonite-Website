@@ -1,80 +1,141 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import miningProducts from "../../utils/products";
-import { useCart } from "../../context/CartContext";
+import productApi from "../../api/productApi";
+import cartApi from "../../api/cartApi";
 
 const ProductDetailsPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const { id } = useParams();
-
-  const {addToCart} =  useCart();
-
   const navigate = useNavigate();
 
-  // find product in dummy data
-  const product = miningProducts.find((item) => item.id === Number(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!product) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const fetchProduct = async () => {
+      try {
+        const res = await productApi.getOne(id);
+        setProduct(res.data);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
     return (
-      <div className="text-center text-white py-32">
-        <h1 className="text-4xl font-bold">Product Not Found</h1>
+      <div className="min-h-screen flex items-center justify-center text-white text-2xl">
+        Loading...
       </div>
     );
   }
 
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white text-3xl">
+        Product Not Found
+      </div>
+    );
+  }
+
+  // ------------------- IMAGE URL -------------------
+  const backendBase = import.meta.env.VITE_API_URL.replace("/api/user", "");
+  const imageUrl = `${backendBase}${product.image}`;
+
+  // ---------------- BUY NOW ----------------
+  const handleBuyNow = async () => {
+    const token = localStorage.getItem("access");
+
+    if (!token) {
+      alert("Please login to add the product to cart.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await cartApi.addToCart({
+        product_id: product.id,
+        quantity: 1,
+      });
+
+      navigate("/cart");
+    } catch (err) {
+      console.error("Add to cart error:", err);
+
+      if (err.response?.status === 401) {
+        alert("Your session expired. Please login again.");
+        navigate("/login");
+      } else {
+        alert("Unable to add to cart. Please try again.");
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#020b19] text-white px-6 md:px-20 py-16">
 
-      {/* Product Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
-        {/* Product Image */}
+        {/* Image */}
         <div className="flex justify-center">
           <img
-            src={product.image}
-            alt={product.name}
-            className="w-full max-w-lg rounded-xl shadow-lg object-contain"
+            src={imageUrl}
+            alt={product.model_name}
+            className="w-full max-w-lg rounded-xl shadow-lg object-contain bg-[#0d1a2c] p-4"
           />
         </div>
 
-        {/* Product Details */}
+        {/* Details */}
         <div>
           <h1 className="text-4xl font-bold text-green-400 mb-4">
-            {product.name}
+            {product.model_name}
           </h1>
 
-          <p className="text-gray-300 text-lg mb-6">
-            {product.description}
-          </p>
+          <p className="text-gray-300 text-lg mb-6">{product.description}</p>
 
           <div className="space-y-3 text-lg">
-            <p><span className="font-semibold">Brand:</span> {product.brand}</p>
-            <p><span className="font-semibold">Hash Rate:</span> {product.hashRate}</p>
-            <p><span className="font-semibold">Power Consumption:</span> {product.powerConsumption}</p>
+            <p><span className="font-semibold">Product Details:</span> {product.product_details}</p>
+            <p><span className="font-semibold">Hashrate:</span> {product.hashrate}</p>
+            <p><span className="font-semibold">Power:</span> {product.power}</p>
             <p><span className="font-semibold">Algorithm:</span> {product.algorithm}</p>
+            <p><span className="font-semibold">Minable Coins:</span> {product.minable_coins}</p>
+            <p><span className="font-semibold">Hosting Fee Per KW:</span> ${product.hosting_fee_per_kw}</p>
           </div>
 
           <p className="text-3xl font-bold text-orange-400 mt-6">
-            {product.price}
+            $ {product.price}
           </p>
 
-          <button className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all" onClick={()=>{addToCart(product); navigate("/cart");}}>
+          {/* Buy Now */}
+          <button
+            className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all"
+            onClick={handleBuyNow}
+          >
             Buy Now
           </button>
-        </div>
 
+          {/* Rent */}
+          <button
+            className="mt-8 bg-amber-900 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-all ml-4"
+            onClick={() => navigate(`/rent-checkout/${product.id}`)}
+          >
+            Rent Now
+          </button>
+        </div>
       </div>
 
-      {/* Extra Info Section */}
       <div className="mt-20 bg-[#0a1628] p-8 rounded-xl">
-        <h2 className="text-2xl font-bold text-green-300 mb-4">About this miner</h2>
+        <h2 className="text-2xl font-bold text-green-300 mb-4">
+          About this miner
+        </h2>
         <p className="text-gray-300 leading-relaxed">
-          This miner offers high performance, long-term durability, and optimized
-          power consumption, making it suitable for small-scale and industrial-level mining setups.
+          This miner offers high performance, long-term durability,
+          and optimized power efficiency.
         </p>
       </div>
     </div>

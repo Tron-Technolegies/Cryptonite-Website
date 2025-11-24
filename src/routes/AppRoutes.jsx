@@ -11,6 +11,12 @@ import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/shop/CartPage";
 import CheckoutPage from "../pages/shop/CheckoutPage";
+import ProtectedRoute from "./ProtectedRoute";
+import UsersDetailPage from "../pages/dashboard/UsersDetailPage";
+import VerifyEmailPage from "../pages/VerifyEmailPage";
+import RentCheckoutPage from "../pages/shop/RentCheckoutPage";
+import ForgotPasswordPage from "../pages/dashboard/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -27,26 +33,55 @@ const AppRoutes = () => {
         },
         {
           path: "/hosting",
-          element: <HostingPage/>
+          element: <HostingPage />,
         },
         {
           path: "/shop",
-          element: <ShopPage/>
+          element: <ShopPage />,
         },
         {
-          path: "/product/:id", element: <ProductDetailsPage/>
+          path: "/product/:id",
+          element: <ProductDetailsPage />,
         },
         {
-          path: "/cart", element: <CartPage/>
+          path: "/cart",
+          element: <CartPage />,
         },
         {
-          path: "/checkout", element: <CheckoutPage/>
+          path: "/checkout",
+          element: <CheckoutPage />,
         },
         {
-          path : "/signup", element: <SignupPage/>
+        path: "/rent-checkout/:id",
+        element: <RentCheckoutPage/>
         },
         {
-          path : "/login", element: <LoginPage/>
+          path: "/signup",
+          element: <SignupPage />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
+        },
+        {
+          path: "/verify-email/:uid/:token",
+          element: <VerifyEmailPage />,
+        },
+        {
+          path: "/dashboard",
+          element: (
+            <ProtectedRoute>
+              <UsersDetailPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path : "/forgot-password",
+          element: <ForgotPasswordPage/>
+        },
+        {
+          path: "/reset-password/:uid/:token",
+          element: <ResetPasswordPage/>
         }
       ],
     },

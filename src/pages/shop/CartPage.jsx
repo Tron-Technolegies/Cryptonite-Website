@@ -1,14 +1,61 @@
-import React, { useEffect } from "react";
-import { useCart } from "../../context/CartContext";
+import React, { useEffect, useState } from "react";
+import cartApi from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { cart, removeFromCart, updateQty } = useCart();
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch Cart Items
+  const loadCart = async () => {
+    try {
+      const res = await cartApi.getCart();
+      setCart(res.data);
+
+      const totalRes = await cartApi.getTotal();
+      setTotal(totalRes.data.total_price);
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Error loading cart:", err);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadCart();
   }, []);
+
+  // Update quantity
+  const handleQtyChange = async (itemId, newQty) => {
+    try {
+      await cartApi.updateQty(itemId, { quantity: newQty });
+      loadCart();
+    } catch (err) {
+      console.error("Error updating quantity:", err);
+    }
+  };
+
+  // Remove item
+  const handleRemove = async (itemId) => {
+    try {
+      await cartApi.removeItem(itemId);
+      loadCart();
+    } catch (err) {
+      console.error("Error removing item:", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   if (cart.length === 0) {
     return (
@@ -17,12 +64,6 @@ const CartPage = () => {
       </div>
     );
   }
-
-  //total anmount calculations
-  const total = cart.reduce((acc, item) => {
-    const price = Number(item.price.replace(/[^0-9.-]+/g, ""));
-    return acc + price * item.qty;
-  }, 0);
 
   return (
     <div className="min-h-screen bg-[#000000] text-white px-6 md:px-20 py-16">
@@ -36,40 +77,45 @@ const CartPage = () => {
           >
             <div className="flex items-center gap-6">
               <img
-                src={item.image}
+                src={item.product?.image || item.bundle?.image}
                 className="w-24 h-24 object-contain rounded-lg"
               />
 
               <div>
-                <h2 className="text-xl font-semibold">{item.name}</h2>
-                <p className="text-orange-400">{item.price}</p>
+                <h2 className="text-xl font-semibold">
+                  {item.product?.model_name || item.bundle?.name}
+                </h2>
+
+                <p className="text-orange-400 text-lg">
+                  ₹{item.product?.price || item.bundle?.price}
+                </p>
               </div>
             </div>
 
-            {/* product quantity updations */}
+            {/* Quantity Controls */}
             <div className="flex items-center gap-4">
               <button
                 onClick={() =>
-                  updateQty(item.id, Math.max(1, item.qty - 1))
+                  handleQtyChange(item.id, Math.max(1, item.quantity - 1))
                 }
                 className="bg-gray-700 px-3 py-1 rounded"
               >
                 -
               </button>
 
-              <span className="text-lg">{item.qty}</span>
+              <span className="text-lg">{item.quantity}</span>
 
               <button
-                onClick={() => updateQty(item.id, item.qty + 1)}
+                onClick={() => handleQtyChange(item.id, item.quantity + 1)}
                 className="bg-gray-700 px-3 py-1 rounded"
               >
                 +
               </button>
             </div>
 
-           {/* remove an item from cart */}
+            {/* Remove */}
             <button
-              onClick={() => removeFromCart(item.id)}
+              onClick={() => handleRemove(item.id)}
               className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
             >
               Remove
@@ -78,11 +124,12 @@ const CartPage = () => {
         ))}
       </div>
 
-      {/* SUMMARY BOX */}
+      {/* Summary */}
       <div className="mt-10 bg-[#0a1628] p-6 rounded-xl max-w-md ml-auto">
         <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+
         <p className="text-lg">Total Amount:</p>
-        <p className="text-3xl text-green-400 font-bold">${total}</p>
+        <p className="text-3xl text-green-400 font-bold">₹{total}</p>
 
         <button
           onClick={() => navigate("/checkout")}

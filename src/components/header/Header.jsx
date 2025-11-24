@@ -2,38 +2,35 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaInfoCircle, FaUserCircle, FaGlobe } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
+import cryptonite from "../../../public/logos/cryptonitelogo.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-black text-white px-4 md:px-10 py-5 flex items-center justify-between relative">
-      <div className="flex items-center">
+    <nav className="bg-black text-white px-4 md:px-10 h-16 flex items-center justify-between relative">
+
+      {/* LOGO */}
+      <div className="flex items-center h-full">
         <Link to="/">
-          <span className="text-(--primary-color) text-2xl font-extrabold tracking-wide cursor-pointer">
-            CRYPTONITE
-          </span>
+          <img
+            src={cryptonite}
+            alt="Cryptonite Logo"
+            className="h-full w-36 md:w-40 object-contain object-center cursor-pointer"
+          />
         </Link>
       </div>
 
+      {/* Desktop Menu */}
       <ul className="hidden md:flex space-x-8 text-medium font-medium">
-        <Link to="/hosting" className="hover:text-(--primary-color)">
-          Hosting
-        </Link>
-        <Link to="/shop" className="hover:text-(--primary-color)">
-          Shop
-        </Link>
-        <Link to="/about" className="hover:text-(--primary-color)">
-          About
-        </Link>
-        <Link to="/services" className="hover:text-(--primary-color)">
-          Services
-        </Link>
-        <Link to="/blog" className="hover:text-(--primary-color)">
-          Blog
-        </Link>
+        <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
+        <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link>
+        <Link to="/about" className="hover:text-(--primary-color)">About</Link>
+        <Link to="/services" className="hover:text-(--primary-color)">Services</Link>
+        <Link to="/blog" className="hover:text-(--primary-color)">Blog</Link>
       </ul>
 
+      {/* Desktop Icons */}
       <div className="hidden md:flex items-center space-x-5 text-lg">
         <FaInfoCircle className="cursor-pointer hover:text-(--primary-color)" />
         <FaUserCircle className="cursor-pointer hover:text-(--primary-color)" />
@@ -54,43 +51,12 @@ const Header = () => {
           isOpen ? "top-16 opacity-100" : "top-10 opacity-0 pointer-events-none"
         }`}
       >
-        <Link
-          to="/hosting"
-          className="hover:text-(--primary-color)"
-          onClick={() => setIsOpen(false)}
-        >
-          Hosting
-        </Link>
-        <Link
-          to="/shop"
-          className="hover:text-(--primary-color)"
-          onClick={() => setIsOpen(false)}
-        >
-          Shop
-        </Link>
-        <Link
-          to="/about"
-          className="hover:text-(--primary-color)"
-          onClick={() => setIsOpen(false)}
-        >
-          About
-        </Link>
-        <Link
-          to="/services"
-          className="hover:text-(--primary-color)"
-          onClick={() => setIsOpen(false)}
-        >
-          Services
-        </Link>
-        <Link
-          to="/blog"
-          className="hover:text-(--primary-color)"
-          onClick={() => setIsOpen(false)}
-        >
-          Blog
-        </Link>
+        <Link to="/hosting" className="hover:text-(--primary-color)" onClick={() => setIsOpen(false)}>Hosting</Link>
+        <Link to="/shop" className="hover:text-(--primary-color)" onClick={() => setIsOpen(false)}>Shop</Link>
+        <Link to="/about" className="hover:text-(--primary-color)" onClick={() => setIsOpen(false)}>About</Link>
+        <Link to="/services" className="hover:text-(--primary-color)" onClick={() => setIsOpen(false)}>Services</Link>
+        <Link to="/blog" className="hover:text-(--primary-color)" onClick={() => setIsOpen(false)}>Blog</Link>
 
-        {/* Mobile Icons */}
         <div className="flex space-x-6 pt-4 text-xl">
           <FaInfoCircle className="cursor-pointer hover:text-(--primary-color)" />
           <FaUserCircle className="cursor-pointer hover:text-(--primary-color)" />
