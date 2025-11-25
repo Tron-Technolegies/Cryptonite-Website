@@ -1,26 +1,23 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_BASE,
 });
 
 const openEndpoints = [
-  "/products/",
-  "/products",
-  "/auth/login/",
-  "/auth/register/",
-  "/bundle-offers/",
+  "auth/login/",
+  "auth/register/",
+  "products/",
+  "bundles/",
 ];
 
 axiosClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
 
-  if (openEndpoints.some((url) => config.url.includes(url))) {
-    return config;
-  }
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (!openEndpoints.some((url) => config.url.includes(url))) {
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
 
   return config;

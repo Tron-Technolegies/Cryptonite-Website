@@ -13,7 +13,12 @@ const ShopPage = () => {
     const fetchProducts = async () => {
       try {
         const res = await productApi.getAll();
-        setProducts(res.data || []);  // <-- prevents undefined crash
+
+        console.log("PRODUCT API RESPONSE:", res.data);
+
+       
+        const data = Array.isArray(res.data) ? res.data : [];
+        setProducts(data);
       } catch (err) {
         console.error("Error fetching products:", err);
       }
@@ -22,9 +27,15 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  // ---------------- FILTER + SORT ----------------
+ 
+  const backendBase = import.meta.env.VITE_API_BASE.replace("/api/user", "");
+
   const filteredProducts = (products || [])
-    .filter((p) => (p.name || "").toLowerCase().includes(search.toLowerCase()))
+    .filter((p) =>
+      (p.model_name || "")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
     .sort((a, b) => {
       if (sortBy === "price-high") return b.price - a.price;
       if (sortBy === "price-low") return a.price - b.price;
@@ -33,12 +44,11 @@ const ShopPage = () => {
 
   return (
     <div className="bg-[#000000] min-h-screen text-white px-6 md:px-16 py-16 flex gap-10">
-      
-      {/* FILTER SIDEBAR */}
+
+      {/* SIDEBAR */}
       <div className="w-64 hidden md:block bg-[#07101f] p-6 rounded-xl h-fit shadow-lg">
         <h2 className="text-xl font-bold mb-4">Filter</h2>
 
-        {/* Sort */}
         <label className="text-sm">Sort By</label>
         <select
           className="w-full mt-1 mb-4 bg-[#000000] p-2 rounded-md border border-gray-600"
@@ -49,7 +59,6 @@ const ShopPage = () => {
           <option value="price-high">Price: High → Low</option>
         </select>
 
-        {/* Search */}
         <label className="text-sm">Search</label>
         <input
           type="text"
@@ -60,7 +69,7 @@ const ShopPage = () => {
         />
       </div>
 
-      {/* PRODUCTS GRID */}
+      {/* PRODUCT GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 flex-1">
 
         {filteredProducts.map((product) => (
@@ -70,15 +79,18 @@ const ShopPage = () => {
             className="bg-[#0a1628] p-6 rounded-xl hover:-translate-y-2 transition duration-300 shadow-lg block"
           >
             <img
-               
               src={product.image}
-              alt={product.name}
+              alt={product.model_name}
               className="w-full h-52 object-contain mb-4"
             />
 
-            <h2 className="text-xl font-bold mb-1">{product.model_name}</h2>
+            <h2 className="text-xl font-bold mb-1">
+              {product.model_name}
+            </h2>
 
-            <p className="mt-2 text-orange-400 text-lg">$ {product.price}</p>
+            <p className="mt-2 text-orange-400 text-lg">
+              $ {product.price}
+            </p>
 
             <button className="mt-4 bg-green-500 px-4 py-2 rounded-lg font-semibold hover:bg-green-600 w-full">
               Buy Now
@@ -86,6 +98,7 @@ const ShopPage = () => {
           </Link>
         ))}
 
+        {/* No results */}
         {filteredProducts.length === 0 && (
           <p className="text-gray-300 text-lg col-span-full text-center">
             No products found.

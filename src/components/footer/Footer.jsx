@@ -18,7 +18,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-2 border-b border-(--primary-color) inline-block pb-1">
               Contact
             </h3>
-            <p className="text-gray-300 text-sm mt-2">office@intermine.de</p>
+            <p className="text-gray-300 text-sm mt-2">office@cryptonite.at</p>
             <p className="text-gray-300 text-sm mt-1">+49 941 20083376</p>
             <p className="text-gray-300 text-sm mt-1">Regensburg, Germany</p>
           </div>
@@ -61,8 +61,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-gray-800 pt-4 text-center text-gray-500 text-sm">
-          Powered by Tron Digital
+        <div className="mt-10 border-t border-gray-800 pt-4 text-center text-(--primary-color) text-sm">
+          <span className="text-white">Powered by Tron Digital</span>
         </div>
       </div>
     </footer>

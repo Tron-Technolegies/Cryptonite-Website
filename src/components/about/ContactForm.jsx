@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
+import { sendToWhatsApp } from "../../utils/whatsApp";
 
 const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "+44",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ 
+      ...formData, 
+      [e.target.name]: e.target.value 
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendToWhatsApp(formData); // 🔥 CALL WHATSAPP FUNCTION
+  };
+
   return (
     <section className="bg-[#000000] text-white py-20 px-6 md:px-16">
-
       <div className="max-w-6xl mx-auto border border-(--primary-color) rounded-xl p-8 md:p-12">
 
         <h2 className="text-3xl md:text-4xl font-bold text-(--primary-color)">
@@ -19,42 +39,54 @@ const ContactForm = () => {
         <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
 
           {/* LEFT FORM */}
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <input
               type="text"
+              name="firstName"
               placeholder="First Name"
               className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
+              onChange={handleChange}
+              required
             />
 
             <input
               type="text"
+              name="lastName"
               placeholder="Last Name"
               className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
+              onChange={handleChange}
+              required
             />
 
             <input
               type="email"
+              name="email"
               placeholder="Email"
               className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
+              onChange={handleChange}
             />
 
             <input
               type="text"
-              placeholder="+971"
+              name="phone"
+              placeholder="+44"
               className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
+              onChange={handleChange}
             />
 
             <textarea
               rows="5"
+              name="message"
               placeholder="Message"
               className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
+              onChange={handleChange}
             ></textarea>
 
             <button
               type="submit"
               className="w-full py-3 bg-(--primary-color) text-black font-semibold rounded-full hover:opacity-90"
             >
-              Send Message
+              Send Message via WhatsApp
             </button>
           </form>
 
@@ -64,16 +96,15 @@ const ContactForm = () => {
             <div className="flex items-start gap-3">
               <FaMapMarkerAlt className="text-(--primary-color) text-lg mt-1" />
               <p className="text-[#d1d7e0] leading-relaxed">
-                Plot 122 Ad Doja 1 St - Musaffah - M40 - Abu Dhabi <br />
-                United Arab Emirates
+                Cryptonite, Germany
               </p>
             </div>
 
             <div className="flex items-start gap-3">
               <FaMapMarkerAlt className="text-(--primary-color) text-lg mt-1" />
               <p className="text-[#d1d7e0] leading-relaxed">
-                Saif Thamer General Transport Establishment Building, <br />
-                Al Jubailah, Liwa, Abu Dhabi
+                General Transport Establishment Building, <br />
+                Al Jubailah, Liwa, Germany
               </p>
             </div>
 
@@ -85,19 +116,17 @@ const ContactForm = () => {
             </div>
 
             <div className="flex items-start gap-3">
-              <FaEnvelope className="text-(--primary-color)  text-lg mt-1" />
-              <p className="text-[#d1d7e0]">Rizwan@dahabminers.ae</p>
+              <FaEnvelope className="text-(--primary-color) text-lg mt-1" />
+              <p className="text-[#d1d7e0]">cryptonite@cryptonite.com</p>
             </div>
 
             <div className="flex items-start gap-3">
-              <FaPhone className="text-(--primary-color)  text-lg mt-1" />
-              <p className="text-[#d1d7e0]">+971509669623</p>
+              <FaPhone className="text-(--primary-color) text-lg mt-1" />
+              <p className="text-[#d1d7e0]">+44123456789</p>
             </div>
 
           </div>
-
         </div>
-
       </div>
     </section>
   );

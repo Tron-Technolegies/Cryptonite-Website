@@ -26,13 +26,14 @@ const Header = () => {
         <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
         <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link>
         <Link to="/about" className="hover:text-(--primary-color)">About</Link>
-        <Link to="/services" className="hover:text-(--primary-color)">Services</Link>
+        {/* <Link to="/services" className="hover:text-(--primary-color)">Services</Link> */}
         <Link to="/blog" className="hover:text-(--primary-color)">Blog</Link>
       </ul>
 
       {/* Desktop Icons */}
       <div className="hidden md:flex items-center space-x-5 text-lg">
-        <FaInfoCircle className="cursor-pointer hover:text-(--primary-color)" />
+        <Link to="/dashboard"><FaInfoCircle className="cursor-pointer hover:text-(--primary-color)" /></Link>
+        
         <FaUserCircle className="cursor-pointer hover:text-(--primary-color)" />
         <FaGlobe className="cursor-pointer hover:text-(--primary-color)" />
       </div>

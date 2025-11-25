@@ -43,9 +43,8 @@ const ProductDetailsPage = () => {
     );
   }
 
-  // ------------------- IMAGE URL -------------------
-  const backendBase = import.meta.env.VITE_API_URL.replace("/api/user", "");
-  const imageUrl = `${backendBase}${product.image}`;
+  // ---------------- IMAGE URL ----------------
+  const imageUrl = `${import.meta.env.VITE_API_BASE}${product.image}`;
 
   // ---------------- BUY NOW ----------------
   const handleBuyNow = async () => {
@@ -78,19 +77,16 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#020b19] text-white px-6 md:px-20 py-16">
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
-        {/* Image */}
         <div className="flex justify-center">
           <img
-            src={imageUrl}
+            src={product.image}
             alt={product.model_name}
             className="w-full max-w-lg rounded-xl shadow-lg object-contain bg-[#0d1a2c] p-4"
           />
         </div>
 
-        {/* Details */}
         <div>
           <h1 className="text-4xl font-bold text-green-400 mb-4">
             {product.model_name}
@@ -111,7 +107,6 @@ const ProductDetailsPage = () => {
             $ {product.price}
           </p>
 
-          {/* Buy Now */}
           <button
             className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all"
             onClick={handleBuyNow}
@@ -119,7 +114,6 @@ const ProductDetailsPage = () => {
             Buy Now
           </button>
 
-          {/* Rent */}
           <button
             className="mt-8 bg-amber-900 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-all ml-4"
             onClick={() => navigate(`/rent-checkout/${product.id}`)}

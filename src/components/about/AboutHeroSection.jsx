@@ -21,27 +21,26 @@ const AboutHeroSection = () => {
           <p className="text-(--primary-color) font-semibold">About us</p>
 
           <h2 className="text-3xl md:text-3xl mt-3 font-bold text-(--primary-color)">
-            Leading Crypto Mining Company in Abu Dhabi, UAE
+            Leading Crypto Mining Company in Germany
           </h2>
 
           <p className="mt-5 leading-relaxed text-[#ffffff] text-lg">
-            With years of experience in the UAE, we’ve built a seamless mining
-            ecosystem for our clients. From sourcing the most profitable mining
-            machines to providing top-tier hosting services, we ensure optimal
-            performance and uptime.
+            With years of experience in Germany, we’ve developed a robust and
+            efficient mining ecosystem—covering everything from acquiring
+            high-yield mining machines to delivering secure, high-performance
+            hosting solutions for maximum uptime.
           </p>
 
           <p className="mt-5 leading-relaxed text-[#ffffff] text-lg">
-            Our facilities feature IoT-based controls, expert infrastructure
-            setup, and round-the-clock maintenance to ensure maximum efficiency
-            and uptime. We also provide free miner configuration, pool setup
-            assistance, and on-site repair services to keep your operations
-            running smoothly.
+            With IoT-enabled monitoring, professional infrastructure design, and
+            continuous 24/7 maintenance, our facilities are built for maximum
+            performance and reliability. Additionally, we provide complimentary
+            miner configuration, pool setup guidance, and on-site repair
+            services for uninterrupted operations.
           </p>
 
           <p className="mt-5 leading-relaxed text-[#ffffff] text-lg">
-            Visit our crypto hosting center in Abu Dhabi and take your mining
-            operations to the next level!
+           Visit our crypto hosting center in Germany and elevate your mining operations to the next level.
           </p>
         </div>
 
