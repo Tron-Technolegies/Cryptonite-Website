@@ -86,7 +86,7 @@ const ContactForm = () => {
               type="submit"
               className="w-full py-3 bg-(--primary-color) text-black font-semibold rounded-full hover:opacity-90"
             >
-              Send Message via WhatsApp
+              Submit
             </button>
           </form>
 
