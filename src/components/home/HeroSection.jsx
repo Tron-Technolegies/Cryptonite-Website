@@ -1,8 +1,9 @@
 import React from "react";
+import {sendEnquiryMessage} from "../../utils/whatsApp"
 
 const HeroSection = () => {
   return (
-    <section className="bg-black text-white flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 md:px-12 lg:px-20 py-14 md:py-20 relative overflow-hidden">
+    <section className="bg-black text-white flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 md:px-12 lg:px-20 py-26 md:py-20 relative z-0">
 
       {/* LEFT CONTENT */}
       <div className="w-full md:w-1/2 max-w-xl text-center md:text-left">
@@ -17,7 +18,7 @@ const HeroSection = () => {
           Inquire today, mine tomorrow.
         </p>
 
-        <button className="mt-8 px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-(--primary-color) text-black font-semibold shadow-md hover:shadow-lg transition-transform hover:scale-105 text-base sm:text-lg">
+        <button onClick={sendEnquiryMessage} className="mt-8 px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-(--primary-color) text-black font-semibold shadow-md hover:shadow-lg transition-transform hover:scale-105 text-base sm:text-lg">
           Start mining!
         </button>
       </div>

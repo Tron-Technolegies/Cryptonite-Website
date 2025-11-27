@@ -2,7 +2,7 @@ import React from "react";
 
 const HostingHeader = () => {
   return (
-    <div className="bg-black text-white px-4 sm:px-6 md:px-16 lg:px-24 py-12 font-sans">
+    <div className="bg-black text-white px-4 sm:px-6 md:px-16 lg:px-24 py-24 font-sans">
       <div className="max-w-6xl mx-auto">
 
         {/* Heading Section */}

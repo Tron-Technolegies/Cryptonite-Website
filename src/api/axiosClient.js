@@ -4,20 +4,28 @@ const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE,
 });
 
-const openEndpoints = [
-  "auth/login/",
-  "auth/register/",
-  "products/",
-  "bundles/",
+// Endpoints that DO NOT need token
+const publicEndpoints = [
+  "/auth/login/",
+  "/auth/register/",
+  "/products/",
+  "/bundles/",
 ];
 
 axiosClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
 
-  if (!openEndpoints.some((url) => config.url.includes(url))) {
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  // Extract only path, not full URL
+  const endpoint = config.url.startsWith("/")
+    ? config.url
+    : "/" + config.url;
+
+  const isPublic = publicEndpoints.some((p) =>
+    endpoint.startsWith(p)
+  );
+
+  if (!isPublic && token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;

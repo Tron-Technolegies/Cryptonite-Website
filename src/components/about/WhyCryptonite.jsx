@@ -1,5 +1,6 @@
 import React from "react";
 import { FaServer, FaCogs, FaMoneyBillWave, FaTools } from "react-icons/fa";
+import {sendEnquiryMessage} from "../../utils/whatsApp"
 
 const WhyCryptonite = () => {
   return (
@@ -45,7 +46,7 @@ const WhyCryptonite = () => {
             Purpose-built solutions to help you succeed in the world of crypto mining.
           </p>
 
-          <button className="mt-8 px-6 py-3 font-medium rounded-lg bg-(--primary-color) text-black">
+          <button onClick={sendEnquiryMessage} className="mt-8 px-6 py-3 font-medium rounded-lg bg-(--primary-color) text-black">
             Contact Us
           </button>
         </div>

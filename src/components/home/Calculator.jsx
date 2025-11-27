@@ -94,7 +94,7 @@ export default function Calculator() {
   const btcPriceAvailable = !!(btcData && btcData[0] && (btcData[0].price ?? btcData[0].current_price));
 
   return (
-    <section className="w-full min-h-screen bg-black px-5 md:px-10 lg:px-20 py-12 text-white">
+    <section className="w-full min-h-[60vh] bg-black px-5 md:px-10 lg:px-20 py-12 text-white">
       <h2 className="text-center text-3xl md:text-4xl font-semibold text-green-400 mb-6">
         Bitcoin Profit Calculator
       </h2>

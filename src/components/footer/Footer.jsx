@@ -62,7 +62,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-10 border-t border-gray-800 pt-4 text-center text-(--primary-color) text-sm">
-          <span className="text-white">Powered by Tron Digital</span>
+          {/* <span className="text-white">Powered by Tron Digital</span> */}
         </div>
       </div>
     </footer>

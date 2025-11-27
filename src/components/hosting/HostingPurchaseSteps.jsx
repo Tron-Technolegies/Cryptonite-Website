@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { FaUser, FaSearch, FaServer, FaRocket } from "react-icons/fa";
+import {sendEnquiryMessage} from "../../utils/whatsApp"
 
 const steps = [
   {
@@ -120,7 +121,7 @@ const HostingPurchaseSteps = () => {
 
           {/* Final Button */}
           <div className="flex justify-center mt-28">
-            <button className="bg-(--primary-color) text-black font-semibold px-10 py-3.5 rounded-full shadow-md hover:brightness-110 transition duration-300">
+            <button onClick={sendEnquiryMessage} className="bg-(--primary-color) text-black font-semibold px-10 py-3.5 rounded-full shadow-md hover:brightness-110 transition duration-300">
               Get in Touch
             </button>
           </div>

@@ -8,6 +8,8 @@ const CartPage = () => {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const backendBase = import.meta.env.VITE_API_BASE.replace("/api/user", "");
+
   const loadCart = async () => {
     try {
       const res = await cartApi.getCart();
@@ -59,10 +61,7 @@ const CartPage = () => {
             className="flex items-center justify-between bg-[#0a1628] p-6 rounded-xl"
           >
             <div className="flex items-center gap-6">
-              <img
-                src={item.product?.image || item.bundle?.image}
-                className="w-24 h-24 object-contain rounded-lg"
-              />
+              <img src={item.product?.image} className="w-24 h-24 object-contain rounded-lg" />
 
               <div>
                 <h2 className="text-xl font-semibold">
@@ -70,14 +69,19 @@ const CartPage = () => {
                 </h2>
 
                 <p className="text-orange-400 text-lg">
-                  ₹{item.product_price || item.bundle_price}
+                  ₹
+                  {item.product?.price ||
+                    item.bundle?.price ||
+                    "N/A"}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <button
-                onClick={() => handleQtyChange(item.id, Math.max(1, item.quantity - 1))}
+                onClick={() =>
+                  handleQtyChange(item.id, Math.max(1, item.quantity - 1))
+                }
                 className="bg-gray-700 px-3 py-1 rounded"
               >
                 -
@@ -86,7 +90,9 @@ const CartPage = () => {
               <span>{item.quantity}</span>
 
               <button
-                onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                onClick={() =>
+                  handleQtyChange(item.id, item.quantity + 1)
+                }
                 className="bg-gray-700 px-3 py-1 rounded"
               >
                 +
