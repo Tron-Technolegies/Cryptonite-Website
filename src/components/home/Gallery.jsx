@@ -5,12 +5,12 @@ const Gallery = () => {
 
   // Optimized compressed image URLs (faster loading)
   const images = [
-    "https://images.pexels.com/photos/1024248/pexels-photo-1024248.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://img.freepik.com/premium-photo/modern-office-space-with-employees-working-bitcoin-pro-crypto-concept-trending-background-photo_1142283-80303.jpg",
+    "https://meta-luban.com/wp-content/uploads/2023/05/437baf3f-8ac3-4066-9094-d4b6e1180aa0.jpg",
+    "https://images.financemagnates.com/images/bitcoin%20btc%20mining_id_b6d25679-df18-4ebe-acbc-5380a6838afc_size900.jpg",
+    "https://spectrum.ieee.org/media-library/img.jpg?id=25584047&width=800&quality=85",
+    "https://assets.rbl.ms/25584048/origin.jpg",
+    "https://www.shutterstock.com/image-photo/crypto-farm-under-construction-ethiopiaserver-600nw-2450718191.jpg",
   ];
 
   return (
