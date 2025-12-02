@@ -50,24 +50,26 @@ const EventsAndCelebrations = () => {
   };
 
   return (
-    <section className="bg-[#000000] text-white py-20 px-6 md:px-16">
-      
-      {/* Heading */}
-      <div className="text-center max-w-3xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-(--primary-color)">
+    <section className="bg-white text-black py-20 px-6 md:px-16">
+
+      {/* Title */}
+      <div className="text-center max-w-3xl mx-auto mb-14">
+        <h2 className="text-3xl md:text-4xl font-bold relative inline-block">
           Events & Celebrations
+          <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-(--primary-color) rounded-full"></span>
         </h2>
-        <p className="mt-4 text-[#c9d4e0]">
-          A look into our events, teamwork, and achievements.
+
+        <p className="mt-4 text-gray-600 text-lg">
+          Explore the key moments, events, achievements, and experiences that shape our journey.
         </p>
       </div>
 
       {/* Carousel */}
-      <div className="relative mt-14 overflow-hidden">
+      <div className="relative mt-10 overflow-hidden">
 
-        {/* Slider Container */}
+        {/* Slide Container */}
         <div
-          className="flex transition-transform duration-500"
+          className="flex transition-transform duration-500 ease-out"
           style={{
             width: `${totalSlides * 100}%`,
             transform: `translateX(-${currentSlide * (100 / totalSlides)}%)`,
@@ -82,20 +84,25 @@ const EventsAndCelebrations = () => {
             return (
               <div
                 key={slideIndex}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full px-4"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full px-4"
                 style={{ width: `${100 / totalSlides}%` }}
               >
                 {slideItems.map((event) => (
                   <div
                     key={event.id}
-                    className="bg-[#0b1c36] border border-[#14324f] rounded-xl p-4"
+                    className="bg-white border border-gray-200 shadow-md rounded-2xl p-4 hover:shadow-xl transition duration-300"
                   >
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                    <h3 className="mt-4 text-center text-lg font-semibold">
+                    {/* Image */}
+                    <div className="overflow-hidden rounded-xl">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-48 object-cover rounded-xl transform hover:scale-110 transition duration-500"
+                      />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="mt-4 text-center text-lg font-semibold text-black">
                       {event.title}
                     </h3>
                   </div>
@@ -113,8 +120,8 @@ const EventsAndCelebrations = () => {
               onClick={() => goToSlide(i)}
               className={`h-3 w-3 rounded-full transition-all ${
                 currentSlide === i
-                  ? "bg-(--primary-color) scale-125"
-                  : "bg-amber-100"
+                  ? "bg-yellow-400 scale-125"
+                  : "bg-gray-300"
               }`}
             ></button>
           ))}

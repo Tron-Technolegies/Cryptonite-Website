@@ -1,56 +1,118 @@
 import React from "react";
 import { FaServer, FaCogs, FaMoneyBillWave, FaTools } from "react-icons/fa";
-import {sendEnquiryMessage} from "../../utils/whatsApp"
+import { sendEnquiryMessage } from "../../utils/whatsApp";
 
 const WhyCryptonite = () => {
+  const features = [
+    {
+      icon: <FaTools />,
+      title: "Seamless Mining Setup",
+      text: "Quick configuration & onboarding for all ASIC miners.",
+    },
+    {
+      icon: <FaServer />,
+      title: "Cost-Effective Hosting",
+      text: "Energy-efficient facilities ensuring higher profitability.",
+    },
+    {
+      icon: <FaMoneyBillWave />,
+      title: "100% Earnings, No Cuts",
+      text: "You keep all your mining rewards — zero commission fees.",
+    },
+    {
+      icon: <FaCogs />,
+      title: "Optimized Performance",
+      text: "24/7 monitoring, stable power & efficient cooling systems.",
+    },
+  ];
+
   return (
-    <section className="bg-[#000000] text-white py-20 px-6 md:px-16">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="bg-white text-black py-24 px-6 md:px-16 relative overflow-hidden">
 
-        {/* LEFT — Feature Boxes */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      {/* BACKGROUND GRADIENT */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-yellow-50/40 to-white pointer-events-none"></div>
 
-          {/* Box 1 */}
-          <div className="border border-[#0d2c52] rounded-xl p-8 text-center bg-[#081a33]">
-            <FaTools className="mx-auto text-5xl text-(--primary-color)" />
-            <p className="mt-4 text-lg">Seamless Mining Setup</p>
-          </div>
+      <div className="relative">
 
-          {/* Box 2 */}
-          <div className="border border-[#0d2c52] rounded-xl p-8 text-center bg-[#081a33]">
-            <FaServer className="mx-auto text-5xl text-(--primary-color)" />
-            <p className="mt-4 text-lg">Cost-Effective Hosting</p>
-          </div>
-
-          {/* Box 3 */}
-          <div className="border border-[#0d2c52] rounded-xl p-8 text-center bg-[#081a33]">
-            <FaMoneyBillWave className="mx-auto text-5xl text-(--primary-color)" />
-            <p className="mt-4 text-lg">100% Earnings, No Cuts</p>
-          </div>
-
-          {/* Box 4 */}
-          <div className="border border-[#0d2c52] rounded-xl p-8 text-center bg-[#081a33]">
-            <FaCogs className="mx-auto text-5xl text-(--primary-color)" />
-            <p className="mt-4 text-lg">Optimized Performance</p>
-          </div>
-
-        </div>
-
-        {/* RIGHT SIDE TEXT */}
-        <div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-(--primary-color) leading-snug">
+        {/* TITLE */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold relative inline-block">
             Why Cryptonite Is Your Trusted Mining Partner
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-(--primary-color) rounded-full"></span>
           </h2>
 
-          <p className="mt-5 text-[#c9d4e0] leading-relaxed text-lg">
-            Purpose-built solutions to help you succeed in the world of crypto mining.
+          <p className="mt-6 text-gray-600 max-w-2xl mx-auto text-lg">
+            Purpose-built infrastructure and expert engineering designed to maximize
+            your mining performance and long-term profitability.
           </p>
-
-          <button onClick={sendEnquiryMessage} className="mt-8 px-6 py-3 font-medium rounded-lg bg-(--primary-color) text-black">
-            Contact Us
-          </button>
         </div>
 
+        {/* GRID WRAPPER */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          {/* LEFT SIDE – Modern Feature Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {features.map((item, index) => (
+              <div
+                key={index}
+                className="
+                  bg-white/70 backdrop-blur-md
+                  border border-gray-200
+                  rounded-2xl p-8 shadow-lg
+                  hover:shadow-2xl hover:-translate-y-1
+                  transition-all duration-300
+                  text-center
+                "
+              >
+                {/* ICON */}
+                <div
+                  className="
+                    mx-auto text-5xl mb-4 
+                    text-(--primary-color)
+                    drop-shadow-sm
+                  "
+                >
+                  {item.icon}
+                </div>
+
+                <h3 className="text-xl font-semibold">{item.title}</h3>
+                <p className="text-gray-600 text-sm mt-2">{item.text}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT SIDE TEXT SECTION */}
+          <div className="lg:pl-6 text-center lg:text-left">
+            <p className="text-(--primary-color) font-semibold tracking-wider uppercase">
+              Trust. Performance. Reliability.
+            </p>
+
+            <h3 className="text-3xl md:text-4xl font-bold mt-4 leading-snug">
+              Built for Seamless, Scalable  
+              <span className="block text-(--primary-color)">Mining Success</span>
+            </h3>
+
+            <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-xl">
+              Our cutting-edge infrastructure delivers consistent uptime, stable
+              operating conditions, and optimized hardware performance. With
+              Cryptonite, your mining operations scale effortlessly with zero
+              compromise on reliability.
+            </p>
+
+            <button
+              onClick={sendEnquiryMessage}
+              className="
+                mt-8 px-10 py-3 font-semibold rounded-full 
+                bg-(--primary-color) text-black 
+                hover:brightness-110 transition 
+                shadow-lg
+              "
+            >
+              Contact Us
+            </button>
+          </div>
+
+        </div>
       </div>
     </section>
   );

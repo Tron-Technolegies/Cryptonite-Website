@@ -9,33 +9,59 @@ const Achievements = () => {
   ];
 
   return (
-    <section className="bg-black py-20 px-6 md:px-16">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
-          {stats.map((stat) => (
-            <div key={stat.id} className="relative">
-              <div className="absolute left-1 top-0 bottom-0 w-1 bg-amber-50 hidden md:block"></div>
-              <div className="md:pl-6">
-                <h3 className="text-4xl font-bold" style={{ color: "var(--primary-color)" }}>{stat.number}</h3>
-                <p className="text-white mt-1">{stat.label}</p>
+    <section className="bg-white py-24 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Stats Grid */}
+        <div className="
+          grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
+          gap-14 text-center 
+        ">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.id}
+              className="group transform transition-all duration-300 hover:scale-105"
+            >
+              {/* Decorative underline */}
+              <div className="relative inline-block mb-3">
+                <span
+                  className="text-5xl font-extrabold"
+                  style={{ color: "var(--primary-color)" }}
+                >
+                  {stat.number}
+                </span>
+                <span className="absolute left-1/2 -bottom-1 transform -translate-x-1/2 w-10 h-1 bg-yellow-400 rounded-full"></span>
               </div>
+
+              {/* Label */}
+              <p className="text-black text-lg font-medium mt-2 opacity-90">
+                {stat.label}
+              </p>
+
+              {/* Separator Line on Desktop */}
+              {index < stats.length - 1 && (
+                <div className="hidden lg:block absolute top-0 right-0 h-full w-[1px] bg-gray-200"></div>
+              )}
             </div>
           ))}
         </div>
 
-        <div className="mt-16 text-center md:text-left">
-          <h3 className="text-lg font-bold text-black mb-3">
+        {/* Description Section */}
+        <div className="mt-20 text-center">
+          <h3 className="text-2xl font-bold text-black mb-4">
             NexMine in numbers
           </h3>
-          <p className="text-white max-w-3xl mx-auto md:mx-0 leading-relaxed">
+
+          <p className="text-black max-w-3xl mx-auto text-lg leading-relaxed opacity-90">
             We promise a <span className="font-semibold">quick</span> and{" "}
             <span className="font-semibold">secure</span> entry into crypto
-            mining, made possible by our globally distributed locations, direct
-            hardware ownership, and{" "}
+            mining, made possible by our globally distributed locations,
+            direct hardware ownership, and{" "}
             <span className="font-semibold">German</span> contractual structure.
             Find out now which miner and location are right for you.
           </p>
         </div>
+
       </div>
     </section>
   );

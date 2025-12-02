@@ -21,7 +21,7 @@ const HomePage = () => {
       <ProductCards/>
       <MiningLocations/>
       <Achievements/>
-       <Calculator/>
+       {/* <Calculator/> */}
       <Gallery/>
       <FAQ/>
     </div>

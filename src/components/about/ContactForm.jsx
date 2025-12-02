@@ -12,120 +12,155 @@ const ContactForm = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendToWhatsApp(formData); // 🔥 CALL WHATSAPP FUNCTION
+    sendToWhatsApp(formData);
   };
 
   return (
-    <section className="bg-[#000000] text-white py-20 px-6 md:px-16">
-      <div className="max-w-6xl mx-auto border border-(--primary-color) rounded-xl p-8 md:p-12">
-
-        <h2 className="text-3xl md:text-4xl font-bold text-(--primary-color)">
+    <section className="bg-white text-black py-24 px-6 md:px-16">
+      
+      {/* Section Heading */}
+      <div className="text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold relative inline-block">
           Contact Us
+          <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-(--primary-color) rounded-full"></span>
         </h2>
-
-        <p className="mt-3 text-[#d1d7e0]">
-          Thank you for getting in touch! <br />
-          Kindly fill the form, have a great day!
+        <p className="mt-4 text-gray-600 text-lg">
+          Have a question? We’re here to help with anything related to mining, hosting, or hardware support.
         </p>
+      </div>
 
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+        
+        {/* LEFT — Modern Contact Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-gray-200 shadow-lg rounded-2xl p-10 space-y-6"
+        >
+          {/* Two Inputs Side by Side */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-medium text-gray-600">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                required
+                onChange={handleChange}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-(--primary-color) outline-none"
+              />
+            </div>
 
-          {/* LEFT FORM */}
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
-              onChange={handleChange}
-              required
-            />
+            <div>
+              <label className="text-sm font-medium text-gray-600">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                required
+                onChange={handleChange}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-(--primary-color) outline-none"
+              />
+            </div>
+          </div>
 
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
-              onChange={handleChange}
-              required
-            />
-
+          {/* Email */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">Email</label>
             <input
               type="email"
               name="email"
-              placeholder="Email"
-              className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
               onChange={handleChange}
+              className="mt-1 w-full p-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-(--primary-color) outline-none"
             />
+          </div>
 
+          {/* Phone */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">Phone</label>
             <input
               type="text"
               name="phone"
-              placeholder="+44"
-              className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
               onChange={handleChange}
+              className="mt-1 w-full p-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-(--primary-color) outline-none"
             />
+          </div>
 
+          {/* Message */}
+          <div>
+            <label className="text-sm font-medium text-gray-600">Message</label>
             <textarea
               rows="5"
               name="message"
-              placeholder="Message"
-              className="w-full p-3 rounded-lg bg-[#0b1c36] border border-[#14324f] text-white outline-none"
               onChange={handleChange}
+              className="mt-1 w-full p-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-(--primary-color) outline-none"
             ></textarea>
-
-            <button
-              type="submit"
-              className="w-full py-3 bg-(--primary-color) text-black font-semibold rounded-full hover:opacity-90"
-            >
-              Submit
-            </button>
-          </form>
-
-          {/* RIGHT CONTACT DETAILS */}
-          <div className="space-y-8">
-
-            <div className="flex items-start gap-3">
-              <FaMapMarkerAlt className="text-(--primary-color) text-lg mt-1" />
-              <p className="text-[#d1d7e0] leading-relaxed">
-                Cryptonite, Germany
-              </p>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <FaMapMarkerAlt className="text-(--primary-color) text-lg mt-1" />
-              <p className="text-[#d1d7e0] leading-relaxed">
-                General Transport Establishment Building, <br />
-                Al Jubailah, Liwa, Germany
-              </p>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <FaMapMarkerAlt className="text-(--primary-color) text-lg mt-1" />
-              <p className="text-[#d1d7e0] leading-relaxed">
-                WM92+VCQ Alem Gena, Ethiopia
-              </p>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <FaEnvelope className="text-(--primary-color) text-lg mt-1" />
-              <p className="text-[#d1d7e0]">cryptonite@cryptonite.com</p>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <FaPhone className="text-(--primary-color) text-lg mt-1" />
-              <p className="text-[#d1d7e0]">+44123456789</p>
-            </div>
-
           </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full py-3 bg-(--primary-color) text-black font-semibold rounded-full hover:bg-(--primary-color) transition"
+          >
+            Submit
+          </button>
+        </form>
+
+        {/* RIGHT — Contact Info Cards */}
+        <div className="space-y-6">
+
+          {/* Card 1 */}
+          <div className="bg-white border border-gray-200 shadow-md rounded-2xl p-6 flex gap-4 items-start">
+            <FaMapMarkerAlt className="text-black text-3xl" />
+            <div>
+              <h4 className="font-semibold text-lg">Germany Office</h4>
+              <p className="text-gray-600 mt-1">Cryptonite, Germany</p>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white border border-gray-200 shadow-md rounded-2xl p-6 flex gap-4 items-start">
+            <FaMapMarkerAlt className="text-black text-3xl" />
+            <div>
+              <h4 className="font-semibold text-lg">Liwa Hosting Facility</h4>
+              <p className="text-gray-600 mt-1">
+                General Transport Establishment Building, Al Jubailah, Liwa, Germany
+              </p>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-white border border-gray-200 shadow-md rounded-2xl p-6 flex gap-4 items-start">
+            <FaMapMarkerAlt className="text-black text-3xl" />
+            <div>
+              <h4 className="font-semibold text-lg">Ethiopia Facility</h4>
+              <p className="text-gray-600 mt-1">WM92+VCQ Alem Gena, Ethiopia</p>
+            </div>
+          </div>
+
+          {/* Email */}
+          <div className="bg-white border border-gray-200 shadow-md rounded-2xl p-6 flex gap-4 items-start">
+            <FaEnvelope className="text-(--primary-color)text-3xl" />
+            <div>
+              <h4 className="font-semibold text-lg">Email</h4>
+              <p className="text-gray-600 mt-1">cryptonite@cryptonite.com</p>
+            </div>
+          </div>
+
+          {/* Phone */}
+          <div className="bg-white border border-gray-200 shadow-md rounded-2xl p-6 flex gap-4 items-start">
+            <FaPhone className="text-black text-3xl" />
+            <div>
+              <h4 className="font-semibold text-lg">Phone</h4>
+              <p className="text-gray-600 mt-1">+44 123456789</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

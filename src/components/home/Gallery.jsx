@@ -14,8 +14,8 @@ const Gallery = () => {
   ];
 
   return (
-    <section className="bg-black py-16 px-6 md:px-16">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-white flex items-center justify-center gap-3">
+    <section className="bg-white py-16 px-6 md:px-16">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-black flex items-center justify-center gap-3">
         <span className="text-yellow-400 text-4xl">🏢</span>
         Our Office & Facilities
       </h2>
