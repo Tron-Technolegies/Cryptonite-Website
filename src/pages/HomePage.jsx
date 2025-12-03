@@ -12,6 +12,7 @@ import WhyCryptonite from '../components/home/WhyCryptonite'
 import MiningNews from '../components/home/MiningNews'
 import Blogs from '../components/home/Blogs'
 import Testimonials from '../components/home/Testimonials'
+import ContactForm from '../components/about/ContactForm'
 
 
 const HomePage = () => {
@@ -35,6 +36,7 @@ const HomePage = () => {
       {/* <Gallery/> */}
       <Testimonials/>
       <FAQ/>
+      <ContactForm/>
     </div>
   )
 }
