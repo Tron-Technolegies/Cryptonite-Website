@@ -3,7 +3,7 @@ import faqs from "../../utils/faq";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(0); // First FAQ open by default
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -14,54 +14,53 @@ const FAQ = () => {
 
       {/* TITLE */}
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-bold text-black inline-block relative">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase tracking-wide">
           Frequently Asked Questions
-          <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-yellow-400 rounded-full"></span>
         </h2>
+        <p className="text-gray-500 mt-3 text-sm md:text-base">
+          Everything you need to know about our mining services
+        </p>
       </div>
 
       {/* FAQ LIST */}
       <div className="max-w-3xl mx-auto space-y-4">
-        {faqs.map((faq, index) => (
-          <div
-            key={faq.id}
-            className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300"
-          >
-            {/* QUESTION */}
-            <button
-              onClick={() => toggleFAQ(index)}
-              className="flex justify-between items-center w-full p-5 text-left"
-            >
-              <h3 className="text-base md:text-lg font-semibold text-black">
-                {faq.question}
-              </h3>
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
 
-              <div className="
-                w-7 h-7 flex items-center justify-center 
-                rounded-full bg-gray-100 text-gray-600
-                transition-all duration-300
-              ">
-                {openIndex === index ? (
-                  <FaMinus className="text-sm" />
-                ) : (
-                  <FaPlus className="text-sm" />
-                )}
-              </div>
-            </button>
-
-            {/* ANSWER */}
+          return (
             <div
-              className={`
-                overflow-hidden transition-all duration-300 
-                ${openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}
-              `}
+              key={faq.id}
+              className={`rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden ${
+                isOpen ? "bg-[#F8FBFF]" : "bg-white"
+              }`}
             >
-              <div className="px-5 pb-5 text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-200">
-                {faq.answer}
+              {/* QUESTION */}
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="flex justify-between items-center w-full p-5 md:p-6 text-left"
+              >
+                <h3 className="text-base md:text-lg font-semibold text-black">
+                  {faq.question}
+                </h3>
+
+                <div className="w-6 h-6 flex items-center justify-center rounded-full text-black">
+                  {isOpen ? <FaMinus size={14} /> : <FaPlus size={14} />}
+                </div>
+              </button>
+
+              {/* ANSWER */}
+              <div
+                className={`transition-all duration-300 ${
+                  isOpen ? "max-h-40 opacity-100 mb-4" : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="px-5 md:px-6 pb-5 text-gray-600 leading-relaxed text-sm md:text-base">
+                  {faq.answer}
+                </p>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
     </section>

@@ -8,6 +8,10 @@ import FAQ from '../components/home/FAQ'
 import Achievements from '../components/home/Achievements'
 import Gallery from '../components/home/Gallery'
 import Calculator from '../components/home/Calculator'
+import WhyCryptonite from '../components/home/WhyCryptonite'
+import MiningNews from '../components/home/MiningNews'
+import Blogs from '../components/home/Blogs'
+import Testimonials from '../components/home/Testimonials'
 
 
 const HomePage = () => {
@@ -17,12 +21,19 @@ const HomePage = () => {
   return (
     <div>
       <HeroSection/>
-      <PartnerCompanies/>
-      <ProductCards/>
-      <MiningLocations/>
       <Achievements/>
+      <WhyCryptonite/>
+        <ProductCards/>
+          <MiningLocations/>
+          <MiningNews/>
+          <Blogs/>
+      {/* <PartnerCompanies/>  */}
+    
+    
+      
        {/* <Calculator/> */}
-      <Gallery/>
+      {/* <Gallery/> */}
+      <Testimonials/>
       <FAQ/>
     </div>
   )

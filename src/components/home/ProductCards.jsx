@@ -1,88 +1,107 @@
 import React from "react";
-import { FaStar } from "react-icons/fa";
 import miningProducts from "../../utils/products";
+import { FiTrendingUp, FiZap, FiMapPin } from "react-icons/fi";
 
 const ProductCards = () => {
-  const topProducts = miningProducts.slice(0, 4); // 4 items like screenshot
+  const topProducts = miningProducts.slice(0, 3); 
 
   return (
-    <div className="bg-white py-16 px-6 md:px-16">
-
-      {/* SECTION TITLE */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-black">
-          The Most Profitable Miners
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Choose your miner and hosting starting with 4 cents per KW.
+    <section className="bg-[#F8FBF9] py-20 px-6 md:px-16">
+      
+     
+      <div className="text-center mb-14">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase josefin-sans">
+          Premium Mining <br /> Equipment
+        </h2>
+        <p className="text-(--text-black-color) mt-2 text-base dm-sans">
+          Industry leading ASIC miners for maximum efficiency and profitability
         </p>
       </div>
 
       {/* PRODUCT GRID */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-10 md:grid-cols-3">
         {topProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-2xl shadow-md border border-gray-200 p-4 hover:shadow-xl transition duration-300 relative"
+            className="rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition p-0 overflow-hidden bg-white"
           >
-            {/* Black Friday Badge */}
-            <div className="absolute top-3 left-3 bg-black text-yellow-400 font-bold text-xs px-3 py-1 rounded-md">
-              BLACK FRIDAY %
-            </div>
-
-            {/* Discount Badge */}
-            <div className="absolute top-3 right-3 bg-red-500 text-white font-semibold text-xs px-3 py-1 rounded-full">
-              Save {product.discount || "10%"}
-            </div>
-
-            {/* Product Image */}
+            {/* IMAGE */}
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-56 object-contain mt-8"
+              className="w-full h-64 object-cover"
             />
 
-            {/* PRODUCT NAME */}
-            <h2 className="text-lg font-semibold text-black mt-4">
-              {product.name}
-            </h2>
+            <div className="p-6">
 
-            {/* Price Section */}
-            <div className="mt-2 flex items-center gap-3">
-              <span className="text-sm text-gray-500 line-through">
-                {product.oldPrice}
-              </span>
-              <span className="text-lg font-bold text-red-500">
-                {product.newPrice}
-              </span>
-            </div>
+              {/* NAME + PRICE */}
+              <div className="flex items-start justify-between">
+                <h3 className="text-xl font-bold text-black dm-sans">{product.name}</h3>
 
-            {/* Profit Per Day */}
-            <div className="bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full w-fit mt-3">
-              {product.profitPerDay}
-            </div>
+                <span className="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-sm">
+                  {product.price}
+                </span>
+              </div>
 
-            {/* Rating */}
-            <div className="mt-3 flex items-center text-yellow-500">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar className="text-gray-300" /> 
-              <span className="text-black text-sm ml-2">{product.rating}</span>
+              {/* DESCRIPTION */}
+              <p className="text-black mt-2 text-base leading-relaxed line-clamp-3 font-normal dm-sans">
+                {product.description}
+              </p>
+
+              {/* SPECS */}
+              <div className="mt-5 space-y-3">
+                {/* Hashrate */}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <FiTrendingUp className="text-(--primary-color)" />
+                    <span>Hashrate</span>
+                  </div>
+                  <span className="font-semibold text-black">{product.hashRate}</span>
+                </div>
+
+                {/* Power */}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <FiZap className="text-(--primary-color)" />
+                    <span>Power</span>
+                  </div>
+                  <span className="font-semibold text-black">{product.powerConsumption}</span>
+                </div>
+
+                {/* Locations */}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <FiMapPin className="text-(--primary-color)" />
+                    <span>Location</span>
+                  </div>
+                  <span className="font-semibold text-black">Multiple Locations</span>
+                </div>
+              </div>
+
+              {/* BUTTONS */}
+              <div className="mt-6 flex justify-between gap-4">
+                <button className="w-1/2 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition text-sm font-medium">
+                  Learn More
+                </button>
+
+                <button className="w-1/2 py-2 bg-(--primary-color) text-white rounded-lg hover:brightness-110 transition text-sm font-medium">
+                  Order Now
+                </button>
+              </div>
+
             </div>
           </div>
         ))}
       </div>
 
-      {/* CENTER BUTTON */}
-      <div className="text-center mt-12">
-        <button className="bg-(--primary-color) text-black font-semibold py-3 px-10 rounded-full hover:brightness-110 transition duration-300">
-          Shop Now
+      {/* VIEW ALL BUTTON */}
+      <div className="text-center mt-14">
+        <button className="border border-gray-300 py-3 px-10 rounded-full text-sm font-medium hover:bg-gray-100 transition">
+          View All Equipment →
         </button>
       </div>
 
-    </div>
+    </section>
   );
 };
 

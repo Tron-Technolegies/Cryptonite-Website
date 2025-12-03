@@ -1,55 +1,102 @@
 import React from "react";
 import { sendEnquiryMessage } from "../../utils/whatsApp";
+import heroimg from "../../../public/heroimg.png";
 
 const HeroSection = () => {
   return (
-    <section className="bg-[#f5f5f5] flex flex-col md:flex-row items-center justify-between px-6 sm:px-10 lg:px-20 py-20">
+    <section
+      className="
+        relative 
+        h-[75vh] 
+        sm:h-[85vh] 
+        lg:h-screen 
+        bg-[#EFFFF3]
+        flex items-center
+        px-6 sm:px-10 lg:px-20
+        overflow-hidden
+      "
+    >
+      {/* DIAGONAL SHAPE */}
+      <div className="absolute top-0 right-0 w-full h-full bg-white clip-diagonal-wide pointer-events-none"></div>
 
-      {/* LEFT CONTENT */}
-      <div className="w-full md:w-1/2 max-w-xl">
-        
-        {/* Top Badge */}
-        <div className="flex items-center gap-2 bg-gray-100 text-black px-4 py-2 rounded-full w-fit mb-6 text-sm font-medium">
-          <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-          Most profitable Bitcoin miner hosting – Award
+      {/* CONTENT WRAPPER */}
+      <div className="relative flex flex-col lg:flex-row items-center w-full z-[10]">
+
+        {/* LEFT TEXT */}
+        <div className="max-w-3xl flex-1 pt-10 sm:pt-0">
+          <h1
+            className="
+              text-3xl 
+              sm:text-4xl 
+              md:text-5xl 
+              lg:text-6xl 
+              font-bold 
+              leading-tight 
+              josefin-sans 
+              text-black
+            "
+          >
+            PROFESSIONAL <br />
+            CRYPTOCURRENCY <br />
+            <span className="text-(--primary-color)">MINING</span> SOLUTIONS
+          </h1>
+
+          <p
+            className="
+              text-black 
+              mt-4 sm:mt-6 
+              text-base 
+              sm:text-lg 
+              md:text-xl 
+              leading-relaxed 
+              max-w-xl 
+              dm-sans 
+              font-medium
+            "
+          >
+            Fast return on investment with premium hosting infrastructure.
+            Enterprise-grade facilities powered by 100% renewable energy across
+            global locations.
+          </p>
+
+          <div className="mt-6 sm:mt-8">
+            <button
+              onClick={sendEnquiryMessage}
+              className="
+                px-6 sm:px-8 
+                py-3 sm:py-4 
+                rounded-md 
+                bg-(--secondary-color) 
+                text-white 
+                font-semibold 
+                hover:bg-green-700 
+                transition
+              "
+            >
+              Start Mining Today →
+            </button>
+          </div>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-black">
-          The Easiest Crypto Mining Platform
-        </h1>
-
-        <p className="text-black mt-6 text-base sm:text-lg md:text-xl leading-relaxed">
-          Crypto mining hosting is a user-friendly crypto mining platform 
-          based in the Germany. With electricity rates from 4¢/kW, our facilities 
-          are designed for the highest possible Bitcoin mining profits.
-        </p>
-
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
-          <button
-            onClick={sendEnquiryMessage}
-            className="px-8 py-4 rounded-full bg-black text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform"
-          >
-            Start Mining
-          </button>
-
-          <button
-            className="px-8 py-4 rounded-full border border-black text-black font-semibold hover:bg-gray-200 transition"
-          >
-            Book a Call
-          </button>
+        {/* RIGHT IMAGE */}
+        <div className="flex-1 hidden lg:flex justify-end">
+          <img
+            src={heroimg}
+            alt="Hero Illustration"
+            className="w-[500px] lg:w-[620px] xl:w-[700px] object-contain drop-shadow-md"
+          />
         </div>
-      </div>
 
-      {/* RIGHT IMAGE */}
-      <div className="w-full md:w-1/2 flex justify-center mt-12 md:mt-0">
-        <img
-          src="https://res.cloudinary.com/dfe8yna1k/image/upload/v1761645546/wzv85xogduggf8brwhcx.webp"
-          alt="Mining Machines"
-          className="w-[260px] sm:w-[350px] md:w-[450px] lg:w-[520px] object-contain drop-shadow-xl"
-        />
-      </div>
+        {/* Mobile Image */}
+        <div className="flex lg:hidden justify-center mt-10">
+          <img
+            src={heroimg}
+            alt="Hero Illustration"
+            className="w-[260px] sm:w-[320px] object-contain drop-shadow-md opacity-90"
+          />
+        </div>
 
+      </div>
     </section>
   );
 };

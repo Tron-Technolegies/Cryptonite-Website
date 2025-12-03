@@ -1,63 +1,95 @@
 import React from "react";
 import miningLocations from "../../utils/miningLocations";
+import { FiTrendingUp, FiZap, FiMapPin } from "react-icons/fi";
 
 const MiningLocations = () => {
-  const topLocations = miningLocations.slice(0, 3); // match screenshot: 3 cards
+  const topLocations = miningLocations.slice(0, 4); 
 
   return (
     <section className="bg-white py-20 px-6 md:px-16">
 
-      {/* SECTION TITLE */}
+     
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-5xl font-bold text-black leading-snug">
-          ASIC Miner <br />
-          <span className="relative">
-            Hosting Locations
-            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-40 h-1 bg-(--primary-color) rounded-full"></span>
-          </span>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase tracking-wide josefin-sans">
+          GLOBAL MINING LOCATIONS
         </h2>
+        <p className="text-(text--black-color) mt-2 text-lg dm-sans" >
+          Strategic data centers worldwide powered by 100% renewable energy
+        </p>
       </div>
 
       {/* LOCATION CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {topLocations.map((location) => (
           <div
             key={location.id}
-            className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
+            className="border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg overflow-hidden bg-white transition"
           >
-            {/* Background Image */}
+            {/* IMAGE */}
             <img
               src={location.image}
               alt={location.name}
-              className="w-full h-[420px] object-cover"
+              className="w-full h-56 object-cover"
             />
 
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-45"></div>
+            {/* CONTENT */}
+            <div className="p-6">
 
-            {/* CENTERED CONTENT */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+              {/* TITLE + STATUS */}
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-bold text-black">
+                  {location.name}
+                </h3>
 
-              {/* TOP DESCRIPTION */}
-              <p className="text-white text-xs md:text-sm font-semibold tracking-wide mb-4 uppercase leading-relaxed opacity-90">
-                HOSTING CENTER LOCATED IN {location.country.toUpperCase()} <br />
-                WITH CAPACITY OF {location.capacity}.
+                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                  {location.status}
+                </span>
+              </div>
+
+              {/* COUNTRY */}
+              <p className="text-gray-600 text-sm flex items-center gap-1">
+                <FiMapPin className="text-(--primary-color)" />
+                {location.country}
               </p>
 
-              {/* LOCATION NAME */}
-              <h3 className="text-3xl font-bold text-white mb-6 drop-shadow-md">
-                {location.name}
-              </h3>
+              {/* SPECS */}
+              <div className="mt-4 space-y-3 text-sm">
 
-              {/* PRICE – Using existing data field (energySource) */}
-              <div className="bg-white text-black font-semibold px-8 py-3 rounded-full shadow-md text-lg">
-                {location.energySource}
+                {/* Capacity */}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <FiZap className="text-(--primary-color)" />
+                    Capacity
+                  </div>
+                  <span className="font-semibold text-black">{location.capacity}</span>
+                </div>
+
+                {/* Hash Rate */}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <FiTrendingUp className="text-(--primary-color)" />
+                    Hashrate
+                  </div>
+                  <span className="font-semibold text-black">{location.hashRateCapacity}</span>
+                </div>
+
+                {/* Energy */}
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2 text-gray-600">
+                    ⚡ Energy
+                  </div>
+                  <span className="font-semibold text-black text-right">
+                    {location.energySource}
+                  </span>
+                </div>
+
               </div>
 
             </div>
           </div>
         ))}
       </div>
+
     </section>
   );
 };

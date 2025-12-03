@@ -1,5 +1,33 @@
 @import "tailwindcss";
 
-:root{
-    --primary-color : #00c336;
+@import url("https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kumbh+Sans:wght@100..900&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&family=Syne:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Frank+Ruhl+Libre:wght@300..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kumbh+Sans:wght@100..900&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&family=Syne:wght@400..800&display=swap");
+
+:root {
+  --primary-color: #00c336;
+  --secondary-color: #6CC04B;
+  --bg-light-blue: #77D2E8;
+  --text-black-color : #292929;
 }
+
+.josefin-sans {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: 600;
+  font-style: normal; */
+}
+
+.dm-sans {
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: 400;
+  font-style: normal; */
+}
+
+/* Wider diagonal for 100vh layout */
+.clip-diagonal-wide {
+  clip-path: polygon(90% 0%, 100% 0%, 100% 100%, 70% 100%);
+
+
+}
+
