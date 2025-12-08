@@ -1,40 +1,9 @@
 import React from "react";
 import { FiUser, FiCalendar, FiImage } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { blogPosts } from "../../utils/blogs";
 
 const Blogs = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      category: "Industry Insights",
-      title: "Why Vienna is Becoming Europe’s Bitcoin Mining Hub",
-      author: "Sarah Johnson",
-      date: "June 8, 2025",
-      image: "/blogimage/firstblog.png",
-      description:
-        "Discover how Vienna’s strategic location, renewable energy infrastructure, and crypto-friendly regulations make it ideal for large-scale mining operations...",
-    },
-    {
-      id: 2,
-      category: "Market Analysis",
-      title: "Central European Mining: Austria & Czech Republic Opportunities",
-      author: "David Martinez",
-      date: "June 5, 2025",
-      image: "/blogimage/secondblog.png",
-      description:
-        "Explore the growing Bitcoin mining ecosystem in Central Europe and why institutional investors are flocking to the region.",
-    },
-    {
-      id: 3,
-      category: "Events",
-      title: "Meet Us at BTC Prague: Booth #247",
-      author: "Emily Zhang",
-      date: "June 8, 2025",
-      image: "/blogimage/thirdblog.png",
-      description:
-        "Visit our booth to learn about our enterprise hosting solutions, renewable energy initiatives, and exclusive conference discounts.",
-    },
-  ];
-
   return (
     <section className="bg-white py-20 px-6 md:px-16">
       <div className="text-center mb-14">
@@ -83,9 +52,13 @@ const Blogs = () => {
                 {post.description}
               </p>
 
-              <button className="mt-4 text-(--primary-color) font-semibold text-sm hover:underline">
+              {/* FIXED — LINK TO BLOG DETAILS */}
+              <Link
+                to={`/blogs/${post.id}`}
+                className="mt-4 inline-block text-(--primary-color) font-semibold text-sm hover:underline"
+              >
                 Read More
-              </button>
+              </Link>
             </div>
           </div>
         ))}

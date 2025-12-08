@@ -17,6 +17,8 @@ import VerifyEmailPage from "../pages/VerifyEmailPage";
 import RentCheckoutPage from "../pages/shop/RentCheckoutPage";
 import ForgotPasswordPage from "../pages/dashboard/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
+import BlogPage from "../pages/BlogPage";
+import BlogDetails from "../components/blogs/BlogDetails";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -35,6 +37,14 @@ const AppRoutes = () => {
           path: "/hosting",
           element: <HostingPage />,
         },
+        {
+          path: "/blogs",
+          element: <BlogPage/>
+        },
+        {
+          path: "/blogs/:id",
+          element: <BlogDetails/>
+        }
         // {
         //   path: "/shop",
         //   element: <ShopPage />,

@@ -32,9 +32,9 @@ const Header = () => {
       <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
         <Link to="/about" className="hover:text-(--primary-color)">About</Link>
         <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
-        <Link to="/miners" className="hover:text-(--primary-color)">ASIC miners</Link>
-        <Link to="/referral" className="hover:text-(--primary-color)">Referral</Link>
-        <Link to="/about" className="hover:text-(--primary-color)">Company</Link>
+        <Link to="/miners" className="hover:text-(--primary-color)">Shop</Link>
+        <Link to="/blogs" className="hover:text-(--primary-color)">Blog</Link>
+        <Link to="/about" className="hover:text-(--primary-color)">Contact</Link>
       </ul>
 
       {/* Desktop Icons */}
@@ -83,9 +83,9 @@ const Header = () => {
       >
         <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
         <Link to="/hosting" onClick={() => setIsOpen(false)}>Hosting</Link>
-        <Link to="/miners" onClick={() => setIsOpen(false)}>ASIC miners</Link>
-        <Link to="/referral" onClick={() => setIsOpen(false)}>Referral</Link>
-        <Link to="/about" onClick={() => setIsOpen(false)}>Company</Link>
+        <Link to="/miners" onClick={() => setIsOpen(false)}>Shop</Link>
+        <Link to="/blogs" onClick={() => setIsOpen(false)}>Blog</Link>
+        <Link to="/about" onClick={() => setIsOpen(false)}>Contact</Link>
 
         {/* Icons */}
         <div className="flex items-center space-x-8 pt-4 text-2xl">
