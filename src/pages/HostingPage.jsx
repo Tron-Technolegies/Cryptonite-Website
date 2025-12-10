@@ -7,6 +7,7 @@ import HostingPurchaseSteps from '../components/hosting/HostingPurchaseSteps'
 import WhyCryptonite from '../components/home/WhyCryptonite'
 import DataCenters from '../components/hosting/DataCenters'
 import StartHosting from '../components/hosting/StartHosting'
+import MiningHosting from '../components/hosting/MiningHosting'
 
 const HostingPage = () => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const HostingPage = () => {
       {/* <PartnerCompanies/> */}
       {/* <ProductCards/> */}
       <DataCenters/>
+      <MiningHosting/>
       <WhyCryptonite/>
        <DataCenters/>
        <StartHosting/>
