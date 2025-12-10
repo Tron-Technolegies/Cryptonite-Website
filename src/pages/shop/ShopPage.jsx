@@ -1,109 +1,150 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import miningProducts from "../../utils/products";
 import { Link } from "react-router-dom";
-import productApi from "../../api/productApi";
+import { FiSearch } from "react-icons/fi";
 
 const ShopPage = () => {
-  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("newest");
+  const [manufacturer, setManufacturer] = useState("All Manufacturers");
+  const [priceFilter, setPriceFilter] = useState("All prices");
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const brands = ["All Manufacturers", ...new Set(miningProducts.map(p => p.brand))];
 
-    const fetchProducts = async () => {
-      try {
-        const res = await productApi.getAll();
+  const getPriceValue = (price) =>
+    Number(price.replace("$", "").replace(",", ""));
 
-        console.log("PRODUCT API RESPONSE:", res.data);
-
-       
-        const data = Array.isArray(res.data) ? res.data : [];
-        setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
- 
-  const backendBase = import.meta.env.VITE_API_BASE.replace("/api/user", "");
-
-  const filteredProducts = (products || [])
-    .filter((p) =>
-      (p.model_name || "")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortBy === "price-high") return b.price - a.price;
-      if (sortBy === "price-low") return a.price - b.price;
-      return b.id - a.id; // newest
+  const filteredProducts = miningProducts
+    .filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+    .filter(p => manufacturer === "All Manufacturers" ? true : p.brand === manufacturer)
+    .filter(p => {
+      const val = getPriceValue(p.price);
+      if (priceFilter === "Below 2000") return val < 2000;
+      if (priceFilter === "2000-4000") return val >= 2000 && val <= 4000;
+      if (priceFilter === "Above 4000") return val > 4000;
+      return true;
     });
 
   return (
-    <div className="bg-[#000000] min-h-screen text-white px-6 md:px-16 py-16 flex gap-10">
+    <div className="bg-[#F9FAFB] min-h-screen py-16">
+      
+      {/* CENTER CONTENT WRAPPER */}
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* SIDEBAR */}
-      <div className="w-64 hidden md:block bg-[#07101f] p-6 rounded-xl h-fit shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Filter</h2>
+        {/* TITLE */}
+        <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          MINING <br /> EQUIPMENT
+        </h1>
 
-        <label className="text-sm">Sort By</label>
-        <select
-          className="w-full mt-1 mb-4 bg-[#000000] p-2 rounded-md border border-gray-600"
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="newest">Newest</option>
-          <option value="price-low">Price: Low → High</option>
-          <option value="price-high">Price: High → Low</option>
-        </select>
+        <p className="text-black text-lg mt-4 max-w-2xl font-medium dm-sans">
+          Professional grade ASIC miners from industry leading manufacturers.
+          All equipment comes with warranty and expert support.
+        </p>
 
-        <label className="text-sm">Search</label>
-        <input
-          type="text"
-          placeholder="Search item..."
-          className="w-full mt-1 mb-4 bg-[#000000] p-2 rounded-md border border-gray-600"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+        {/* FILTER BAR */}
+        <div className="mt-10 flex flex-col md:flex-row gap-6">
 
-      {/* PRODUCT GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 flex-1">
-
-        {filteredProducts.map((product) => (
-          <Link
-            to={`/product/${product.id}`}
-            key={product.id}
-            className="bg-[#0a1628] p-6 rounded-xl hover:-translate-y-2 transition duration-300 shadow-lg block"
-          >
-            <img
-              src={product.image}
-              alt={product.model_name}
-              className="w-full h-52 object-contain mb-4"
+          {/* SEARCH BAR */}
+          <div className="relative w-full md:w-[50%]">
+            <FiSearch className="absolute left-5 top-4 text-gray-400 text-xl" />
+            <input
+              type="text"
+              placeholder="Search equipment..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-white border border-gray-200 rounded-full px-14 py-3.5 shadow-sm focus:ring-2 focus:ring-black"
             />
+          </div>
 
-            <h2 className="text-xl font-bold mb-1">
-              {product.model_name}
-            </h2>
+          {/* MANUFACTURER DROPDOWN */}
+          <select
+            value={manufacturer}
+            onChange={(e) => setManufacturer(e.target.value)}
+            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700 w-full md:w-auto"
+          >
+            {brands.map(b => (
+              <option key={b}>{b}</option>
+            ))}
+          </select>
 
-            <p className="mt-2 text-orange-400 text-lg">
-              $ {product.price}
-            </p>
+          {/* PRICE DROPDOWN */}
+          <select
+            value={priceFilter}
+            onChange={(e) => setPriceFilter(e.target.value)}
+            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700 w-full md:w-auto"
+          >
+            <option>All prices</option>
+            <option>Below 2000</option>
+            <option>2000-4000</option>
+            <option>Above 4000</option>
+          </select>
 
-            <button className="mt-4 bg-green-500 px-4 py-2 rounded-lg font-semibold hover:bg-green-600 w-full">
-              Buy Now
-            </button>
-          </Link>
-        ))}
+        </div>
 
-        {/* No results */}
-        {filteredProducts.length === 0 && (
-          <p className="text-gray-300 text-lg col-span-full text-center">
-            No products found.
-          </p>
-        )}
+        {/* PRODUCT GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-14">
+          {filteredProducts.map(product => (
+            <div
+              key={product.id}
+              className="bg-white rounded-3xl border border-gray-200 shadow-md hover:shadow-xl transition p-8"
+            >
+              {/* IMAGE */}
+              <div className="flex justify-center">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-[260px] object-contain"
+                />
+              </div>
+
+              {/* NAME + PRICE */}
+              <div className="flex justify-between items-center mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {product.name}
+                </h2>
+
+                <span className="bg-[#E7F8E7] text-green-600 font-semibold px-4 py-1 rounded-full">
+                  {product.price}
+                </span>
+              </div>
+
+              {/* DESCRIPTION */}
+              <p className="text-gray-600 text-sm mt-2">
+                {product.description.substring(0, 110)}...
+              </p>
+
+              {/* SPECS */}
+              <div className="mt-4 text-sm space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Hashrate</span>
+                  <span className="font-medium">{product.hashRate}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Power</span>
+                  <span className="font-medium">{product.powerConsumption}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Location</span>
+                  <span className="font-medium">Multiple Locations</span>
+                </div>
+              </div>
+
+              {/* BUTTONS */}
+              <div className="flex gap-4 mt-6">
+                <Link
+                  to={`/product/${product.id}`}
+                  className="flex-1 border border-gray-300 rounded-full py-2 text-center text-gray-700 font-medium hover:bg-gray-100 transition"
+                >
+                  Learn More
+                </Link>
+
+                <button className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-full py-2 font-medium transition">
+                  Order Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   );

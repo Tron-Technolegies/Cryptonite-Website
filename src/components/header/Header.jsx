@@ -32,7 +32,7 @@ const Header = () => {
       <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
         <Link to="/about" className="hover:text-(--primary-color)">About</Link>
         <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
-        <Link to="/miners" className="hover:text-(--primary-color)">Shop</Link>
+        <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link>
         <Link to="/blogs" className="hover:text-(--primary-color)">Blog</Link>
         <Link to="/about" className="hover:text-(--primary-color)">Contact</Link>
       </ul>
@@ -64,7 +64,7 @@ const Header = () => {
         <GiHamburgerMenu />
       </div>
 
-      {/* Mobile Menu — FIXED + HIGH Z-INDEX */}
+      {/* Mobile Menu */}
       <ul
         className={`
           fixed 
@@ -83,7 +83,7 @@ const Header = () => {
       >
         <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
         <Link to="/hosting" onClick={() => setIsOpen(false)}>Hosting</Link>
-        <Link to="/miners" onClick={() => setIsOpen(false)}>Shop</Link>
+        <Link to="/shop" onClick={() => setIsOpen(false)}>Shop</Link>
         <Link to="/blogs" onClick={() => setIsOpen(false)}>Blog</Link>
         <Link to="/about" onClick={() => setIsOpen(false)}>Contact</Link>
 

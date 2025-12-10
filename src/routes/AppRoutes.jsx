@@ -44,55 +44,55 @@ const AppRoutes = () => {
         {
           path: "/blogs/:id",
           element: <BlogDetails/>
+        },
+        {
+          path: "/shop",
+          element: <ShopPage />,
+        },
+        {
+          path: "/product/:id",
+          element: <ProductDetailsPage />,
+        },
+        {
+          path: "/cart",
+          element: <CartPage />,
+        },
+        {
+          path: "/checkout",
+          element: <CheckoutPage />,
+        },
+        {
+        path: "/rent-checkout/:id",
+        element: <RentCheckoutPage/>
+        },
+        {
+          path: "/signup",
+          element: <SignupPage />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
+        },
+        {
+          path: "/verify-email/:uid/:token",
+          element: <VerifyEmailPage />,
+        },
+        {
+          path: "/dashboard",
+          element: (
+            <ProtectedRoute>
+              <UsersDetailPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path : "/forgot-password",
+          element: <ForgotPasswordPage/>
+        },
+        {
+          path: "/reset-password/:uid/:token",
+          element: <ResetPasswordPage/>
         }
-        // {
-        //   path: "/shop",
-        //   element: <ShopPage />,
-        // },
-        // {
-        //   path: "/product/:id",
-        //   element: <ProductDetailsPage />,
-        // },
-        // {
-        //   path: "/cart",
-        //   element: <CartPage />,
-        // },
-        // {
-        //   path: "/checkout",
-        //   element: <CheckoutPage />,
-        // },
-        // {
-        // path: "/rent-checkout/:id",
-        // element: <RentCheckoutPage/>
-        // },
-        // {
-        //   path: "/signup",
-        //   element: <SignupPage />,
-        // },
-        // {
-        //   path: "/login",
-        //   element: <LoginPage />,
-        // },
-        // {
-        //   path: "/verify-email/:uid/:token",
-        //   element: <VerifyEmailPage />,
-        // },
-        // {
-        //   path: "/dashboard",
-        //   element: (
-        //     <ProtectedRoute>
-        //       <UsersDetailPage />
-        //     </ProtectedRoute>
-        //   ),
-        // },
-        // {
-        //   path : "/forgot-password",
-        //   element: <ForgotPasswordPage/>
-        // },
-        // {
-        //   path: "/reset-password/:uid/:token",
-        //   element: <ResetPasswordPage/>
-        // }
       ],
     },
   ]);
