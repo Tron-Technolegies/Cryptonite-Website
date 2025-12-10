@@ -10,7 +10,6 @@ const UsersDetailPage = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     localStorage.removeItem("user");
-
     window.location.href = "/login";
   };
 
@@ -26,14 +25,33 @@ const UsersDetailPage = () => {
   };
 
   return (
-    <div className="flex bg-black min-h-screen">
+    <div className="flex min-h-screen bg-gray-100 text-gray-900">
+      {/* Sidebar */}
       <Sidebar
         active={activePage}
         setActivePage={setActivePage}
         onLogout={logout}
       />
 
-      <div className="flex-1 p-8">{renderPage()}</div>
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex justify-center p-6 md:p-10">
+        <div className="
+          w-full max-w-4xl
+          bg-white 
+          shadow-lg 
+          rounded-2xl 
+          p-8 
+          border border-gray-200
+        ">
+          {/* Page Header */}
+          <h1 className="text-2xl font-semibold mb-6">
+            {activePage === "profile" ? "Personal Information" : "Security Settings"}
+          </h1>
+
+          {/* Render Page */}
+          {renderPage()}
+        </div>
+      </div>
     </div>
   );
 };

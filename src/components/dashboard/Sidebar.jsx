@@ -1,47 +1,70 @@
 import React from "react";
+import { FiUser, FiShield, FiLogOut } from "react-icons/fi";
 
 const Sidebar = ({ active, setActivePage, onLogout }) => {
   const menu = [
-    { key: "profile", label: "My Profile" },
-    { key: "security", label: "Security" },
-    // { key: "orders", label: "Orders" },
-    // { key: "billing", label: "Billing" },
-    // { key: "notifications", label: "Notifications" },
+    { key: "profile", label: "My Profile", icon: <FiUser size={18} /> },
+    { key: "security", label: "Security", icon: <FiShield size={18} /> },
   ];
 
   return (
-    <div className="w-64 min-h-screen bg-[#000000] border-r border-[#000000] p-6 flex flex-col text-white">
-
-      {/* Title */}
-      <h2 className="font-bold text-xl mb-8 text-(--primary-color)">
-        Dashboard
+    <div
+      className="
+        w-64 
+        min-h-screen 
+        bg-white 
+        border-r border-gray-200 
+        p-6 
+        flex flex-col 
+        text-gray-700
+      "
+    >
+      {/* Dashboard Title */}
+      <h2 className="font-semibold text-xl mb-8 text-gray-900 tracking-wide">
+        User Settings
       </h2>
 
-      {/* Menu */}
-      <ul className="space-y-3 flex-1">
+      {/* Menu Items */}
+      <ul className="space-y-2">
         {menu.map((item) => (
           <li
             key={item.key}
             onClick={() => setActivePage(item.key)}
-            className={`cursor-pointer p-3 rounded-lg text-sm transition ${
-              active === item.key
-                ? "bg-(--primary-color) text-black font-semibold shadow-md"
-                : "text-[#c3d3ea] hover:bg-[#102544] hover:text-white"
-            }`}
+            className={`
+              flex items-center gap-3 
+              cursor-pointer 
+              px-4 py-3 
+              rounded-lg 
+              transition-all
+              text-sm
+              ${
+                active === item.key
+                  ? "bg-gray-900 text-white shadow-md"
+                  : "text-gray-700 hover:bg-gray-100"
+              }
+            `}
           >
+            {item.icon}
             {item.label}
           </li>
         ))}
       </ul>
 
-      {/* Logout */}
+      {/* LOGOUT after "Security" */}
       <button
         onClick={onLogout}
-        className="text-red-400 text-sm font-semibold hover:underline mt-auto"
+        className="
+          flex items-center gap-2
+          text-red-500 
+          text-sm 
+          font-medium 
+          mt-4
+          hover:underline
+        "
       >
+        <FiLogOut size={16} />
         Logout
       </button>
-
     </div>
   );
 };

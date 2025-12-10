@@ -16,14 +16,7 @@ const Header = () => {
           <img
             src={cryptonite}
             alt="Cryptonite Logo"
-            className="
-              h-8 
-              sm:h-10 
-              md:h-12 
-              w-auto 
-              object-contain 
-              cursor-pointer
-            "
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer"
           />
         </Link>
       </div>
@@ -32,7 +25,7 @@ const Header = () => {
       <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
         <Link to="/about" className="hover:text-(--primary-color)">About</Link>
         <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
-        <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link>
+        {/* <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link> */}
         <Link to="/blogs" className="hover:text-(--primary-color)">Blog</Link>
         <Link to="/about" className="hover:text-(--primary-color)">Contact</Link>
       </ul>
@@ -56,12 +49,21 @@ const Header = () => {
         </Link>
       </div>
 
-      {/* Mobile Button */}
-      <div
-        className="md:hidden text-3xl cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <GiHamburgerMenu />
+      {/* ⭐ MOBILE RIGHT SECTION — ONLY SIGN IN + HAMBURGER ⭐ */}
+      <div className="flex items-center space-x-4 md:hidden">
+        <Link
+          to="/login"
+          className="px-3 py-1 bg-black text-white rounded-full text-xs font-semibold"
+        >
+          Sign in
+        </Link>
+
+        <div
+          className="text-3xl cursor-pointer"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <GiHamburgerMenu />
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -83,15 +85,9 @@ const Header = () => {
       >
         <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
         <Link to="/hosting" onClick={() => setIsOpen(false)}>Hosting</Link>
-        <Link to="/shop" onClick={() => setIsOpen(false)}>Shop</Link>
+        {/* <Link to="/shop" onClick={() => setIsOpen(false)}>Shop</Link> */}
         <Link to="/blogs" onClick={() => setIsOpen(false)}>Blog</Link>
         <Link to="/about" onClick={() => setIsOpen(false)}>Contact</Link>
-
-        {/* Icons */}
-        <div className="flex items-center space-x-8 pt-4 text-2xl">
-          <FiSearch className="cursor-pointer" />
-          <FiShoppingCart className="cursor-pointer" />
-        </div>
 
         <Link
           to="/login"

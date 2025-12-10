@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../api/authApi";
 
-console.log("ENV BASE URL =", import.meta.env.VITE_API_URL);
+// console.log("ENV BASE URL =", import.meta.env.VITE_API_URL);
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const SignupPage = () => {
         password2: confirmPassword,
       });
 
-      alert("Signup successful! Please check the backend terminal for your email verification link.");
+      alert("Signup successful! Please check the email for account verification link.");
       navigate("/login");
 
     } catch (error) {
