@@ -15,6 +15,7 @@ const Header = () => {
 
   return (
     <>
+      {/* HEADER */}
       <nav
         className={`
           absolute top-0 left-0 w-full
@@ -36,11 +37,15 @@ const Header = () => {
 
         {/* DESKTOP MENU */}
         <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
-          <Link to="/about" className={hoverColor}>About</Link>
-          <Link to="/hosting" className={hoverColor}>Hosting</Link>
-          <Link to="/shop" className={hoverColor}>Shop</Link>
-          <Link to="/blogs" className={hoverColor}>Blog</Link>
-          <Link to="/contact" className={hoverColor}>Contact</Link>
+          {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
+            <Link
+              key={item}
+              to={`/${item}`}
+              className={`${hoverColor}`}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </Link>
+          ))}
         </ul>
 
         {/* DESKTOP ACTIONS */}
@@ -85,8 +90,7 @@ const Header = () => {
       {/* MOBILE OVERLAY */}
       <div
         className={`
-          fixed inset Holden
-          inset-0 bg-black/60 backdrop-blur-sm
+          fixed inset-0 bg-black/60 backdrop-blur-sm
           transition-opacity duration-300
           ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}
           z-40
@@ -106,16 +110,20 @@ const Header = () => {
           flex flex-col
         `}
       >
-        {/* Header */}
+        {/* MOBILE HEADER */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-white/10">
-          <span className="text-lg font-semibold text-white">Menu</span>
+          <img
+            src={cryptonite}
+            alt="Cryptonite Logo"
+            className="h-8 object-contain"
+          />
           <FiX
             className="text-2xl text-white cursor-pointer"
             onClick={() => setIsOpen(false)}
           />
         </div>
 
-        {/* Menu Items */}
+        {/* MOBILE LINKS */}
         <nav className="flex flex-col px-6 py-8 space-y-6 text-lg text-white">
           {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
             <Link

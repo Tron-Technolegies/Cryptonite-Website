@@ -1,17 +1,23 @@
 import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import { Outlet } from "react-router-dom";
-
 
 const PageLayout = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
-    <div>
-     
+    <>
       <Header />
-      <Outlet />
+
+      {/* Push content down only for non-home pages */}
+      <main className={isHome ? "" : "pt-20"}>
+        <Outlet />
+      </main>
+
       <Footer />
-    </div>
+    </>
   );
 };
 
