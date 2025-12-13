@@ -6,7 +6,7 @@ const HeroSection = () => {
     <section
       className="
         relative 
-        h-[85vh] 
+        h-[86vh] 
         lg:h-screen 
         w-full
         overflow-hidden
