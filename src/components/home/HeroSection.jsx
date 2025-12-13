@@ -1,101 +1,69 @@
 import React from "react";
-import { sendEnquiryMessage } from "../../utils/whatsApp";
-import heroimg from "../../../public/heroimg.png";
+import building from "../../../public/homepageimg.png"; 
 
 const HeroSection = () => {
   return (
     <section
       className="
         relative 
-        h-[75vh] 
-        sm:h-[85vh] 
+        h-[85vh] 
         lg:h-screen 
-        bg-[#EFFFF3]
-        flex items-center
-        px-6 sm:px-10 lg:px-20
+        w-full
         overflow-hidden
+        flex items-center justify-center
+        bg-[#0b0f0e]
       "
     >
-      {/* DIAGONAL SHAPE */}
-      <div className="absolute top-0 right-0 w-full h-full bg-white clip-diagonal-wide pointer-events-none"></div>
+      {/* BACKGROUND GRADIENT */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0f1714] via-[#0a120f] to-[#050807]" />
 
-      {/* CONTENT WRAPPER */}
-      <div className="relative flex flex-col lg:flex-row items-center w-full z-[10]">
+      {/* CENTER GREEN GLOW */}
+      <div className="absolute w-[650px] h-[650px] bg-[#1aff85] opacity-20 blur-[220px] rounded-full" />
 
-        {/* LEFT TEXT */}
-        <div className="max-w-3xl flex-1 pt-10 sm:pt-0">
-          <h1
-            className="
-              text-3xl 
-              sm:text-4xl 
-              md:text-5xl 
-              lg:text-6xl 
-              font-bold 
-              leading-tight 
-              josefin-sans 
-              text-black
-            "
-          >
-            PROFESSIONAL <br />
-            CRYPTOCURRENCY <br />
-            <span className="text-(--primary-color)">MINING</span> SOLUTIONS
-          </h1>
+      {/* CONTENT */}
+      <div className="relative z-10 text-center px-6 max-w-6xl">
 
-          <p
-            className="
-              text-black 
-              mt-4 sm:mt-6 
-              text-base 
-              sm:text-lg 
-              md:text-xl 
-              leading-relaxed 
-              max-w-xl 
-              dm-sans 
-              font-medium
-            "
-          >
-            Fast return on investment with premium hosting infrastructure.
-            Enterprise-grade facilities powered by 100% renewable energy across
-            global locations.
-          </p>
+        {/* EXACT BUILDING IMAGE */}
+        <img
+          src={building}
+          alt="Cryptonite Infrastructure"
+          className="
+            mx-auto mb-10
+            w-full max-w-5xl
+            opacity-90
+            pointer-events-none
+            drop-shadow-[0_0_15px_rgba(34,197,94,0.35)]
+          "
+        />
 
-          <div className="mt-6 sm:mt-8">
-            <button
-              onClick={sendEnquiryMessage}
-              className="
-                px-6 sm:px-8 
-                py-3 sm:py-4 
-                rounded-md 
-                bg-(--secondary-color) 
-                text-white 
-                font-semibold 
-                hover:bg-green-700 
-                transition
-              "
-            >
-              Start Mining Today →
-            </button>
-          </div>
-        </div>
+        {/* HEADING */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-wide">
+          IN MINE WE <span className="text-green-500">TRUST</span>
+        </h1>
 
-        {/* RIGHT IMAGE */}
-        <div className="flex-1 hidden lg:flex justify-end">
-          <img
-            src={heroimg}
-            alt="Hero Illustration"
-            className="w-[500px] lg:w-[620px] xl:w-[700px] object-contain drop-shadow-md"
-          />
-        </div>
+        {/* DESCRIPTION */}
+        <p className="mt-5 text-gray-300 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+          Fast return on investment with premium hosting infrastructure.
+          Enterprise-grade facilities powered by 100% renewable energy across
+          global locations.
+        </p>
 
-        {/* Mobile Image */}
-        <div className="flex lg:hidden justify-center mt-10">
-          <img
-            src={heroimg}
-            alt="Hero Illustration"
-            className="w-[260px] sm:w-[320px] object-contain drop-shadow-md opacity-90"
-          />
-        </div>
-
+        {/* CTA BUTTON */}
+        <button
+          className="
+            mt-8
+            px-8 py-3
+            rounded-full
+            bg-green-600/90
+            text-white
+            font-semibold
+            hover:bg-green-700
+            transition
+            shadow-[0_0_20px_rgba(26,255,133,0.35)]
+          "
+        >
+          Start Mining
+        </button>
       </div>
     </section>
   );

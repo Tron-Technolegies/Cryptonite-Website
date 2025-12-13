@@ -13,6 +13,8 @@ import MiningNews from '../components/home/MiningNews'
 import Blogs from '../components/home/Blogs'
 import Testimonials from '../components/home/Testimonials'
 import ContactForm from '../components/about/ContactForm'
+import CoinTicker from '../components/home/CoinTicker'
+import MinerProfitability from '../components/home/MinerProfitability'
 
 
 const HomePage = () => {
@@ -22,8 +24,10 @@ const HomePage = () => {
   return (
     <div>
       <HeroSection/>
+      <CoinTicker/>
       <Achievements/>
       <WhyCryptonite/>
+      {/* <MinerProfitability/> */}
         <ProductCards/>
           <MiningLocations/>
           <MiningNews/>

@@ -10,7 +10,7 @@ const OurStory = () => {
         <h2 className="text-2xl font-bold mb-4">OUR STORY</h2>
 
         <p className="text-[16px] leading-relaxed mb-3 text-black dm-sans">
-          Founded in 2019, Cryptosite Mining emerged from a vision to make
+          Founded in 2019, Cryptonite Mining emerged from a vision to make
           professional cryptocurrency mining accessible to everyone. What
           started as a single data center in Iceland has grown into a global
           operation spanning three continents.

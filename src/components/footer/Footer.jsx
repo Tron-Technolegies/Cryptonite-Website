@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
 
               <li className="flex items-center gap-2">
-                <FiMapPin className="text-(--primary-color)" /> Germany
+                <FiMapPin className="text-(--primary-color)" /> Austria
               </li>
             </ul>
           </div>

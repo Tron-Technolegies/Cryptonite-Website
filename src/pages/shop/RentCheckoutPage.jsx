@@ -107,9 +107,9 @@ const RentCheckoutPage = () => {
             className="w-full bg-[#0a1628] p-3 rounded mt-3"
             onChange={(e) => setForm({ ...form, rentDuration: e.target.value })}
           >
-            <option value="7">7 Days</option>
-            <option value="15">15 Days</option>
-            <option value="30">30 Days</option>
+            <option value="7">20 Days</option>
+            <option value="15">30 Days</option>
+            <option value="30">90 Days</option>
           </select>
 
           {/* Rent Button */}

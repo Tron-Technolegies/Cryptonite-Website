@@ -8,95 +8,82 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="relative bg-white text-black px-4 md:px-10 h-20 flex items-center justify-between w-full shadow-sm z-[9999]">
-
+    <nav
+      className="
+        absolute top-0 left-0
+        w-full
+        bg-transparent
+        text-white
+        px-4 md:px-10
+        h-20
+        flex items-center justify-between
+        z-30
+      "
+    >
       {/* LOGO */}
-      <div className="flex items-center h-full">
-        <Link to="/">
-          <img
-            src={cryptonite}
-            alt="Cryptonite Logo"
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain cursor-pointer"
-          />
-        </Link>
-      </div>
+      <Link to="/" className="flex items-center h-full">
+        <img
+          src={cryptonite}
+          alt="Cryptonite Logo"
+          className="h-8 sm:h-10 md:h-12 object-contain"
+        />
+      </Link>
 
-      {/* Desktop Menu */}
+      {/* DESKTOP MENU */}
       <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
-        <Link to="/about" className="hover:text-(--primary-color)">About</Link>
-        <Link to="/hosting" className="hover:text-(--primary-color)">Hosting</Link>
-        {/* <Link to="/shop" className="hover:text-(--primary-color)">Shop</Link> */}
-        <Link to="/blogs" className="hover:text-(--primary-color)">Blog</Link>
-        <Link to="/about" className="hover:text-(--primary-color)">Contact</Link>
+        <Link to="/about" className="hover:text-green-400">About</Link>
+        <Link to="/hosting" className="hover:text-green-400">Hosting</Link>
+        <Link to="/shop" className="hover:text-green-400">Shop</Link>
+        <Link to="/blogs" className="hover:text-green-400">Blog</Link>
+        <Link to="/contact" className="hover:text-green-400">Contact</Link>
       </ul>
 
-      {/* Desktop Icons */}
+      {/* DESKTOP ICONS */}
       <div className="hidden md:flex items-center space-x-6 text-xl">
-        <FiSearch className="cursor-pointer hover:text-(--primary-color)" />
+        <FiSearch className="cursor-pointer hover:text-green-400" />
 
         <div className="relative cursor-pointer">
-          <FiShoppingCart className="hover:text-(--primary-color)" />
-          <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+          <FiShoppingCart className="hover:text-green-400" />
+          <span className="absolute -top-2 -right-2 bg-green-500 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center">
             0
           </span>
         </div>
 
         <Link
           to="/login"
-          className="px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-900"
+          className="px-5 py-2 border border-white rounded-full text-sm font-semibold hover:bg-white hover:text-black transition"
         >
           Sign in
         </Link>
       </div>
 
-      {/* ⭐ MOBILE RIGHT SECTION — ONLY SIGN IN + HAMBURGER ⭐ */}
-      <div className="flex items-center space-x-4 md:hidden">
-        <Link
-          to="/login"
-          className="px-3 py-1 bg-black text-white rounded-full text-xs font-semibold"
-        >
+      {/* MOBILE */}
+      <div className="md:hidden flex items-center gap-4">
+        <Link to="/login" className="px-3 py-1 border border-white rounded-full text-xs">
           Sign in
         </Link>
-
-        <div
+        <GiHamburgerMenu
           className="text-3xl cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
-        >
-          <GiHamburgerMenu />
-        </div>
+        />
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       <ul
         className={`
-          fixed 
-          left-0 
-          top-20 
-          w-full 
-          bg-white/95 
-          backdrop-blur-lg 
-          flex flex-col items-center space-y-6 py-6 
-          md:hidden 
-          transition-all duration-300 
-          shadow-xl
-          z-[99999]
+          absolute top-20 left-0 w-full
+          bg-black/90 backdrop-blur-lg
+          flex flex-col items-center gap-6 py-6
+          transition-all duration-300
+          md:hidden
           ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
       >
-        <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
-        <Link to="/hosting" onClick={() => setIsOpen(false)}>Hosting</Link>
-        {/* <Link to="/shop" onClick={() => setIsOpen(false)}>Shop</Link> */}
-        <Link to="/blogs" onClick={() => setIsOpen(false)}>Blog</Link>
-        <Link to="/about" onClick={() => setIsOpen(false)}>Contact</Link>
-
-        <Link
-          to="/login"
-          className="px-6 py-2 bg-black text-white rounded-full text-sm font-semibold"
-        >
-          Sign in
-        </Link>
+        <Link to="/about">About</Link>
+        <Link to="/hosting">Hosting</Link>
+        <Link to="/blogs">Blog</Link>
+        <Link to="/contact">Contact</Link>
       </ul>
-
     </nav>
   );
 };
