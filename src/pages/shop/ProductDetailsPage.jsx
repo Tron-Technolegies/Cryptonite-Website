@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import productApi from "../../api/productApi";
 import cartApi from "../../api/cartApi";
+import { FiChevronLeft, FiShoppingCart } from "react-icons/fi";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -9,6 +10,7 @@ const ProductDetailsPage = () => {
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,31 +29,9 @@ const ProductDetailsPage = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white text-2xl">
-        Loading...
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white text-3xl">
-        Product Not Found
-      </div>
-    );
-  }
-
-  // ---------------- IMAGE URL ----------------
-  const imageUrl = `${import.meta.env.VITE_API_BASE}${product.image}`;
-
-  // ---------------- BUY NOW ----------------
-  const handleBuyNow = async () => {
+  const handleAddToCart = async () => {
     const token = localStorage.getItem("access");
-
     if (!token) {
-      alert("Please login to add the product to cart.");
       navigate("/login");
       return;
     }
@@ -59,81 +39,165 @@ const ProductDetailsPage = () => {
     try {
       await cartApi.addToCart({
         product_id: product.id,
-        quantity: 1,
+        quantity: qty,
       });
-
       navigate("/cart");
     } catch (err) {
-      console.error("Add to cart error:", err);
-
-      if (err.response?.status === 401) {
-        alert("Your session expired. Please login again.");
-        navigate("/login");
-      } else {
-        alert("Unable to add to cart. Please try again.");
-      }
+      alert("Unable to add to cart");
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#020b19] text-white px-6 md:px-20 py-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-700">
+        Loading...
+      </div>
+    );
+  }
 
-        <div className="flex justify-center">
-          <img
-            src={product.image}
-            alt={product.model_name}
-            className="w-full max-w-lg rounded-xl shadow-lg object-contain bg-[#0d1a2c] p-4"
-          />
+  return (
+    <div className="min-h-screen bg-[#f8fafc] text-gray-900 px-6 md:px-20 py-10">
+      {/* Back */}
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-8"
+      >
+        <FiChevronLeft /> Back to Equipment
+      </button>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        {/* LEFT - IMAGES */}
+        <div>
+          <div className="bg-white rounded-xl p-6 shadow-sm">
+            <img
+              src={product.image}
+              alt={product.model_name}
+              className="w-full object-contain"
+            />
+          </div>
+
+          {/* Thumbnails */}
+          <div className="flex gap-4 mt-4">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="w-24 h-24 bg-gray-100 rounded-lg"
+              >
+                <img
+                  src={product.image}
+                  alt="thumb"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
+        {/* RIGHT - DETAILS */}
         <div>
-          <h1 className="text-4xl font-bold text-green-400 mb-4">
+          {/* Tags */}
+          <div className="flex gap-3 mb-4">
+            <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              {product.brand || "Bitmain"}
+            </span>
+            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+              In Stock
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl font-bold mb-2">
             {product.model_name}
           </h1>
 
-          <p className="text-gray-300 text-lg mb-6">{product.description}</p>
-
-          <div className="space-y-3 text-lg">
-            <p><span className="font-semibold">Product Details:</span> {product.product_details}</p>
-            <p><span className="font-semibold">Hashrate:</span> {product.hashrate}</p>
-            <p><span className="font-semibold">Power:</span> {product.power}</p>
-            <p><span className="font-semibold">Algorithm:</span> {product.algorithm}</p>
-            <p><span className="font-semibold">Minable Coins:</span> {product.minable_coins}</p>
-            <p><span className="font-semibold">Hosting Fee Per KW:</span> ${product.hosting_fee_per_kw}</p>
-          </div>
-
-          <p className="text-3xl font-bold text-orange-400 mt-6">
-            $ {product.price}
+          {/* Rating */}
+          <p className="text-sm text-gray-500 mb-4">
+            ⭐⭐⭐⭐⭐ (447 reviews)
           </p>
 
-          <button
-            className="mt-8 bg-green-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-all"
-            onClick={handleBuyNow}
-          >
-            Buy Now
-          </button>
+          {/* Price */}
+          <div className="flex items-center gap-4 mb-6">
+            <p className="text-3xl font-bold text-green-600">
+              ${product.price}
+            </p>
+            <p className="line-through text-gray-400">$3680</p>
+            <span className="text-green-600 text-sm font-medium">
+              Save 15%
+            </span>
+          </div>
 
-          <button
-            className="mt-8 bg-amber-900 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-all ml-4"
-            onClick={() => navigate(`/rent-checkout/${product.id}`)}
-          >
-            Rent Now
-          </button>
+          {/* Description */}
+          <p className="text-gray-600 mb-6 leading-relaxed">
+            {product.description}
+          </p>
+
+          {/* Specs */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <Spec label="Hashrate" value={product.hashrate} />
+            <Spec label="Power" value={product.power} />
+            <Spec label="Efficiency" value="29.5 J/TH" />
+            <Spec label="Noise Level" value="75 dB" />
+          </div>
+
+          {/* Quantity & Cart */}
+          <div className="flex items-center gap-4 mb-8">
+            <select
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
+              className="bg-white border border-gray-300 px-4 py-2 rounded-md"
+            >
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center gap-2 bg-green-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-600 transition"
+            >
+              <FiShoppingCart /> Add to Cart
+            </button>
+          </div>
+
+          {/* Trust Info */}
+          <div className="grid grid-cols-3 gap-6 text-center text-sm text-gray-600">
+            <Trust text="12 months Warranty" />
+            <Trust text="Free Shipping (5+ units)" />
+            <Trust text="Secure Packaging" />
+          </div>
         </div>
       </div>
 
-      <div className="mt-20 bg-[#0a1628] p-8 rounded-xl">
-        <h2 className="text-2xl font-bold text-green-300 mb-4">
+      {/* ABOUT */}
+      <div className="mt-20 bg-white p-8 rounded-xl border border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">
           About this miner
         </h2>
-        <p className="text-gray-300 leading-relaxed">
-          This miner offers high performance, long-term durability,
-          and optimized power efficiency.
+        <p className="text-gray-600 leading-relaxed">
+          This miner delivers industry-leading performance, optimized
+          power efficiency, and long-term reliability for professional
+          mining operations.
         </p>
       </div>
     </div>
   );
 };
+
+/* Reusable Components */
+
+const Spec = ({ label, value }) => (
+  <div className="border border-gray-200 rounded-lg p-4 bg-white">
+    <p className="text-sm text-gray-500">{label}</p>
+    <p className="font-semibold text-gray-900">{value}</p>
+  </div>
+);
+
+const Trust = ({ text }) => (
+  <div>
+    <p className="font-medium">{text}</p>
+  </div>
+);
 
 export default ProductDetailsPage;
