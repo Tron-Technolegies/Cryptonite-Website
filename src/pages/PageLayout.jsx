@@ -11,7 +11,6 @@ const PageLayout = () => {
     <>
       <Header />
 
-      {/* Push content down only for non-home pages */}
       <main className={isHome ? "" : "pt-20"}>
         <Outlet />
       </main>

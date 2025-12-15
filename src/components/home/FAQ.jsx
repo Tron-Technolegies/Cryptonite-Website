@@ -10,7 +10,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="bg-[#0c0c0c] py-24 px-6 md:px-16 text-white">
+    <section className="bg-black py-24 px-6 md:px-16 text-white">
 
       {/* TITLE */}
       <div className="text-center mb-16">

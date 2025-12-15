@@ -1,109 +1,100 @@
 import React, { useState } from "react";
 import testimonials from "../../utils/testimonials";
-import { FaStar } from "react-icons/fa";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const Testimonials = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [active, setActive] = useState(0);
 
-  const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevSlide = () => {
-    setActiveSlide((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-  };
+  const prev = () =>
+    setActive(active === 0 ? testimonials.length - 1 : active - 1);
+  const next = () => setActive((active + 1) % testimonials.length);
 
   return (
-    <section className="bg-[#F8FBFF] py-20 px-6 md:px-16">
+    <section className="relative bg-black py-32 overflow-hidden">
 
-      {/* SECTION TITLE */}
-      <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase tracking-wide">
+      {/* SOFT CENTER GLOW */}
+      <div className="absolute inset-0 flex justify-center items-center">
+        <div className="w-[520px] h-[520px] bg-white/10 blur-[180px] rounded-full" />
+      </div>
+
+      {/* TITLE */}
+      <div className="relative z-10 text-center mb-20">
+        <h2 className="text-white text-3xl md:text-4xl font-bold tracking-wide uppercase">
           Trusted by Miners Worldwide
         </h2>
-        <p className="text-black mt-3">
+        <p className="text-gray-400 text-sm mt-3">
           Don’t just take our word for it — hear from our satisfied clients
         </p>
       </div>
 
-      {/* TESTIMONIAL CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.map((t) => (
-          <div
-            key={t.id}
-            className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition"
-          >
-            {/* RATING */}
-            <div className="flex gap-1 text-green-600 text-sm mb-3">
-              {Array.from({ length: t.rating }).map((_, i) => (
-                <FaStar key={i} />
-              ))}
-            </div>
+      {/* SLIDER */}
+      <div className="relative z-10 flex items-center justify-center">
 
-            {/* QUOTE ICON */}
-            <div className="text-green-500 text-5xl leading-none mb-4">
-              ❝
-            </div>
-
-            {/* QUOTE TEXT */}
-            <p className="text-gray-700 text-sm leading-relaxed mb-6">
-              “{t.quote}”
-            </p>
-
-            {/* USER INFO */}
-            <div className="flex items-center gap-4 mt-auto">
-              <img
-                src={t.image}
-                alt={t.name}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div>
-                <h4 className="font-semibold text-black">{t.name}</h4>
-                <p className="text-gray-500 text-sm">
-                  {t.role}
-                  <br />
-                  {t.company}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* SLIDER NAV + DOTS */}
-      <div className="flex items-center justify-center gap-10 mt-10">
-
-        {/* LEFT ARROW */}
+        {/* LEFT BUTTON */}
         <button
-          onClick={prevSlide}
-          className="text-gray-500 hover:text-black transition"
+          onClick={prev}
+          className="absolute left-6 md:left-20 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg"
         >
-          <FiChevronLeft size={24} />
+          <FiChevronLeft size={22} />
         </button>
 
-        {/* DOTS */}
-        <div className="flex gap-2">
-          {testimonials.map((_, index) => (
-            <span
-              key={index}
-              className={`w-3 h-3 rounded-full transition ${
-                activeSlide === index
-                  ? "bg-green-600"
-                  : "bg-green-300"
-              }`}
-            />
-          ))}
+        {/* CARD STACK */}
+        <div className="relative w-full max-w-xl h-[260px] flex items-center justify-center">
+
+          {testimonials.map((t, index) => {
+            const pos = index - active;
+            if (Math.abs(pos) > 2) return null;
+
+            return (
+              <div
+                key={t.id}
+                className="
+                  absolute w-[360px] rounded-2xl
+                  bg-[#0d0d0d] text-white
+                  px-8 py-10 text-center
+                  transition-all duration-500 ease-out
+                "
+                style={{
+                  transform: `
+                    translateX(${pos * 110}px)
+                    scale(${pos === 0 ? 1 : 0.92})
+                  `,
+                  opacity: pos === 0 ? 1 : 0.35,
+                  zIndex: 10 - Math.abs(pos),
+                  filter: pos === 0 ? "blur(0)" : "blur(2px)",
+                }}
+              >
+                {/* AVATAR */}
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-14 h-14 rounded-full mx-auto mb-4 object-cover"
+                />
+
+                {/* NAME */}
+                <h4 className="font-semibold text-base">{t.name}</h4>
+
+                {/* ROLE */}
+                <p className="text-gray-400 text-xs mb-4">
+                  {t.role}
+                </p>
+
+                {/* QUOTE */}
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  {t.quote}
+                </p>
+              </div>
+            );
+          })}
+
         </div>
 
-        {/* RIGHT ARROW */}
+        {/* RIGHT BUTTON */}
         <button
-          onClick={nextSlide}
-          className="text-gray-500 hover:text-black transition"
+          onClick={next}
+          className="absolute right-6 md:right-20 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg"
         >
-          <FiChevronRight size={24} />
+          <FiChevronRight size={22} />
         </button>
 
       </div>

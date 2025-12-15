@@ -6,7 +6,6 @@ import HomePage from "../pages/HomePage";
 import AboutPage from "../pages/AboutPage";
 import HostingPage from "../pages/HostingPage";
 import ShopPage from "../pages/shop/ShopPage";
-import ProductDetailsPage from "../pages/shop/ProductDetailsPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/shop/CartPage";
@@ -19,6 +18,7 @@ import ForgotPasswordPage from "../pages/dashboard/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 import BlogPage from "../pages/BlogPage";
 import BlogDetails from "../components/blogs/BlogDetails";
+import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -51,7 +51,8 @@ const AppRoutes = () => {
         },
         {
           path: "/product/:id",
-          element: <ProductDetailsPage />,
+          element : <ProductDetailsPage/>
+          
         },
         {
           path: "/cart",
