@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiSearch, FiShoppingCart, FiX } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -6,12 +6,30 @@ import cryptonite from "../../../public/logos/cryptonitelogoupdated.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const location = useLocation();
 
   const isHome = location.pathname === "/";
   const textColor = isHome ? "text-white" : "text-black";
   const hoverColor = "hover:text-green-400";
   const borderColor = isHome ? "border-white" : "border-black";
+
+  /* ================= CART COUNT ================= */
+  useEffect(() => {
+    const getCartCount = () => {
+      const count = Number(localStorage.getItem("cartCount")) || 0;
+      setCartCount(count);
+    };
+
+    getCartCount();
+
+    // listen to cart updates from other tabs/components
+    window.addEventListener("storage", getCartCount);
+
+    return () => {
+      window.removeEventListener("storage", getCartCount);
+    };
+  }, []);
 
   return (
     <>
@@ -38,11 +56,7 @@ const Header = () => {
         {/* DESKTOP MENU */}
         <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
           {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
-            <Link
-              key={item}
-              to={`/${item}`}
-              className={`${hoverColor}`}
-            >
+            <Link key={item} to={`/${item}`} className={hoverColor}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </Link>
           ))}
@@ -52,12 +66,15 @@ const Header = () => {
         <div className="hidden md:flex items-center space-x-6 text-xl">
           <FiSearch className={`cursor-pointer ${hoverColor}`} />
 
-          <div className="relative cursor-pointer">
+          {/* CART */}
+          <Link to="/cart" className="relative cursor-pointer">
             <FiShoppingCart className={hoverColor} />
-            <span className="absolute -top-2 -right-2 bg-green-500 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center">
-              0
-            </span>
-          </div>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-green-500 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
 
           <Link
             to="/login"
@@ -112,11 +129,7 @@ const Header = () => {
       >
         {/* MOBILE HEADER */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-white/10">
-          <img
-            src={cryptonite}
-            alt="Cryptonite Logo"
-            className="h-8 object-contain"
-          />
+          <img src={cryptonite} alt="Logo" className="h-8" />
           <FiX
             className="text-2xl text-white cursor-pointer"
             onClick={() => setIsOpen(false)}
@@ -130,7 +143,7 @@ const Header = () => {
               key={item}
               to={`/${item}`}
               onClick={() => setIsOpen(false)}
-              className="border-b border-white/10 pb-2 hover:text-green-400 transition"
+              className="border-b border-white/10 pb-2 hover:text-green-400"
             >
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </Link>

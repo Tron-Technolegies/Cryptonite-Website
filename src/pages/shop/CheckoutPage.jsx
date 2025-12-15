@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../../context/CartContext";
+import paymentApi from "../../api/paymentApi";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
-  const { cart } = useCart();
+  const { cart, reloadCart, loading } = useCart();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name: "",
@@ -12,144 +15,181 @@ const CheckoutPage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [processing, setProcessing] = useState(false);
 
+  /* ================= LOAD CART ================= */
   useEffect(() => {
     window.scrollTo(0, 0);
+    reloadCart();
   }, []);
 
+  /* ================= VALIDATION ================= */
   const validateFields = () => {
-    let tempErrors = {};
+    const tempErrors = {};
 
-    if (!form.name.trim()) tempErrors.name = "Full name is required.";
-    if (!form.email.trim()) tempErrors.email = "Email is required.";
-    if (!form.phone.trim()) tempErrors.phone = "Phone number is required.";
-    if (!form.address.trim()) tempErrors.address = "Address is required.";
+    if (!form.name.trim()) tempErrors.name = "Full name is required";
+    if (!form.email.trim()) tempErrors.email = "Email is required";
+    if (!form.phone.trim()) tempErrors.phone = "Phone number is required";
+    if (!form.address.trim()) tempErrors.address = "Address is required";
 
     setErrors(tempErrors);
-
     return Object.keys(tempErrors).length === 0;
   };
 
+  /* ================= TOTAL ================= */
   const total = cart.reduce((acc, item) => {
-    const price = Number(item.price.replace(/[^0-9.-]+/g, ""));
-    return acc + price * item.qty;
+    const price = Number(item.price) || 0;
+    const quantity = Number(item.qty ?? item.quantity ?? 1);
+    return acc + price * quantity;
   }, 0);
 
-  const placeOrder = () => {
+  /* ================= PLACE ORDER → START PAYMENT ================= */
+  const placeOrder = async () => {
     if (!validateFields()) return;
 
-    const orderData = {
-      customer: form,
-      cart,
-      total,
-    };
+    try {
+      setProcessing(true);
 
-    localStorage.setItem("order", JSON.stringify(orderData));
+      const res = await paymentApi.createPaymentIntent({
+        purchase_type: "buy",
+        address: {
+          name: form.name,
+          line1: form.address,
+          city: "N/A",
+          state: "N/A",
+          postal_code: "000000",
+          country: "IN",
+        },
+      });
 
-    alert("Order placed successfully!");
+      // Redirect to payment page with client_secret
+      navigate(`/payment?client_secret=${res.data.client_secret}`);
+
+    } catch (err) {
+      console.error("Payment initiation failed:", err);
+      alert("Unable to start payment. Please try again.");
+    } finally {
+      setProcessing(false);
+    }
   };
 
-  // disbaling button if no address entered
-  const isFormValid = form.name && form.email && form.phone && form.address;
+  const isFormValid =
+    form.name && form.email && form.phone && form.address;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        Loading checkout...
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white px-6 md:px-20 py-16">
+    <div className="min-h-screen bg-black text-white px-6 md:px-20 py-16">
       <h1 className="text-4xl font-bold mb-10">Checkout</h1>
 
       <div className="grid md:grid-cols-2 gap-16">
+        {/* ================= BILLING DETAILS ================= */}
         <div>
           <h2 className="text-2xl font-semibold mb-6">Billing Details</h2>
 
           <div className="space-y-4">
-            <div>
-              <input
-                type="text"
-                placeholder="Full Name"
-                className={`w-full bg-[#0a1628] p-3 rounded-lg ${
-                  errors.name ? "border border-red-500" : ""
-                }`}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-              )}
-            </div>
+            <input
+              type="text"
+              placeholder="Full Name"
+              className={`w-full bg-[#0a1628] p-3 rounded-lg ${
+                errors.name ? "border border-red-500" : ""
+              }`}
+              onChange={(e) =>
+                setForm({ ...form, name: e.target.value })
+              }
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name}</p>
+            )}
 
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                className={`w-full bg-[#0a1628] p-3 rounded-lg ${
-                  errors.email ? "border border-red-500" : ""
-                }`}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-              )}
-            </div>
+            <input
+              type="email"
+              placeholder="Email"
+              className={`w-full bg-[#0a1628] p-3 rounded-lg ${
+                errors.email ? "border border-red-500" : ""
+              }`}
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
 
-            <div>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                className={`w-full bg-[#0a1628] p-3 rounded-lg ${
-                  errors.phone ? "border border-red-500" : ""
-                }`}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              />
-              {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-              )}
-            </div>
+            <input
+              type="text"
+              placeholder="Phone Number"
+              className={`w-full bg-[#0a1628] p-3 rounded-lg ${
+                errors.phone ? "border border-red-500" : ""
+              }`}
+              onChange={(e) =>
+                setForm({ ...form, phone: e.target.value })
+              }
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone}</p>
+            )}
 
-            {/* ADDRESS */}
-            <div>
-              <textarea
-                placeholder="Shipping Address"
-                className={`w-full bg-[#0a1628] p-3 rounded-lg ${
-                  errors.address ? "border border-red-500" : ""
-                }`}
-                rows="4"
-                onChange={(e) => setForm({ ...form, address: e.target.value })}
-              ></textarea>
-              {errors.address && (
-                <p className="text-red-500 text-sm mt-1">{errors.address}</p>
-              )}
-            </div>
+            <textarea
+              placeholder="Shipping Address"
+              rows="4"
+              className={`w-full bg-[#0a1628] p-3 rounded-lg ${
+                errors.address ? "border border-red-500" : ""
+              }`}
+              onChange={(e) =>
+                setForm({ ...form, address: e.target.value })
+              }
+            />
+            {errors.address && (
+              <p className="text-red-500 text-sm">{errors.address}</p>
+            )}
           </div>
 
           <button
             onClick={placeOrder}
-            disabled={!isFormValid}
-            className={`mt-8 px-8 py-3 rounded-lg text-lg font-semibold transition-all 
+            disabled={!isFormValid || processing}
+            className={`mt-8 px-8 py-3 rounded-lg text-lg font-semibold transition
               ${
-                isFormValid
+                isFormValid && !processing
                   ? "bg-green-500 hover:bg-green-600"
                   : "bg-gray-700 cursor-not-allowed"
               }
             `}
           >
-            Place Order
+            {processing ? "Processing..." : "Proceed to Payment"}
           </button>
         </div>
 
+        {/* ================= ORDER SUMMARY ================= */}
         <div className="bg-[#0a1628] p-6 rounded-xl">
           <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
+
+          {cart.length === 0 && (
+            <p className="text-gray-400">Your cart is empty</p>
+          )}
 
           {cart.map((item) => (
             <div key={item.id} className="flex justify-between mb-4">
               <p>
-                {item.name} x {item.qty}
+                {item.name} × {item.qty ?? item.quantity}
               </p>
-              <p>{item.price}</p>
+              <p>${item.price}</p>
             </div>
           ))}
 
           <hr className="border-gray-700 my-4" />
 
           <p className="text-xl font-bold">
-            Total: <span className="text-green-400">${total}</span>
+            Total:{" "}
+            <span className="text-green-400">
+              ${total.toFixed(2)}
+            </span>
           </p>
         </div>
       </div>

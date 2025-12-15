@@ -7,35 +7,65 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch cart from backend
+  /* ================= LOAD CART (NORMALIZED) ================= */
   const loadCart = async () => {
     const token = localStorage.getItem("access");
-    if (!token) return;
+
+    if (!token) {
+      setCart([]);
+      return;
+    }
 
     try {
       const res = await cartApi.getCart();
-      setCart(res.data);
+
+      const normalizedCart = Array.isArray(res.data)
+        ? res.data.map((item) => ({
+            id: item.id,
+
+            // ✅ SAFE NAME RESOLUTION
+            name:
+              item.product?.name ??
+              item.product_name ??
+              item.productTitle ??
+              item.name ??
+              "Product",
+
+            // ✅ SAFE PRICE RESOLUTION
+            price: Number(
+              item.product?.price ??
+              item.product_price ??
+              item.price ??
+              0
+            ),
+
+            // ✅ SAFE QUANTITY RESOLUTION
+            qty: Number(item.quantity ?? item.qty ?? 1),
+          }))
+        : [];
+
+      setCart(normalizedCart);
     } catch (err) {
       console.error("Error loading cart:", err);
+      setCart([]);
     }
   };
 
-  // Add to cart
+  /* ================= ADD TO CART ================= */
   const addToCart = async (productId, qty = 1) => {
     try {
       await cartApi.addToCart({
         product_id: productId,
         quantity: qty,
       });
-
-      await loadCart(); // refresh cart
+      await loadCart();
     } catch (err) {
       console.error("Add to cart error:", err);
       throw err;
     }
   };
 
-  // Update Quantity
+  /* ================= UPDATE QUANTITY ================= */
   const updateQty = async (id, qty) => {
     try {
       await cartApi.updateCart(id, { quantity: qty });
@@ -45,19 +75,24 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Remove Item
+  /* ================= REMOVE ITEM ================= */
   const removeFromCart = async (id) => {
     try {
       await cartApi.deleteItem(id);
       await loadCart();
     } catch (err) {
-      console.error("Delete error:", err);
+      console.error("Remove item error:", err);
     }
   };
 
-  // Load cart when user logs in
+  /* ================= INITIAL LOAD ================= */
   useEffect(() => {
-    loadCart().finally(() => setLoading(false));
+    const init = async () => {
+      setLoading(true);
+      await loadCart();
+      setLoading(false);
+    };
+    init();
   }, []);
 
   return (

@@ -19,6 +19,7 @@ import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 import BlogPage from "../pages/BlogPage";
 import BlogDetails from "../components/blogs/BlogDetails";
 import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
+import ContactPage from "../pages/ContactPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -44,6 +45,11 @@ const AppRoutes = () => {
         {
           path: "/blogs/:id",
           element: <BlogDetails/>
+        },
+        {
+          path : "/contact",
+          element: <ContactPage/>
+
         },
         {
           path: "/shop",
