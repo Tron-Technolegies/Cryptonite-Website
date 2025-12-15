@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import authApi from "../api/authApi";
 import { toast } from "react-toastify";
 import LoaderButton from "../components/common/LoaderButton";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -14,7 +16,6 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (loading) return;
 
     const email = e.target.email.value.trim();
@@ -41,76 +42,62 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="bg-[#000000] min-h-screen flex items-center justify-center px-6 py-10">
-      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <section className="min-h-screen bg-[#f5f7f5] flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-[#f7faf7] rounded-xl p-8 shadow-sm">
+        <h1 className="text-2xl font-semibold text-center mb-6">Sign in</h1>
 
-        {/* LEFT CONTENT */}
-        <div className="flex flex-col justify-center text-center lg:text-left lg:items-start">
-          <h1 className="text-4xl font-bold text-(--primary-color) mb-4">
-            Welcome Back
-          </h1>
-          <p className="text-[#d1d7e0] max-w-md text-lg leading-relaxed">
-            Log in to access your mining dashboard, track performance, manage
-            hosting, and more — all in one secure place.
-          </p>
-        </div>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="text-sm text-gray-700">Email</label>
+            <input
+              name="email"
+              type="email"
+              className="w-full mt-1 px-3 py-2 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
+              required
+            />
+          </div>
 
-        {/* LOGIN FORM */}
-        <div className="bg-[#0b1c36] p-6 md:p-7 rounded-xl border border-[#12395e] shadow-lg">
-          <h2 className="text-3xl font-bold text-(--primary-color) mb-2">
-            Login
-          </h2>
-          <p className="text-[#d1d7e0] mb-6 text-sm">
-            Enter your credentials to continue.
-          </p>
-
-          <form className="space-y-4" onSubmit={handleLogin}>
-            <div>
-              <label className="text-sm text-[#d1d7e0]">Email</label>
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter Your Email"
-                className="w-full mt-1 p-3 rounded-lg bg-[#081a33] border border-[#14324f] text-white outline-none"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="text-sm text-[#d1d7e0]">Password</label>
+          <div>
+            <label className="text-sm text-gray-700">Password</label>
+            <div className="relative">
               <input
                 name="password"
-                type="password"
-                placeholder="Enter Your Password"
-                className="w-full mt-1 p-3 rounded-lg bg-[#081a33] border border-[#14324f] text-white outline-none"
+                type={showPassword ? "text" : "password"}
+                className="w-full mt-1 px-3 py-2 pr-10 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
                 required
               />
-            </div>
-
-            <div className="text-right -mt-1">
-              <span className="text-xs text-(--primary-color) cursor-pointer hover:underline">
-                Forgot Password?
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
               </span>
             </div>
+          </div>
 
-            {/* REUSABLE LOADER BUTTON */}
-            <LoaderButton
-              loading={loading}
-              text="Login"
-              loadingText="Logging in..."
-            />
-          </form>
-
-          <div className="mt-5 text-sm text-center text-[#9bb2c7]">
-            Don't have an account?{" "}
-            <span
-              onClick={() => navigate("/signup")}
-              className="text-(--primary-color) cursor-pointer hover:underline"
-            >
-              Sign Up
+          <div className="text-right text-sm">
+            <span className="text-gray-600 cursor-pointer hover:underline">
+              Forgot Password
             </span>
           </div>
-        </div>
+
+          <LoaderButton
+            loading={loading}
+            text="Sign In"
+            loadingText="Signing in..."
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md text-sm font-medium"
+          />
+        </form>
+
+        <p className="text-center text-sm text-gray-600 mt-5">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/signup")}
+            className="text-green-600 cursor-pointer hover:underline"
+          >
+            Sign Up
+          </span>
+        </p>
       </div>
     </section>
   );
