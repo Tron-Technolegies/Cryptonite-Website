@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiSearch, FiShoppingCart, FiX } from "react-icons/fi";
+import {
+  FiSearch,
+  FiShoppingCart,
+  FiX,
+  FiUser,
+} from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import cryptonite from "../../../public/logos/cryptonitelogoupdated.png";
+import SearchOverlay from "../common/SearchOverlay";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const location = useLocation();
 
   const isHome = location.pathname === "/";
   const textColor = isHome ? "text-white" : "text-black";
   const hoverColor = "hover:text-green-400";
   const borderColor = isHome ? "border-white" : "border-black";
+
+  /* ================= AUTH CHECK ================= */
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    setIsLoggedIn(!!token);
+  }, [location.pathname]);
 
   /* ================= CART COUNT ================= */
   useEffect(() => {
@@ -22,8 +37,6 @@ const Header = () => {
     };
 
     getCartCount();
-
-    // listen to cart updates from other tabs/components
     window.addEventListener("storage", getCartCount);
 
     return () => {
@@ -64,7 +77,11 @@ const Header = () => {
 
         {/* DESKTOP ACTIONS */}
         <div className="hidden md:flex items-center space-x-6 text-xl">
-          <FiSearch className={`cursor-pointer ${hoverColor}`} />
+          {/* SEARCH */}
+          <FiSearch
+            className={`cursor-pointer ${hoverColor}`}
+            onClick={() => setSearchOpen(true)}
+          />
 
           {/* CART */}
           <Link to="/cart" className="relative cursor-pointer">
@@ -76,26 +93,48 @@ const Header = () => {
             )}
           </Link>
 
-          <Link
-            to="/login"
-            className={`
-              px-5 py-2 rounded-full text-sm font-semibold transition
-              border ${borderColor}
-              hover:bg-green-500 hover:border-green-500 hover:text-black
-            `}
-          >
-            Sign in
-          </Link>
+          {/* LOGIN / USER */}
+          {isLoggedIn ? (
+            <Link
+              to="/dashboard"
+              className={`text-2xl cursor-pointer ${hoverColor}`}
+              title="Dashboard"
+            >
+              <FiUser />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={`
+                px-5 py-2 rounded-full text-sm font-semibold transition
+                border ${borderColor}
+                hover:bg-green-500 hover:border-green-500 hover:text-black
+              `}
+            >
+              Sign in
+            </Link>
+          )}
         </div>
 
         {/* MOBILE HEADER */}
         <div className="md:hidden flex items-center gap-4">
-          <Link
-            to="/login"
-            className={`px-3 py-1 rounded-full text-xs border ${borderColor}`}
-          >
-            Sign in
-          </Link>
+          <FiSearch
+            className="text-2xl cursor-pointer"
+            onClick={() => setSearchOpen(true)}
+          />
+
+          {isLoggedIn ? (
+            <Link to="/dashboard" className="text-2xl">
+              <FiUser />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className={`px-3 py-1 rounded-full text-xs border ${borderColor}`}
+            >
+              Sign in
+            </Link>
+          )}
 
           <GiHamburgerMenu
             className="text-3xl cursor-pointer"
@@ -127,7 +166,6 @@ const Header = () => {
           flex flex-col
         `}
       >
-        {/* MOBILE HEADER */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-white/10">
           <img src={cryptonite} alt="Logo" className="h-8" />
           <FiX
@@ -136,7 +174,6 @@ const Header = () => {
           />
         </div>
 
-        {/* MOBILE LINKS */}
         <nav className="flex flex-col px-6 py-8 space-y-6 text-lg text-white">
           {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
             <Link
@@ -150,6 +187,12 @@ const Header = () => {
           ))}
         </nav>
       </div>
+
+      {/* SEARCH OVERLAY */}
+      <SearchOverlay
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+      />
     </>
   );
 };

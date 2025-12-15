@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../api/authApi";
-
-
+import { toast } from "react-toastify";
+import LoaderButton from "../components/common/LoaderButton";
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  ;
-
-
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
 
     const username = e.target.username.value.trim();
     const email = e.target.email.value.trim();
@@ -23,38 +23,45 @@ const SignupPage = () => {
     const confirmPassword = e.target.confirmPassword.value.trim();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
-      const res = await authApi.signup({
+      setLoading(true);
+
+      await authApi.signup({
         username,
         email,
         password,
         password2: confirmPassword,
       });
 
-      alert("Signup successful! Please check the email for account verification link.");
-      navigate("/login");
+      toast.success(
+        "Signup successful! Please check your email for verification."
+      );
 
+      navigate("/login");
     } catch (error) {
       console.log(error.response?.data);
 
       const msg =
-        error.response?.data?.password ||
-        error.response?.data?.email ||
-        error.response?.data?.username ||
+        error.response?.data?.password?.[0] ||
+        error.response?.data?.email?.[0] ||
+        error.response?.data?.username?.[0] ||
         error.response?.data?.detail ||
         "Signup failed";
 
-      alert(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <section className="bg-[#000000] min-h-screen flex items-center justify-center px-6 py-10">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
+
         {/* LEFT SECTION */}
         <div className="flex flex-col justify-center text-center lg:text-left lg:items-start">
           <h1 className="text-4xl font-bold text-(--primary-color) mb-4">
@@ -140,12 +147,12 @@ const SignupPage = () => {
               </p>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-2 bg-(--primary-color) text-black font-semibold rounded-full hover:opacity-90 transition text-sm"
-            >
-              Sign Up
-            </button>
+            {/* REUSABLE LOADER BUTTON */}
+            <LoaderButton
+              loading={loading}
+              text="Sign Up"
+              loadingText="Creating account..."
+            />
           </form>
 
           <div className="mt-3 text-xs text-center text-[#9bb2c7]">

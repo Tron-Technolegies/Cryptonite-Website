@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../api/authApi";
+import { toast } from "react-toastify";
+import LoaderButton from "../components/common/LoaderButton";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -12,26 +15,36 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (loading) return;
+
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
 
     try {
+      setLoading(true);
+
       const res = await authApi.login({ email, password });
 
       localStorage.setItem("access", res.data.access);
       localStorage.setItem("refresh", res.data.refresh);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
+      toast.success("Login successful");
       navigate("/dashboard");
     } catch (error) {
-      console.log(error.response?.data);
-      alert(error.response?.data?.detail || "Invalid email or password");
+      const message =
+        error.response?.data?.detail || "Invalid email or password";
+      toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <section className="bg-[#000000] min-h-screen flex items-center justify-center px-6 py-10">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        {/* LEFT CONTENT */}
         <div className="flex flex-col justify-center text-center lg:text-left lg:items-start">
           <h1 className="text-4xl font-bold text-(--primary-color) mb-4">
             Welcome Back
@@ -42,6 +55,7 @@ const LoginPage = () => {
           </p>
         </div>
 
+        {/* LOGIN FORM */}
         <div className="bg-[#0b1c36] p-6 md:p-7 rounded-xl border border-[#12395e] shadow-lg">
           <h2 className="text-3xl font-bold text-(--primary-color) mb-2">
             Login
@@ -79,12 +93,12 @@ const LoginPage = () => {
               </span>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-(--primary-color) text-black font-semibold rounded-full hover:opacity-90 transition"
-            >
-              Login
-            </button>
+            {/* REUSABLE LOADER BUTTON */}
+            <LoaderButton
+              loading={loading}
+              text="Login"
+              loadingText="Logging in..."
+            />
           </form>
 
           <div className="mt-5 text-sm text-center text-[#9bb2c7]">

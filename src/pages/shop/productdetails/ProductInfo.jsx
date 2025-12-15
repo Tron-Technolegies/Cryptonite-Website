@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import productApi from "../../../api/productApi";
 import cartApi from "../../../api/cartApi";
+import { toast } from "react-toastify";
 
 const ProductInfo = () => {
   const { id } = useParams();
@@ -32,6 +33,7 @@ const ProductInfo = () => {
         setProduct(res.data);
       } catch (err) {
         console.error("Error fetching product:", err);
+        toast.error("Failed to load product");
       } finally {
         setLoading(false);
       }
@@ -44,6 +46,7 @@ const ProductInfo = () => {
   const handleAddToCart = async () => {
     const token = localStorage.getItem("access");
     if (!token) {
+      toast.info("Please login to add items to cart");
       navigate("/login");
       return;
     }
@@ -58,16 +61,17 @@ const ProductInfo = () => {
         quantity: Number(qty),
       });
 
+      toast.success("Product added to cart");
       navigate("/cart");
     } catch (err) {
       console.error("Add to cart failed:", err);
-      alert("Unable to add to cart. Please try again.");
+      toast.error("Please login to add the products");
     } finally {
       setAddingToCart(false);
     }
   };
 
-  /* ================= STATES ================= */
+  
   if (loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
@@ -87,7 +91,7 @@ const ProductInfo = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
 
-      {/* BACK */}
+      
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-8"
@@ -98,7 +102,7 @@ const ProductInfo = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-        {/* ================= LEFT ================= */}
+        
         <div>
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <img
@@ -218,7 +222,7 @@ const ProductInfo = () => {
   );
 };
 
-/* ================= SUB COMPONENTS ================= */
+
 
 const Spec = ({ icon, label, value }) => (
   <div className="border border-green-200 bg-green-50 rounded-lg p-4 flex items-center gap-3">
