@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useCart } from "../../../context/CartContext";
 import paymentApi from "../../../api/paymentApi";
 
@@ -25,15 +25,24 @@ const CheckoutPage = () => {
 
   const [errors, setErrors] = useState({});
   const [processing, setProcessing] = useState(false);
-
   const [step, setStep] = useState("details"); // details | payment
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     reloadCart();
   }, []);
 
+  /* ================= TOTAL ================= */
+  const total = useMemo(() => {
+    return cart.reduce((acc, item) => {
+      const price = Number(item.price) || 0;
+      const qty = Number(item.qty ?? item.quantity ?? 1);
+      return acc + price * qty;
+    }, 0);
+  }, [cart]);
+
+  /* ================= VALIDATION ================= */
   const validateFields = () => {
     const tempErrors = {};
     if (!form.name.trim()) tempErrors.name = "Full name is required";
@@ -94,20 +103,23 @@ const CheckoutPage = () => {
             errors={errors}
             onSubmit={placeOrder}
             processing={processing}
+            disabled={step === "payment"}
           />
 
           {step === "payment" && clientSecret && (
-            <Elements
-              stripe={stripePromise}
-              options={{ clientSecret }}
-            >
-              <PaymentSection />
-            </Elements>
+            <div className="mt-10">
+              <Elements
+                stripe={stripePromise}
+                options={{ clientSecret }}
+              >
+                <PaymentSection />
+              </Elements>
+            </div>
           )}
         </div>
 
         {/* RIGHT */}
-        <OrderSummary cart={cart} />
+        <OrderSummary cart={cart} total={total} />
       </div>
     </div>
   );
