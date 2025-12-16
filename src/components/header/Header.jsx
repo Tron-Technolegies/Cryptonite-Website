@@ -162,7 +162,7 @@ const Header = () => {
         </div>
 
         <nav className="flex flex-col px-6 py-8 space-y-6 text-lg text-white">
-          {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
+          {["about", "hosting","calculator", "shop", "blogs", "contact"].map((item) => (
             <Link
               key={item}
               to={`/${item}`}
