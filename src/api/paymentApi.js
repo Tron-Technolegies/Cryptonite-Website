@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE,
+  baseURL: import.meta.env.VITE_API_BASE, 
 });
 
 API.interceptors.request.use((req) => {
@@ -11,7 +11,8 @@ API.interceptors.request.use((req) => {
 });
 
 const paymentApi = {
-  createPaymentIntent: (data) => API.post("/create-payment-intent/", data),
+  createPaymentIntent: (data) =>
+    API.post("/payments/create-intent/", data),
 };
 
 export default paymentApi;
