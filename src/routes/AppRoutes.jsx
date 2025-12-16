@@ -20,6 +20,7 @@ import BlogPage from "../pages/BlogPage";
 import BlogDetails from "../components/blogs/BlogDetails";
 import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
 import ContactPage from "../pages/ContactPage";
+import CalculatorPage from "../pages/calculator/CalculatorPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -39,17 +40,20 @@ const AppRoutes = () => {
           element: <HostingPage />,
         },
         {
+          path: "/calculator",
+          element: <CalculatorPage />,
+        },
+        {
           path: "/blogs",
-          element: <BlogPage/>
+          element: <BlogPage />,
         },
         {
           path: "/blogs/:id",
-          element: <BlogDetails/>
+          element: <BlogDetails />,
         },
         {
-          path : "/contact",
-          element: <ContactPage/>
-
+          path: "/contact",
+          element: <ContactPage />,
         },
         {
           path: "/shop",
@@ -57,8 +61,7 @@ const AppRoutes = () => {
         },
         {
           path: "/product/:id",
-          element : <ProductDetailsPage/>
-          
+          element: <ProductDetailsPage />,
         },
         {
           path: "/cart",
@@ -69,8 +72,8 @@ const AppRoutes = () => {
           element: <CheckoutPage />,
         },
         {
-        path: "/rent-checkout/:id",
-        element: <RentCheckoutPage/>
+          path: "/rent-checkout/:id",
+          element: <RentCheckoutPage />,
         },
         {
           path: "/signup",
@@ -93,13 +96,13 @@ const AppRoutes = () => {
           ),
         },
         {
-          path : "/forgot-password",
-          element: <ForgotPasswordPage/>
+          path: "/forgot-password",
+          element: <ForgotPasswordPage />,
         },
         {
           path: "/reset-password/:uid/:token",
-          element: <ResetPasswordPage/>
-        }
+          element: <ResetPasswordPage />,
+        },
       ],
     },
   ]);

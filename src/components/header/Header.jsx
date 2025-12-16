@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  FiSearch,
-  FiShoppingCart,
-  FiX,
-  FiUser,
-} from "react-icons/fi";
+import { FiSearch, FiShoppingCart, FiX, FiUser } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import cryptonite from "../../../public/logos/cryptonitelogoupdated.png";
 import SearchOverlay from "../common/SearchOverlay";
@@ -68,7 +63,7 @@ const Header = () => {
 
         {/* DESKTOP MENU */}
         <ul className="hidden md:flex space-x-10 text-[16px] font-medium">
-          {["about", "hosting", "shop", "blogs", "contact"].map((item) => (
+          {["about", "hosting", "calculator", "shop", "blogs", "contact"].map((item) => (
             <Link key={item} to={`/${item}`} className={hoverColor}>
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </Link>
@@ -118,28 +113,19 @@ const Header = () => {
 
         {/* MOBILE HEADER */}
         <div className="md:hidden flex items-center gap-4">
-          <FiSearch
-            className="text-2xl cursor-pointer"
-            onClick={() => setSearchOpen(true)}
-          />
+          <FiSearch className="text-2xl cursor-pointer" onClick={() => setSearchOpen(true)} />
 
           {isLoggedIn ? (
             <Link to="/dashboard" className="text-2xl">
               <FiUser />
             </Link>
           ) : (
-            <Link
-              to="/login"
-              className={`px-3 py-1 rounded-full text-xs border ${borderColor}`}
-            >
+            <Link to="/login" className={`px-3 py-1 rounded-full text-xs border ${borderColor}`}>
               Sign in
             </Link>
           )}
 
-          <GiHamburgerMenu
-            className="text-3xl cursor-pointer"
-            onClick={() => setIsOpen(true)}
-          />
+          <GiHamburgerMenu className="text-3xl cursor-pointer" onClick={() => setIsOpen(true)} />
         </div>
       </nav>
 
@@ -168,10 +154,7 @@ const Header = () => {
       >
         <div className="flex items-center justify-between px-6 h-20 border-b border-white/10">
           <img src={cryptonite} alt="Logo" className="h-8" />
-          <FiX
-            className="text-2xl text-white cursor-pointer"
-            onClick={() => setIsOpen(false)}
-          />
+          <FiX className="text-2xl text-white cursor-pointer" onClick={() => setIsOpen(false)} />
         </div>
 
         <nav className="flex flex-col px-6 py-8 space-y-6 text-lg text-white">
@@ -189,10 +172,7 @@ const Header = () => {
       </div>
 
       {/* SEARCH OVERLAY */}
-      <SearchOverlay
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-      />
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 };
