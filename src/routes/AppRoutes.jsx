@@ -9,7 +9,6 @@ import ShopPage from "../pages/shop/ShopPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/shop/CartPage";
-import CheckoutPage from "../pages/shop/CheckoutPage";
 import ProtectedRoute from "./ProtectedRoute";
 import UsersDetailPage from "../pages/dashboard/UsersDetailPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
@@ -21,6 +20,8 @@ import BlogDetails from "../components/blogs/BlogDetails";
 import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
 import ContactPage from "../pages/ContactPage";
 import CalculatorPage from "../pages/calculator/CalculatorPage";
+import CheckoutPage from "../pages/shop/checkout/CheckoutPage";
+import PaymentSuccess from "../pages/shop/checkout/components/PaymentSuccess";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -69,11 +70,15 @@ const AppRoutes = () => {
         },
         {
           path: "/checkout",
-          element: <CheckoutPage />,
+          element: <CheckoutPage/>,
         },
         {
           path: "/rent-checkout/:id",
           element: <RentCheckoutPage />,
+        },
+        {
+          path: "/payment-success",
+          element: <PaymentSuccess/>
         },
         {
           path: "/signup",
