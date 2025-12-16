@@ -20,6 +20,7 @@ import BlogDetails from "../components/blogs/BlogDetails";
 import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
 import ContactPage from "../pages/ContactPage";
 import CheckoutPage from "../pages/shop/checkout/CheckoutPage";
+import PaymentSuccess from "../pages/shop/checkout/components/PaymentSuccess";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -71,6 +72,10 @@ const AppRoutes = () => {
         {
         path: "/rent-checkout/:id",
         element: <RentCheckoutPage/>
+        },
+        {
+          path: "/payment-success",
+          element: <PaymentSuccess/>
         },
         {
           path: "/signup",
