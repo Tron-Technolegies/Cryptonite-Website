@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import AnnouncementBar from "../components/header/AnnouncementBar";
 
 const PageLayout = () => {
   const location = useLocation();
@@ -9,6 +10,7 @@ const PageLayout = () => {
 
   return (
     <>
+      <AnnouncementBar />
       <Header />
 
       <main className={isHome ? "" : "pt-20"}>

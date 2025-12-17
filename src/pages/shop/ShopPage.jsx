@@ -58,7 +58,7 @@ const ShopPage = () => {
   return (
     <div className="bg-[#F9FAFB] min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-6">
-        <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+        <h1 className="text-5xl font-extrabold tracking-tight josefin-sans text-gray-900 leading-tight">
           MINING <br /> EQUIPMENT
         </h1>
 
@@ -68,6 +68,7 @@ const ShopPage = () => {
 
         {/* filter bar */}
         <div className="mt-10 flex flex-col md:flex-row gap-6">
+          {/* SEARCH */}
           <div className="relative w-full md:w-[50%]">
             <FiSearch className="absolute left-5 top-4 text-gray-400 text-xl" />
             <input

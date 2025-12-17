@@ -6,8 +6,7 @@ const MiningNews = () => {
     {
       id: 1,
       category: "Events",
-      title:
-        "BTC Prague 2025: Cryptonite Mining at Europe’s Premier Bitcoin Conference",
+      title: "BTC Prague 2025: Cryptonite Mining at Europe’s Premier Bitcoin Conference",
       description:
         "Join us at BTC Prague as we showcase our enterprise mining solutions and discuss the future of Bitcoin mining infrastructure across Central Europe.",
       author: "Michael Chen",
@@ -32,10 +31,9 @@ const MiningNews = () => {
 
   return (
     <section className="bg-white py-20 px-6 md:px-16">
-
       {/* HEADER */}
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase tracking-wide">
+        <h2 className="text-3xl md:text-4xl josefin-sans font-extrabold text-black uppercase tracking-wide">
           Mining Insights & News
         </h2>
         <p className="text-gray-500 mt-3">
@@ -98,7 +96,6 @@ const MiningNews = () => {
           </div>
         ))}
       </div>
-
     </section>
   );
 };

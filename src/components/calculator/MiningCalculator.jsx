@@ -8,10 +8,11 @@ import { HiMiniArrowTrendingUp } from "react-icons/hi2";
 
 export default function MiningCalculator() {
   // Inputs
-  const [hashrate, setHashrate] = useState(0);
-  const [power, setPower] = useState(0);
-  const [electricityCost, setElectricityCost] = useState(0);
-  const [poolFee, setPoolFee] = useState(0);
+  const [hashrate, setHashrate] = useState("");
+  const [power, setPower] = useState("");
+  const [electricityCost, setElectricityCost] = useState("");
+  const [poolFee, setPoolFee] = useState("");
+
   const [btcPrice, setBtcPrice] = useState(0);
   const [hashValue, setHashValue] = useState(0.00000042);
 
@@ -52,11 +53,16 @@ export default function MiningCalculator() {
 
   // Core calculation
   const calculatePeriod = (days) => {
-    const dailyBTC = hashrate * hashValue;
-    const btcAfterFee = dailyBTC * (1 - poolFee / 100);
+    const h = Number(hashrate) || 0;
+    const p = Number(power) || 0;
+    const e = Number(electricityCost) || 0;
+    const fee = Number(poolFee) || 0;
+
+    const dailyBTC = h * hashValue;
+    const btcAfterFee = dailyBTC * (1 - fee / 100);
     const revenue = btcAfterFee * btcPrice * days;
 
-    const electricity = (power / 1000) * 24 * electricityCost * days;
+    const electricity = (p / 1000) * 24 * e * days;
 
     return {
       revenue,
@@ -326,12 +332,12 @@ function Input({ label, unit, placeholder, value, setValue }) {
   return (
     <div>
       <label className="text-sm font-medium text-[#7A7A7A]">{label}</label>
-      <div className="flex items-center bg-white  rounded-2xl px-3 py-2 mt-1">
+      <div className="flex items-center bg-white rounded-2xl px-3 py-2 mt-1">
         <input
           type="number"
           value={value}
           placeholder={placeholder}
-          onChange={(e) => setValue(Number(e.target.value))}
+          onChange={(e) => setValue(e.target.value)}
           className="w-full outline-none placeholder:text-gray-400"
         />
         <span className="text-xs text-[#7A7A7A] px-1 ml-2 rounded-full bg-[#E9E9E9]">{unit}</span>
