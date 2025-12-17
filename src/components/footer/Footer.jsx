@@ -12,22 +12,15 @@ import cryptoniteLogo from "../../../public/logos/cryptonitelogoupdated.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1F1F1F] text-white pt-20 pb-10 px-6 md:px-16">
+    <footer className="bg-black text-white pt-20 pb-10 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-
         {/* GRID CONTAINER */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-
           {/* LOGO + DESCRIPTION */}
           <div>
-            <img
-              src={cryptoniteLogo}
-              alt="Cryptonite Logo"
-              className="h-12 w-auto mb-4"
-            />
+            <img src={cryptoniteLogo} alt="Cryptonite Logo" className="h-12 w-auto mb-4" />
             <p className="text-white leading-relaxed text-sm max-w-xs">
-              Professional cryptocurrency mining solutions with premium hosting
-              and support.
+              Professional cryptocurrency mining solutions with premium hosting and support.
             </p>
 
             {/* SOCIAL ICONS */}
@@ -86,24 +79,16 @@ const Footer = () => {
 
         {/* BOTTOM BAR */}
         <div className="mt-16 border-t border-gray-700 pt-5 flex flex-col md:flex-row justify-between text-white text-sm">
-
           {/* LEFT COPYRIGHT */}
           <p>© 2025 Cryptonite Mining. All rights reserved.</p>
 
           {/* RIGHT LINKS */}
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
-            <span className="hover:text-(--primary-color) cursor-pointer">
-              Privacy Policy
-            </span>
-            <span className="hover:text-(--primary-color) cursor-pointer">
-              Terms of Service
-            </span>
-            <span className="hover:text-(--primary-color) cursor-pointer">
-              Cookie Policy
-            </span>
+            <span className="hover:text-(--primary-color) cursor-pointer">Privacy Policy</span>
+            <span className="hover:text-(--primary-color) cursor-pointer">Terms of Service</span>
+            <span className="hover:text-(--primary-color) cursor-pointer">Cookie Policy</span>
           </div>
         </div>
-
       </div>
     </footer>
   );

@@ -18,7 +18,6 @@ const CoinTicker = () => {
         width: "100%",
         backgroundColor: "#111",
         padding: "10px 0",
-        borderRadius: "8px",
         overflow: "hidden",
       }}
     >

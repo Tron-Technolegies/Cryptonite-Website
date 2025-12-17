@@ -22,6 +22,7 @@ import ContactPage from "../pages/ContactPage";
 import CalculatorPage from "../pages/calculator/CalculatorPage";
 import CheckoutPage from "../pages/shop/checkout/CheckoutPage";
 import PaymentSuccess from "../pages/shop/checkout/components/PaymentSuccess";
+import AsicProfitabilityPage from "../pages/AsicProfitabilityPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -44,6 +45,7 @@ const AppRoutes = () => {
           path: "/calculator",
           element: <CalculatorPage />,
         },
+        { path: "/asic-profitability", element: <AsicProfitabilityPage /> },
         {
           path: "/blogs",
           element: <BlogPage />,
@@ -70,7 +72,7 @@ const AppRoutes = () => {
         },
         {
           path: "/checkout",
-          element: <CheckoutPage/>,
+          element: <CheckoutPage />,
         },
         {
           path: "/rent-checkout/:id",
@@ -78,7 +80,7 @@ const AppRoutes = () => {
         },
         {
           path: "/payment-success",
-          element: <PaymentSuccess/>
+          element: <PaymentSuccess />,
         },
         {
           path: "/signup",

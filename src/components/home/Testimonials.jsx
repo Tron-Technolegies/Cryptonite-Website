@@ -5,21 +5,19 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 const Testimonials = () => {
   const [active, setActive] = useState(0);
 
-  const prev = () =>
-    setActive(active === 0 ? testimonials.length - 1 : active - 1);
+  const prev = () => setActive(active === 0 ? testimonials.length - 1 : active - 1);
   const next = () => setActive((active + 1) % testimonials.length);
 
   return (
     <section className="relative bg-black py-32 overflow-hidden">
-
       {/* SOFT CENTER GLOW */}
       <div className="absolute inset-0 flex justify-center items-center">
-        <div className="w-[520px] h-[520px] bg-white/10 blur-[180px] rounded-full" />
+        <div className="w-[520px] h-[520px] bg-white/50 blur-[180px] rounded-full" />
       </div>
 
       {/* TITLE */}
       <div className="relative z-10 text-center mb-20">
-        <h2 className="text-white text-3xl md:text-4xl font-bold tracking-wide uppercase">
+        <h2 className="text-white text-3xl md:text-4xl josefin-sans font-bold tracking-wide uppercase">
           Trusted by Miners Worldwide
         </h2>
         <p className="text-gray-400 text-sm mt-3">
@@ -29,7 +27,6 @@ const Testimonials = () => {
 
       {/* SLIDER */}
       <div className="relative z-10 flex items-center justify-center">
-
         {/* LEFT BUTTON */}
         <button
           onClick={prev}
@@ -40,7 +37,6 @@ const Testimonials = () => {
 
         {/* CARD STACK */}
         <div className="relative w-full max-w-xl h-[260px] flex items-center justify-center">
-
           {testimonials.map((t, index) => {
             const pos = index - active;
             if (Math.abs(pos) > 2) return null;
@@ -51,7 +47,7 @@ const Testimonials = () => {
                 className="
                   absolute w-[360px] rounded-2xl
                   bg-[#0d0d0d] text-white
-                  px-8 py-10 text-center
+                  px-8 py-10 text-center border border-gray-500
                   transition-all duration-500 ease-out
                 "
                 style={{
@@ -75,18 +71,13 @@ const Testimonials = () => {
                 <h4 className="font-semibold text-base">{t.name}</h4>
 
                 {/* ROLE */}
-                <p className="text-gray-400 text-xs mb-4">
-                  {t.role}
-                </p>
+                <p className="text-gray-400 text-xs mb-4">{t.role}</p>
 
                 {/* QUOTE */}
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {t.quote}
-                </p>
+                <p className="text-gray-300 text-sm leading-relaxed">{t.quote}</p>
               </div>
             );
           })}
-
         </div>
 
         {/* RIGHT BUTTON */}
@@ -96,7 +87,6 @@ const Testimonials = () => {
         >
           <FiChevronRight size={22} />
         </button>
-
       </div>
     </section>
   );
