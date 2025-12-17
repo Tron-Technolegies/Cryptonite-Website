@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import productApi from "../../api/productApi";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
@@ -10,8 +11,7 @@ const ShopPage = () => {
   const [priceFilter, setPriceFilter] = useState("All prices");
   const [loading, setLoading] = useState(true);
 
-  const BASE_URL = import.meta.env.VITE_API_BASE?.replace("/api", "");
-
+  /*fetching products*/
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -27,17 +27,13 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  // Convert "3055.00" → 3055
   const getPriceValue = (price) => Number(price ?? 0);
 
-  // CREATE A BRAND LIST IF YOU WANT (static for now)
+  /*productFiltering */
   const brands = ["All Manufacturers", "Bitmain", "Whatsminer"];
 
-  // FILTERING
   const filteredProducts = products
-    .filter((p) =>
-      p?.model_name?.toLowerCase().includes(search.toLowerCase())
-    )
+    .filter((p) => p?.model_name?.toLowerCase().includes(search.toLowerCase()))
     .filter((p) =>
       manufacturer === "All Manufacturers"
         ? true
@@ -62,19 +58,16 @@ const ShopPage = () => {
   return (
     <div className="bg-[#F9FAFB] min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-6">
-        
         <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
           MINING <br /> EQUIPMENT
         </h1>
 
-        <p className="text-black text-lg mt-4 max-w-2xl font-medium dm-sans">
+        <p className="text-black text-lg mt-4 max-w-2xl font-medium">
           Professional grade ASIC miners from industry leading manufacturers.
         </p>
 
-        {/* FILTER BAR */}
+        {/* filter bar */}
         <div className="mt-10 flex flex-col md:flex-row gap-6">
-
-          {/* SEARCH */}
           <div className="relative w-full md:w-[50%]">
             <FiSearch className="absolute left-5 top-4 text-gray-400 text-xl" />
             <input
@@ -86,22 +79,20 @@ const ShopPage = () => {
             />
           </div>
 
-          {/* BRAND FILTER (STATIC FOR NOW) */}
           <select
             value={manufacturer}
             onChange={(e) => setManufacturer(e.target.value)}
-            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700 w-full md:w-auto"
+            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700"
           >
             {brands.map((b) => (
               <option key={b}>{b}</option>
             ))}
           </select>
 
-          {/* PRICE FILTER */}
           <select
             value={priceFilter}
             onChange={(e) => setPriceFilter(e.target.value)}
-            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700 w-full md:w-auto"
+            className="bg-white border border-gray-200 rounded-full px-6 py-3.5 shadow-sm text-gray-700"
           >
             <option>All prices</option>
             <option>Below 2000</option>
@@ -110,39 +101,35 @@ const ShopPage = () => {
           </select>
         </div>
 
-        {/* PRODUCTS */}
+        {/* products data */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-14">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-3xl border border-gray-200 shadow-md hover:shadow-xl transition p-8"
             >
-              {/* IMAGE */}
               <div className="flex justify-center">
                 <img
-                  src={product.image}
+                  src={getImageUrl(product.image)}
                   alt={product.model_name}
+                  loading="lazy"
                   className="h-[260px] object-contain"
                 />
               </div>
 
-              {/* NAME + PRICE */}
               <div className="flex justify-between items-center mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">
                   {product.model_name}
                 </h2>
-
                 <span className="bg-[#E7F8E7] text-green-600 font-semibold px-4 py-1 rounded-full">
                   ${product.price}
                 </span>
               </div>
 
-              {/* DESCRIPTION */}
               <p className="text-gray-600 text-sm mt-2">
                 {product.description?.substring(0, 110)}...
               </p>
 
-              {/* SPECS */}
               <div className="mt-4 text-sm space-y-1">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Hashrate</span>
@@ -158,7 +145,6 @@ const ShopPage = () => {
                 </div>
               </div>
 
-              {/* BUTTONS */}
               <div className="flex gap-4 mt-6">
                 <Link
                   to={`/product/${product.id}`}
@@ -174,7 +160,6 @@ const ShopPage = () => {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import {
 import productApi from "../../../api/productApi";
 import cartApi from "../../../api/cartApi";
 import { toast } from "react-toastify";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const ProductInfo = () => {
   const { id } = useParams();
@@ -71,7 +72,6 @@ const ProductInfo = () => {
     }
   };
 
-  
   if (loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
@@ -90,8 +90,6 @@ const ProductInfo = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
-
-      
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-8"
@@ -101,12 +99,10 @@ const ProductInfo = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-        
         <div>
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <img
-              src={product.image}
+              src={getImageUrl(product.image)}
               alt={product.model_name}
               className="w-full object-contain"
             />
@@ -131,7 +127,6 @@ const ProductInfo = () => {
 
         {/* ================= RIGHT ================= */}
         <div>
-
           {/* BADGES */}
           <div className="flex gap-3 mb-3">
             <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -188,7 +183,9 @@ const ProductInfo = () => {
                   className="bg-transparent outline-none flex-1"
                 >
                   {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>{n}</option>
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -212,17 +209,22 @@ const ProductInfo = () => {
           {/* TRUST */}
           <div className="grid grid-cols-3 gap-6 text-center text-xs text-gray-600">
             <Trust icon={<FiShield />} title="12 months" text="Warranty" />
-            <Trust icon={<FiTruck />} title="Free Shipping" text="Orders 5+ units" />
-            <Trust icon={<FiBox />} title="Secure Packaging" text="Insured delivery" />
+            <Trust
+              icon={<FiTruck />}
+              title="Free Shipping"
+              text="Orders 5+ units"
+            />
+            <Trust
+              icon={<FiBox />}
+              title="Secure Packaging"
+              text="Insured delivery"
+            />
           </div>
-
         </div>
       </div>
     </div>
   );
 };
-
-
 
 const Spec = ({ icon, label, value }) => (
   <div className="border border-green-200 bg-green-50 rounded-lg p-4 flex items-center gap-3">
