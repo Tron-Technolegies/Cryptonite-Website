@@ -79,12 +79,14 @@ const CheckoutPage = () => {
       if (mode === "buy") {
         payload.delivery_type = buyType;
         
-        // For shipping, add address at root level
-        if (buyType === "ship" && data.address) {
-          payload.address = data.address;
+        // ✅ CRITICAL: Address is ALWAYS required for buy mode
+        if (!data.address) {
+          throw new Error("Address is required for purchase");
         }
         
-        // For hosting, add hosting details
+        payload.address = data.address;
+        
+        // For hosting, also add hosting details
         if (buyType === "host" && data.hosting_details) {
           payload.hosting_details = data.hosting_details;
         }
@@ -98,7 +100,12 @@ const CheckoutPage = () => {
         setRentalData(data.rental_details);
       }
 
-      console.log("Payment payload:", payload);
+      console.log("=== PAYMENT PAYLOAD ===");
+      console.log("Mode:", mode);
+      console.log("Buy Type:", buyType);
+      console.log("Data received:", data);
+      console.log("Full Payload:", JSON.stringify(payload, null, 2));
+      console.log("======================");
 
       const res = await paymentApi.createPaymentIntent(payload);
 

@@ -75,7 +75,7 @@ const Header = () => {
             { name: "About", path: "/about" },
             { name: "Hosting", path: "/hosting" },
             { name: "Calculator", path: "/calculator" },
-            { name: "Blogs", path: "/blogs" },
+            // { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
@@ -185,7 +185,7 @@ const Header = () => {
             { name: "About", path: "/about" },
             { name: "Hosting", path: "/hosting" },
             { name: "Calculator", path: "/calculator" },
-            { name: "Blogs", path: "/blogs" },
+            // { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
