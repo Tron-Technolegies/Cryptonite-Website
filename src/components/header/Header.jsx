@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiSearch, FiShoppingCart, FiX, FiUser } from "react-icons/fi";
+import { FiSearch, FiShoppingCart, FiX, FiUser, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import cryptonite from "../../../public/logos/cryptonitelogoupdated.png";
 import SearchOverlay from "../common/SearchOverlay";
 import { setupAutoLogout } from "../../utils/auth";
+import { blogPosts } from "../../utils/blogs";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileHowOpen, setMobileHowOpen] = useState(false);
 
   const location = useLocation();
 
@@ -55,7 +57,7 @@ const Header = () => {
       {/* HEADER */}
       <nav
         className={`
-          absolute top-10 left-0 w-full
+          absolute top-0 left-0 w-full
           px-4 md:px-10 h-20
           flex items-center justify-between
           bg-transparent z-50
@@ -73,6 +75,7 @@ const Header = () => {
             { name: "About", path: "/about" },
             { name: "Hosting", path: "/hosting" },
             { name: "Calculator", path: "/calculator" },
+            { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
@@ -87,31 +90,33 @@ const Header = () => {
 
           {/* HOW IT WORKS */}
           <div className="relative group">
-            <span
-              className={`${hoverColor} cursor-pointer ${
-                location.pathname === "/blogs" ? activeClass : ""
-              }`}
-            >
+            <span className={`flex items-center gap-1 cursor-pointer ${hoverColor}`}>
               How it Works
+              <FiChevronDown className="text-sm mt-[2px]" />
             </span>
 
             <div
               className="
-              absolute left-0 mt-3 w-44
-              bg-white text-black border border-white/10 rounded-lg
-              opacity-0 invisible group-hover:opacity-100 group-hover:visible
-              transition-all z-50
-            "
+      absolute left-0 mt-3 w-80
+      bg-white text-black shadow-lg rounded-lg
+      opacity-0 invisible group-hover:opacity-100 group-hover:visible
+      transition-all z-50"
             >
-              <Link
-                to="/blogs"
-                className="block px-4 py-2 hover:bg-green-500/10 hover:text-green-400"
-              >
-                Blogs
-              </Link>
+              {blogPosts.map((blog) => (
+                <Link
+                  key={blog.id}
+                  to={`/blogs/${blog.id}`}
+                  className="block px-4 py-2 text-sm leading-snug hover:bg-green-500/10 hover:text-green-400"
+                >
+                  {blog.title}
+                </Link>
+              ))}
+
+              <div className="border-t border-gray-200 my-1" />
+
               <Link
                 to="/#faq"
-                className="block px-4 py-2 hover:bg-green-500/10 hover:text-green-400"
+                className="block px-4 py-2 text-sm hover:bg-green-500/10 hover:text-green-400"
               >
                 FAQ
               </Link>
@@ -175,11 +180,12 @@ const Header = () => {
           <FiX className="text-2xl text-white" onClick={() => setIsOpen(false)} />
         </div>
 
-        <nav className="flex flex-col px-6 py-8 space-y-6 text-lg text-white">
+        <nav className="flex flex-col px-6 py-8 space-y-5 text-lg text-white">
           {[
             { name: "About", path: "/about" },
             { name: "Hosting", path: "/hosting" },
             { name: "Calculator", path: "/calculator" },
+            { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
@@ -195,23 +201,58 @@ const Header = () => {
             </Link>
           ))}
 
+          {/* HOW IT WORKS - MOBILE DROPDOWN */}
           <div className="pt-4">
-            <p className="text-sm text-gray-400 mb-2">How it Works</p>
-            <Link
-              to="/blogs"
-              onClick={() => setIsOpen(false)}
-              className="block pb-2 hover:text-green-400"
+            {/* TOGGLE */}
+            <button
+              onClick={() => setMobileHowOpen((prev) => !prev)}
+              className="w-full flex items-center justify-between text-lg text-white mb-2"
             >
-              Blogs
-            </Link>
-            <Link
-              to="/#faq"
-              onClick={() => setIsOpen(false)}
-              className="block pb-2 hover:text-green-400"
-            >
-              FAQ
-            </Link>
+              <span>How it Works</span>
+              {mobileHowOpen ? <FiChevronUp /> : <FiChevronDown />}
+            </button>
+
+            {/* DROPDOWN CONTENT */}
+            {mobileHowOpen && (
+              <div className="pl-2 space-y-2">
+                {blogPosts.map((blog) => (
+                  <Link
+                    key={blog.id}
+                    to={`/blogs/${blog.id}`}
+                    onClick={() => {
+                      setMobileHowOpen(false);
+                      setIsOpen(false);
+                    }}
+                    className="block text-sm border-t border-white/10 pt-2 text-white"
+                  >
+                    {blog.title}
+                  </Link>
+                ))}
+
+                <Link
+                  to="/#faq"
+                  onClick={() => {
+                    setMobileHowOpen(false);
+                    setIsOpen(false);
+                  }}
+                  className="block text-md border-t border-white/10 pt-2 text-white hover:text-green-400"
+                >
+                  FAQ
+                </Link>
+              </div>
+            )}
           </div>
+
+          {/* MOBILE AUTH */}
+          {!isLoggedIn && (
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(false)}
+              className="mt-4 text-center px-4 py-2 rounded-full border border-white hover:bg-green-500 hover:text-black"
+            >
+              Sign in
+            </Link>
+          )}
         </nav>
       </div>
 

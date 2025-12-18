@@ -10,7 +10,7 @@ const PageLayout = () => {
 
   return (
     <>
-      <AnnouncementBar />
+      {/* <AnnouncementBar /> */}
       <Header />
 
       <main className={isHome ? "" : "pt-20"}>
