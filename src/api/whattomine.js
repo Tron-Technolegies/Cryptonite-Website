@@ -1,21 +1,20 @@
-// import axios from "axios";
+// src/api/whattomine.js
+import axiosClient from "./axiosClient";
 
-// // const API_URL = "https://whattomine.com/asic.json";
+export const fetchAsicProfitability = async () => {
+  const res = await axiosClient.get("asic-profitability/");
 
-// // TEMP: If CORS blocks, use:
-// const API_URL = "https://api.allorigins.win/raw?url=https://whattomine.com/asic.json";
+  const data = res?.data?.data || {};
+  const minersObj = data.miners || {};
 
-// export const fetchAsicMiners = async () => {
-//   const res = await axios.get(API_URL);
-//   return res.data.miners;
-// };
-import axios from "axios";
+  console.log("MINERS OBJECT:", minersObj);
 
-const API_URL = "https://api.allorigins.win/raw?url=https://whattomine.com/asic.json";
-
-export const fetchAsicMiners = async () => {
-  const res = await axios.get(API_URL);
-
-  // Convert object → array
-  return Object.values(res.data.miners);
+  return {
+    meta: {
+      live: res.data.live,
+      cached: res.data.cached,
+      source: res.data.source,
+    },
+    miners: Object.values(minersObj),
+  };
 };

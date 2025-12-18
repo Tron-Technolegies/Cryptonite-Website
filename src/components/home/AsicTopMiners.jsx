@@ -1,57 +1,107 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAsicMiners } from "../../api/whattomine";
+import axiosClient from "../../api/axiosClient";
+import CoinBadge from "./CoinBadge";
+import { getCoinByAlgorithm, profitBarWidth } from "../../utils/asicUi";
+import { getImageUrl } from "../../utils/imageUtils";
 
 export default function AsicTopMiners() {
   const [miners, setMiners] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAsicMiners()
-      .then((data) => {
-        console.log("MINERS:", data);
+    Promise.all([axiosClient.get("/products/"), axiosClient.get("/asic-profitability/")]).then(
+      ([pRes, cRes]) => {
+        const coins = cRes.data?.data?.coins || {};
 
-        const sorted = data
-          .filter((m) => m.profitability !== null)
-          .sort((a, b) => b.profitability - a.profitability)
-          .slice(0, 10);
+        const rows = (pRes.data || []).map((p) => {
+          const coin = getCoinByAlgorithm(coins, p.algorithm);
+          if (!coin) return { ...p, profit: 0, coin: null };
 
-        setMiners(sorted);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+          const revenue = Number(coin.btc_revenue || 0) * Number(p.hashrate) * 100000;
+          const powerCost = (Number(p.power) / 1000) * 24 * Number(p.hosting_fee_per_kw);
+
+          return { ...p, coin, profit: revenue - powerCost };
+        });
+
+        // sort + limit 5
+        setMiners(rows.sort((a, b) => b.profit - a.profit).slice(0, 5));
+      }
+    );
   }, []);
 
-  if (loading) {
-    return <p className="text-gray-400">Loading miners...</p>;
-  }
-
-  if (!miners.length) {
-    return <p className="text-gray-400">No data available</p>;
-  }
-
   return (
-    <div className="bg-[#0f172a] rounded-xl p-6">
-      <div className="flex justify-between mb-4">
-        <h2 className="text-xl font-semibold text-white">ASIC Miner Profitability</h2>
-        <button onClick={() => navigate("/asic-profitability")} className="text-blue-400 text-sm">
-          View All →
-        </button>
+    <div className="bg-[#0d1210] p-6 border border-gray-800  text-white">
+      <h2 className="text-xl font-semibold mb-4">ASIC Miner Profitability</h2>
+
+      {/* SAME TABLE DESIGN */}
+      <div className="overflow-x-auto border border-gray-800 rounded-lg">
+        <table className="min-w-full text-sm">
+          <thead className="bg-[#161c1a] text-gray-400">
+            <tr>
+              <th className="p-4 text-left">MODEL</th>
+              <th className="p-4 text-center">HASHRATE</th>
+              <th className="p-4 text-center">POWER</th>
+              <th className="p-4 text-center">COIN</th>
+              <th className="p-4 text-right">PROFITABILITY</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {miners.map((m) => (
+              <tr key={m.id} className="border-t border-gray-800 hover:bg-[#161c1a] transition">
+                {/* MODEL */}
+                <td className="p-4 flex items-center gap-3">
+                  <img
+                    src={getImageUrl(m.image)}
+                    alt={m.model_name}
+                    className="w-10 h-10 rounded object-cover"
+                  />
+                  <div>
+                    <p className="font-medium">{m.model_name}</p>
+                    <p className="text-xs text-gray-500">{m.brand}</p>
+                  </div>
+                </td>
+
+                <td className="p-4 text-center">{m.hashrate}</td>
+                <td className="p-4 text-center">{m.power} W</td>
+
+                <td className="p-4 text-center">
+                  <CoinBadge coin={m.coin} />
+                </td>
+
+                <td className="p-4 text-right">
+                  <p className="font-semibold text-green-400">${m.profit.toFixed(2)}/day</p>
+                  <div className="mt-1 h-1 bg-gray-800 rounded">
+                    <div
+                      className="h-1 bg-green-500 rounded"
+                      style={{ width: `${profitBarWidth(m.profit)}%` }}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+
+            {miners.length === 0 && (
+              <tr>
+                <td colSpan="5" className="p-6 text-center text-gray-400">
+                  No miners found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
-      {miners.map((m, i) => (
-        <div key={i} className="grid grid-cols-5 gap-4 py-2 border-b border-gray-700 text-sm">
-          <span className="col-span-2 text-white">{m.name}</span>
-          <span>{m.hashrate}</span>
-          <span>{m.power} W</span>
-          <span className="text-green-400">${Number(m.profitability).toFixed(2)}/day</span>
-        </div>
-      ))}
+      {/* CENTERED BUTTON */}
+      <button
+        onClick={() => navigate("/asic-profitability")}
+        className="mt-6 mx-auto block px-10 py-3 rounded-lg 
+                   bg-green-500 text-black font-semibold 
+                   hover:bg-green-400 transition"
+      >
+        View All ASIC Miners →
+      </button>
     </div>
   );
 }

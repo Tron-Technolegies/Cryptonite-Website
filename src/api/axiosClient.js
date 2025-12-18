@@ -10,19 +10,16 @@ const publicEndpoints = [
   "/auth/register/",
   "/products/",
   "/bundles/",
+  "/asic-profitability/",
 ];
 
 axiosClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("access");
 
   // Extract only path, not full URL
-  const endpoint = config.url.startsWith("/")
-    ? config.url
-    : "/" + config.url;
+  const endpoint = config.url.startsWith("/") ? config.url : "/" + config.url;
 
-  const isPublic = publicEndpoints.some((p) =>
-    endpoint.startsWith(p)
-  );
+  const isPublic = publicEndpoints.some((p) => endpoint.startsWith(p));
 
   if (!isPublic && token) {
     config.headers.Authorization = `Bearer ${token}`;
