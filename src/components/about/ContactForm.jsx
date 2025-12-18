@@ -92,7 +92,7 @@ const ContactForm = () => {
               {/* Phone */}
               <div className="flex items-start gap-4">
                 <FaPhone className="text-black text-xl mt-1" />
-                <p className="font-semibold">+49 941 20083376</p>
+                <p className="font-semibold">+436802442479</p>
               </div>
 
               {/* Email */}
@@ -104,7 +104,7 @@ const ContactForm = () => {
               {/* Location */}
               <div className="flex items-start gap-4">
                 <FaMapMarkerAlt className="text-black text-xl mt-1" />
-                <p className="font-semibold">Regensburg, Germany</p>
+                <p className="font-semibold">Austria</p>
               </div>
 
               {/* Social Icons */}

@@ -63,7 +63,7 @@ const Footer = () => {
 
             <ul className="space-y-3 text-white text-sm">
               <li className="flex items-center gap-2">
-                <FiPhone className="text-(--primary-color)" /> +49 94120083376
+                <FiPhone className="text-(--primary-color)" /> +436802442479
               </li>
 
               <li className="flex items-center gap-2">
