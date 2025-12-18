@@ -13,7 +13,7 @@ const stripePromise = loadStripe(
 const App = () => {
   return (
     <div>
-      <CursorSplash/>
+      {/* <CursorSplash/> */}
       <Elements stripe={stripePromise}>
       <AppRoutes />
       <ToastContainer

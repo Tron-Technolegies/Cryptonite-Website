@@ -22,7 +22,7 @@ const PaymentSection = () => {
   };
 
   return (
-    <div className="bg-[#0a1628] p-6 rounded-xl mt-8">
+    <div className="bg-white p-6 rounded-xl mt-8">
       <h2 className="text-2xl font-semibold mb-6">Payment</h2>
 
       <PaymentElement />
