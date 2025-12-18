@@ -2,12 +2,10 @@ import React from "react";
 import { FiShoppingCart, FiRefreshCw, FiArrowRight } from "react-icons/fi";
 
 const BuyOrRent = ({ price = 0, onBuy, onRent }) => {
-  // Use the price prop passed from parent (which is the calculated total)
   const total = Number(price) || 0;
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
-
       {/* BUY */}
       <button
         onClick={onBuy}
@@ -25,7 +23,7 @@ const BuyOrRent = ({ price = 0, onBuy, onRent }) => {
 
         <p className="text-sm text-gray-600">Price</p>
         <p className="text-green-600 font-bold text-lg">
-          ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          ${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </p>
 
         <FiArrowRight className="absolute bottom-6 right-6 text-green-600" />
@@ -53,7 +51,6 @@ const BuyOrRent = ({ price = 0, onBuy, onRent }) => {
 
         <FiArrowRight className="absolute bottom-6 right-6 text-green-600" />
       </button>
-
     </div>
   );
 };

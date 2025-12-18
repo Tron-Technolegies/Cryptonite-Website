@@ -9,7 +9,7 @@ const ShippingForm = ({ onContinue, loading }) => {
     city: "",
     state: "",
     zipCode: "",
-    country: "India",
+    country: "Austria",
   });
 
   const [errors, setErrors] = useState({});
@@ -20,7 +20,6 @@ const ShippingForm = ({ onContinue, loading }) => {
       ...prev,
       [name]: value
     }));
-    // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -76,20 +75,22 @@ const ShippingForm = ({ onContinue, loading }) => {
     e.preventDefault();
     
     if (validate()) {
-      // Pass shipping data to parent
-      onContinue({
-        shipping_address: {
+      // ✅ FIXED: Backend expects 'address' at root level, not nested in 'shipping_address'
+      const payload = {
+        address: {
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
-          address: formData.address,
+          street: formData.address,
           city: formData.city,
           state: formData.state,
           zip_code: formData.zipCode,
           country: formData.country,
-        },
-        delivery_type: "ship"
-      });
+        }
+      };
+
+      console.log("ShippingForm payload:", payload);
+      onContinue(payload);
     }
   };
 
@@ -181,7 +182,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.city}
             onChange={handleChange}
             className={`w-full border ${errors.city ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="Kochi"
+            placeholder="Vienna"
           />
           {errors.city && (
             <p className="text-red-500 text-sm mt-1">{errors.city}</p>
@@ -198,7 +199,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.state}
             onChange={handleChange}
             className={`w-full border ${errors.state ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="Kerala"
+            placeholder="Vienna"
           />
           {errors.state && (
             <p className="text-red-500 text-sm mt-1">{errors.state}</p>
@@ -218,7 +219,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.zipCode}
             onChange={handleChange}
             className={`w-full border ${errors.zipCode ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="682001"
+            placeholder="1010"
           />
           {errors.zipCode && (
             <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>
@@ -235,11 +236,13 @@ const ShippingForm = ({ onContinue, loading }) => {
             onChange={handleChange}
             className={`w-full border ${errors.country ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
           >
-            <option value="India">India</option>
+            <option value="Austria">Austria</option>
             <option value="USA">USA</option>
             <option value="UK">UK</option>
             <option value="Canada">Canada</option>
             <option value="Australia">Australia</option>
+            <option value="Germany">Germany</option>
+            <option value="Switzerland">Switzerland</option>
           </select>
           {errors.country && (
             <p className="text-red-500 text-sm mt-1">{errors.country}</p>

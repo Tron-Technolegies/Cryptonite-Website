@@ -1,12 +1,12 @@
 .cursor-trail {
   position: fixed;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #00C336;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  opacity: 0.4;
+  opacity: 0.35;
   z-index: 9999;
 
   animation: flowFade 0.45s ease-out forwards;
@@ -14,11 +14,11 @@
 
 @keyframes flowFade {
   from {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.35;
   }
   to {
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%) scale(2.2);
     opacity: 0;
   }
 }

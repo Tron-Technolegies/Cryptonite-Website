@@ -1,11 +1,11 @@
 import React from "react";
-import { 
-  FiShield, 
-  FiZap, 
-  FiGlobe, 
-  FiTrendingUp, 
-  FiClock, 
-  FiHeadphones 
+import {
+  FiShield,
+  FiZap,
+  FiGlobe,
+  FiTrendingUp,
+  FiClock,
+  FiHeadphones,
 } from "react-icons/fi";
 
 const WhyCryptonite = () => {
@@ -14,43 +14,42 @@ const WhyCryptonite = () => {
       id: 1,
       icon: <FiShield className="text-green-400 text-2xl" />,
       title: "Enterprise Security",
-      desc: "Military-grade security protocols with 24/7 monitoring and redundant systems to protect your investment.",
+      desc: "24/7 monitored facilities with layered physical security, access control, and operational redundancy designed for continuous mining",
     },
     {
       id: 2,
       icon: <FiZap className="text-green-400 text-2xl" />,
       title: "Renewable Energy",
-      desc: "100% clean energy powered facilities with competitive electricity rates for maximum efficiency.",
+      desc: "Mining operations powered by renewable and low-carbon energy sources,selected for long-term power stability and predictable pricing",
     },
     {
       id: 3,
       icon: <FiGlobe className="text-green-400 text-2xl" />,
       title: "Global Infrastructure",
-      desc: "Strategic locations worldwide with redundant connectivity and optimal network latency.",
+      desc: "Mining operations powered by renewable and low-carbon energy sources,selected for long-term power stability and predictable pricing.",
     },
     {
       id: 4,
       icon: <FiTrendingUp className="text-green-400 text-2xl" />,
-      title: "Maximum ROI",
-      desc: "Optimized operations and competitive hosting rates designed to maximize your return on investment.",
+      title: "Optimized Returns",
+      desc: "Hosting locations selected based on power reliability, climate conditions,regulatory clarity, and long-term operational viability.",
     },
     {
       id: 5,
       icon: <FiClock className="text-green-400 text-2xl" />,
-      title: "Fast Deployment",
-      desc: "Get started within 72 hours with our streamlined onboarding and rapid equipment deployment.",
+      title: "Operational Efficiency",
+      desc: "Optimized power distribution, cooling, and monitoring designed to maintainconsistent hashrate and minimize operational disruption.",
     },
     {
       id: 6,
       icon: <FiHeadphones className="text-green-400 text-2xl" />,
       title: "Expert Support",
-      desc: "Dedicated technical support team available 24/7 to ensure optimal mining performance.",
+      desc: "Dedicated teams providing continuous monitoring, incident response, and operational support across all hosting locations, ensuring stable and uninterrupted mining operations.",
     },
   ];
 
   return (
     <section className="py-24 px-6 md:px-16 bg-[#0d1210] relative overflow-hidden">
-
       {/* Background glow top-left */}
       <div className="absolute left-0 top-0 w-[400px] h-[400px] bg-green-500 opacity-5 blur-[130px] pointer-events-none"></div>
 
@@ -58,15 +57,14 @@ const WhyCryptonite = () => {
       <div className="absolute right-0 bottom-0 w-[400px] h-[400px] bg-green-400 opacity-5 blur-[130px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto text-center relative z-10">
-
         {/* Title */}
         <h2 className="text-3xl md:text-4xl font-bold text-white josefin-sans">
           WHY CHOOSE <span className="text-green-400">CRYPTONITE?</span>
         </h2>
 
         {/* Subtitle */}
-        <p className="text-gray-300 mt-3 text-lg dm-sans">
-          Industry leading infrastructure and support for maximum profitability
+        <p className="text-white mt-3 text-lg dm-sans">
+          Infrastructure built for miners who think in years, not cycles.
         </p>
 
         {/* Cards Grid */}
@@ -87,14 +85,16 @@ const WhyCryptonite = () => {
               "
             >
               {/* Icon Container */}
-              <div className="
+              <div
+                className="
                 bg-[#0f1916]
                 w-12 h-12 
                 rounded-lg 
                 flex items-center justify-center
                 border border-[#1f2d27]
                 mb-5
-              ">
+              "
+              >
                 {item.icon}
               </div>
 
@@ -102,13 +102,10 @@ const WhyCryptonite = () => {
                 {item.title}
               </h3>
 
-              <p className="text-gray-400 leading-relaxed">
-                {item.desc}
-              </p>
+              <p className="text-white leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

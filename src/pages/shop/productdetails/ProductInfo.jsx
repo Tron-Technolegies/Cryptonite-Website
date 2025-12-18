@@ -52,7 +52,7 @@ const ProductInfo = () => {
       return;
     }
 
-    if (addingToCart) return;
+    if (!product.is_available || addingToCart) return;
 
     try {
       setAddingToCart(true);
@@ -66,12 +66,13 @@ const ProductInfo = () => {
       navigate("/cart");
     } catch (err) {
       console.error("Add to cart failed:", err);
-      toast.error("Please login to add the products");
+      toast.error("Unable to add product to cart");
     } finally {
       setAddingToCart(false);
     }
   };
 
+  /* ================= LOADING / ERROR ================= */
   if (loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
@@ -90,6 +91,7 @@ const ProductInfo = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
+      {/* BACK */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-8"
@@ -99,6 +101,7 @@ const ProductInfo = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* ================= LEFT ================= */}
         <div>
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <img
@@ -107,69 +110,66 @@ const ProductInfo = () => {
               className="w-full object-contain"
             />
           </div>
-
-          {/* Thumbnails */}
-          <div className="flex gap-3 mt-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="w-24 h-24 border border-gray-200 rounded-lg bg-gray-50"
-              >
-                <img
-                  src={product.image}
-                  alt="thumb"
-                  className="w-full h-full object-contain p-2 opacity-70"
-                />
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* ================= RIGHT ================= */}
         <div>
           {/* BADGES */}
-          <div className="flex gap-3 mb-3">
+          <div className="flex flex-wrap gap-3 mb-4">
             <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-              {product.brand || "Bitmain"}
+              {product.brand || "Unknown Brand"}
             </span>
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
-              In Stock
+
+            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
+              {product.category?.toUpperCase()}
+            </span>
+
+            {product.is_available ? (
+              <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
+                In Stock
+              </span>
+            ) : (
+              <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs">
+                Out of Stock
+              </span>
+            )}
+
+            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">
+              {product.delivery_type === "future"
+                ? `Delivery on ${product.delivery_date}`
+                : "Spot Delivery"}
             </span>
           </div>
 
           {/* TITLE */}
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
             {product.model_name}
           </h1>
 
-          {/* RATING */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <span className="text-green-500">★★★★★</span>
-            <span>(447 reviews)</span>
-          </div>
-
           {/* PRICE */}
-          <div className="flex items-center gap-4 mb-6">
-            <p className="text-3xl font-bold text-green-600">
-              ${product.price}
+          <p className="text-3xl font-bold text-green-600 mb-1">
+            ${product.price}
+          </p>
+
+          {product.hosting_fee_per_kw && (
+            <p className="text-sm text-gray-500 mb-6">
+              Hosting fee: ${product.hosting_fee_per_kw} / kW
             </p>
-            <p className="line-through text-gray-400">$3680</p>
-            <span className="text-green-600 text-xs bg-green-100 px-2 py-0.5 rounded-full">
-              Save 15%
-            </span>
-          </div>
+          )}
 
           {/* DESCRIPTION */}
           <p className="text-gray-600 leading-relaxed max-w-xl mb-8">
             {product.description}
           </p>
 
-          {/* STATS */}
+          {/* SPECS */}
           <div className="grid grid-cols-2 gap-4 mb-8">
             <Spec icon={<FiCpu />} label="Hashrate" value={product.hashrate} />
             <Spec icon={<FiZap />} label="Power" value={product.power} />
-            <Spec icon={<FiZap />} label="Efficiency" value="29.5 J/TH" />
-            <Spec icon={<FiVolume2 />} label="Noise Level" value="75 dB" />
+            <Spec icon={<FiZap />} label="Efficiency" value={product.efficiency || "—"} />
+            <Spec icon={<FiVolume2 />} label="Noise" value={product.noise || "—"} />
+            <Spec label="Algorithm" value={product.algorithm} />
+            <Spec label="Minable Coins" value={product.minable_coins} />
           </div>
 
           {/* CART */}
@@ -192,33 +192,31 @@ const ProductInfo = () => {
 
               <button
                 onClick={handleAddToCart}
-                disabled={addingToCart}
+                disabled={!product.is_available || addingToCart}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition
                   ${
-                    addingToCart
+                    !product.is_available
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : addingToCart
                       ? "bg-green-300 cursor-not-allowed text-white"
                       : "bg-green-500 hover:bg-green-600 text-white"
                   }`}
               >
                 <FiShoppingCart />
-                {addingToCart ? "Adding..." : "Add to Cart"}
+                {!product.is_available
+                  ? "Out of Stock"
+                  : addingToCart
+                  ? "Adding..."
+                  : "Add to Cart"}
               </button>
             </div>
           </div>
 
           {/* TRUST */}
           <div className="grid grid-cols-3 gap-6 text-center text-xs text-gray-600">
-            <Trust icon={<FiShield />} title="12 months" text="Warranty" />
-            <Trust
-              icon={<FiTruck />}
-              title="Free Shipping"
-              text="Orders 5+ units"
-            />
-            <Trust
-              icon={<FiBox />}
-              title="Secure Packaging"
-              text="Insured delivery"
-            />
+            <Trust icon={<FiShield />} title="12 Months" text="Warranty" />
+            <Trust icon={<FiTruck />} title="Secure" text="Global Shipping" />
+            <Trust icon={<FiBox />} title="Insured" text="Safe Packaging" />
           </div>
         </div>
       </div>
@@ -226,9 +224,11 @@ const ProductInfo = () => {
   );
 };
 
+/* ================= SMALL COMPONENTS ================= */
+
 const Spec = ({ icon, label, value }) => (
   <div className="border border-green-200 bg-green-50 rounded-lg p-4 flex items-center gap-3">
-    <div className="text-green-500 text-lg">{icon}</div>
+    {icon && <div className="text-green-500 text-lg">{icon}</div>}
     <div>
       <p className="text-xs text-gray-500">{label}</p>
       <p className="font-semibold text-gray-900">{value}</p>

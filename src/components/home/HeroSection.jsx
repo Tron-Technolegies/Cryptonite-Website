@@ -50,8 +50,9 @@ const HeroSection = () => {
 
         {/* DESCRIPTION */}
         <p className="mt-5 text-gray-300 max-w-2xl mx-auto dm-sans text-sm sm:text-base md:text-lg leading-relaxed">
-          Fast return on investment with premium hosting infrastructure. Enterprise-grade facilities
-          powered by 100% renewable energy across global locations.
+          We design, deploy, and operate professional Bitcoin mining infrastructure
+for miners who care about uptime, power discipline, and long-term execution
+
         </p>
 
         {/* CTA */}

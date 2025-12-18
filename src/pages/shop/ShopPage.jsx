@@ -5,13 +5,17 @@ import { FiSearch } from "react-icons/fi";
 import { getImageUrl } from "../../utils/imageUtils";
 
 const ShopPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [manufacturer, setManufacturer] = useState("All Manufacturers");
   const [priceFilter, setPriceFilter] = useState("All prices");
   const [loading, setLoading] = useState(true);
 
-  /*fetching products*/
+  /* ================= FETCH PRODUCTS ================= */
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -29,15 +33,19 @@ const ShopPage = () => {
 
   const getPriceValue = (price) => Number(price ?? 0);
 
-  /*productFiltering */
+  /* ================= FILTERING ================= */
   const brands = ["All Manufacturers", "Bitmain", "Whatsminer"];
 
   const filteredProducts = products
-    .filter((p) => p?.model_name?.toLowerCase().includes(search.toLowerCase()))
+    .filter((p) =>
+      p?.model_name?.toLowerCase().includes(search.toLowerCase())
+    )
     .filter((p) =>
       manufacturer === "All Manufacturers"
         ? true
-        : p?.model_name?.toLowerCase().includes(manufacturer.toLowerCase())
+        : p?.model_name
+            ?.toLowerCase()
+            .includes(manufacturer.toLowerCase())
     )
     .filter((p) => {
       const val = getPriceValue(p?.price);
@@ -58,6 +66,7 @@ const ShopPage = () => {
   return (
     <div className="bg-[#F9FAFB] min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-6">
+        {/* ================= HEADER ================= */}
         <h1 className="text-5xl font-extrabold tracking-tight josefin-sans text-gray-900 leading-tight">
           MINING <br /> EQUIPMENT
         </h1>
@@ -66,7 +75,7 @@ const ShopPage = () => {
           Professional grade ASIC miners from industry leading manufacturers.
         </p>
 
-        {/* filter bar */}
+        {/* ================= FILTER BAR ================= */}
         <div className="mt-10 flex flex-col md:flex-row gap-6">
           {/* SEARCH */}
           <div className="relative w-full md:w-[50%]">
@@ -80,6 +89,7 @@ const ShopPage = () => {
             />
           </div>
 
+          {/* BRAND FILTER */}
           <select
             value={manufacturer}
             onChange={(e) => setManufacturer(e.target.value)}
@@ -90,6 +100,7 @@ const ShopPage = () => {
             ))}
           </select>
 
+          {/* PRICE FILTER */}
           <select
             value={priceFilter}
             onChange={(e) => setPriceFilter(e.target.value)}
@@ -102,13 +113,14 @@ const ShopPage = () => {
           </select>
         </div>
 
-        {/* products data */}
+        {/* ================= PRODUCTS GRID ================= */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-14">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-3xl border border-gray-200 shadow-md hover:shadow-xl transition p-8"
             >
+              {/* IMAGE */}
               <div className="flex justify-center">
                 <img
                   src={getImageUrl(product.image)}
@@ -118,6 +130,7 @@ const ShopPage = () => {
                 />
               </div>
 
+              {/* TITLE & PRICE */}
               <div className="flex justify-between items-center mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">
                   {product.model_name}
@@ -127,10 +140,12 @@ const ShopPage = () => {
                 </span>
               </div>
 
+              {/* DESCRIPTION */}
               <p className="text-gray-600 text-sm mt-2">
                 {product.description?.substring(0, 110)}...
               </p>
 
+              {/* SPECS */}
               <div className="mt-4 text-sm space-y-1">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Hashrate</span>
@@ -146,17 +161,14 @@ const ShopPage = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 mt-6">
+              {/* SINGLE CTA BUTTON */}
+              <div className="mt-6">
                 <Link
                   to={`/product/${product.id}`}
-                  className="flex-1 border border-gray-300 rounded-full py-2 text-center text-gray-700 font-medium hover:bg-gray-100 transition"
+                  className="block w-full bg-green-600 hover:bg-green-700 text-white rounded-full py-2.5 text-center font-semibold transition"
                 >
-                  Learn More
+                  Know More
                 </Link>
-
-                <button className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-full py-2 font-medium transition">
-                  Order Now
-                </button>
               </div>
             </div>
           ))}
