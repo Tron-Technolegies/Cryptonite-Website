@@ -3,7 +3,7 @@ import testimonials from "../../utils/testimonials";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const Testimonials = () => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
 
   const prev = () => setActive(active === 0 ? testimonials.length - 1 : active - 1);
   const next = () => setActive((active + 1) % testimonials.length);
@@ -30,7 +30,11 @@ const Testimonials = () => {
         {/* LEFT BUTTON */}
         <button
           onClick={prev}
-          className="absolute left-6 md:left-20 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg"
+          className="absolute left-2 sm:left-6 md:left-20 
+             w-10 h-10 md:w-12 md:h-12 
+             rounded-full bg-white text-black 
+             flex items-center justify-center shadow-lg 
+             z-20"
         >
           <FiChevronLeft size={22} />
         </button>
@@ -83,7 +87,11 @@ const Testimonials = () => {
         {/* RIGHT BUTTON */}
         <button
           onClick={next}
-          className="absolute right-6 md:right-20 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-lg"
+          className="absolute right-2 sm:right-6 md:right-20 
+             w-10 h-10 md:w-12 md:h-12 
+             rounded-full bg-white text-black 
+             flex items-center justify-center shadow-lg 
+             z-20"
         >
           <FiChevronRight size={22} />
         </button>
