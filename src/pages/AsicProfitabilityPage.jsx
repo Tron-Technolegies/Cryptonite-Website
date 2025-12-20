@@ -3,12 +3,14 @@ import axiosClient from "../api/axiosClient";
 import CoinBadge from "../components/home/CoinBadge";
 import { getCoinByAlgorithm, profitBarWidth } from "../utils/asicUi";
 import { getImageUrl } from "../utils/imageUtils";
+import { useNavigate } from "react-router-dom";
 
 export default function AsicProfitabilityPage() {
   const [products, setProducts] = useState([]);
   const [coins, setCoins] = useState({});
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("profit");
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([axiosClient.get("/products/"), axiosClient.get("/asic-profitability/")]).then(
@@ -85,11 +87,17 @@ export default function AsicProfitabilityPage() {
 
             <tbody>
               {rows.map((p) => (
-                <tr key={p.id} className="border-t border-gray-800 hover:bg-[#161c1a]">
+                <tr
+                  key={p.id}
+                  onClick={() => navigate(`/product/${p.id}`)}
+                  className="border-t border-gray-800 
+                 hover:bg-[#161c1a] transition 
+                 cursor-pointer"
+                >
                   <td className="p-4 flex items-center gap-3">
                     <img
                       src={getImageUrl(p.image)}
-                      className="w-10 h-10 rounded"
+                      className="w-10 h-10 rounded object-cover"
                       alt={p.model_name}
                     />
                     <div>
@@ -100,6 +108,7 @@ export default function AsicProfitabilityPage() {
 
                   <td className="p-4 text-center">{p.hashrate}</td>
                   <td className="p-4 text-center">{p.power} W</td>
+
                   <td className="p-4 text-center">
                     <CoinBadge coin={p.coin} />
                   </td>

@@ -49,7 +49,13 @@ export default function AsicTopMiners() {
 
           <tbody>
             {miners.map((m) => (
-              <tr key={m.id} className="border-t border-gray-800 hover:bg-[#161c1a] transition">
+              <tr
+                key={m.id}
+                onClick={() => navigate(`/product/${m.id}`)}
+                className="border-t border-gray-800 
+                 hover:bg-[#161c1a] transition 
+                 cursor-pointer"
+              >
                 {/* MODEL */}
                 <td className="p-4 flex items-center gap-3">
                   <img
@@ -81,14 +87,6 @@ export default function AsicTopMiners() {
                 </td>
               </tr>
             ))}
-
-            {miners.length === 0 && (
-              <tr>
-                <td colSpan="5" className="p-6 text-center text-gray-400">
-                  No miners found
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>

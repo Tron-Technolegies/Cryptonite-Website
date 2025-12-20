@@ -3,7 +3,7 @@ import faqs from "../../utils/faq";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0); // First item open by default
+  const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);

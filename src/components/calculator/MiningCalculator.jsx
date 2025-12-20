@@ -15,6 +15,7 @@ export default function MiningCalculator() {
 
   const [btcPrice, setBtcPrice] = useState(0);
   const [hashValue, setHashValue] = useState(0.00000042);
+  const [useCustom, setUseCustom] = useState(false);
 
   // Results
   const EMPTY_RESULT = {
@@ -247,15 +248,45 @@ export default function MiningCalculator() {
           placeholder="eg :2"
           setValue={setPoolFee}
         />
-        <Input label="Bitcoin Price" unit="€" value={btcPrice} setValue={setBtcPrice} />
-        <Input label="Hash Value" unit="BTC" value={hashValue} setValue={setHashValue} />
+        <Input
+          label="Bitcoin Price"
+          unit="€"
+          value={btcPrice}
+          setValue={setBtcPrice}
+          disabled={!useCustom}
+        />
+
+        <Input
+          label="Hash Value"
+          unit="BTC"
+          value={hashValue}
+          setValue={setHashValue}
+          disabled={!useCustom}
+        />
+      </div>
+      <div className="mt-4">
+        {!useCustom ? (
+          <button
+            onClick={() => setUseCustom(true)}
+            className="text-sm text-green-700 font-semibold cursor-pointer underline"
+          >
+            Use custom Bitcoin price & hash value
+          </button>
+        ) : (
+          <button
+            onClick={() => setUseCustom(false)}
+            className="text-sm text-red-600 font-semibold cursor-pointer underline"
+          >
+            Reset to live values
+          </button>
+        )}
       </div>
 
       {/* ACTION BUTTONS */}
       <div className="flex gap-4 mt-6">
         <button
           onClick={handleCalculate}
-          className="bg-green-600 text-white flex items-center gap-2 px-6 py-2 rounded-lg font-semibold"
+          className="bg-green-600 text-white flex items-center gap-2 cursor-pointer px-6 py-2 rounded-lg font-semibold"
         >
           <CiCalculator1 /> Calculate Profits
         </button>
@@ -263,7 +294,7 @@ export default function MiningCalculator() {
         <button
           onClick={downloadPDF}
           disabled={!hasCalculated}
-          className="flex items-center gap-2 px-5 py-2 bg-white border rounded-lg disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2 bg-white cursor-pointer border rounded-lg disabled:opacity-50"
         >
           PDF <CgSoftwareDownload />
         </button>
@@ -328,17 +359,21 @@ function ResultCard({ title, subtitle, data }) {
   );
 }
 
-function Input({ label, unit, placeholder, value, setValue }) {
+function Input({ label, unit, placeholder, value, setValue, disabled = false }) {
   return (
     <div>
       <label className="text-sm font-medium text-[#7A7A7A]">{label}</label>
-      <div className="flex items-center bg-white rounded-2xl px-3 py-2 mt-1">
+      <div
+        className={`flex items-center bg-white rounded-2xl px-3 py-2 mt-1
+          ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
+      >
         <input
           type="number"
           value={value}
           placeholder={placeholder}
+          disabled={disabled}
           onChange={(e) => setValue(e.target.value)}
-          className="w-full outline-none placeholder:text-gray-400"
+          className="w-full outline-none placeholder:text-gray-400 disabled:bg-transparent"
         />
         <span className="text-xs text-[#7A7A7A] px-1 ml-2 rounded-full bg-[#E9E9E9]">{unit}</span>
       </div>
