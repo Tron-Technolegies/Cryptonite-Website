@@ -33,7 +33,7 @@ const UserProfilePage = () => {
 
           <ProfileField
             label="Full Name"
-            value={loading ? "—" : user?.full_name || user?.name || "—"}
+            value={loading ? "—" : user?.full_name || user?.username || "—"}
           />
 
           <ProfileField

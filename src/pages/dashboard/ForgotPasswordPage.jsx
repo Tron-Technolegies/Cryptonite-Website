@@ -1,43 +1,63 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import authApi from "../../api/authApi";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
-  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await authApi.forgotPassword({ email });
-      setSuccess("Password reset link sent! Check backend terminal.");
+      toast.success(res.data.detail);
+      setEmail("");
     } catch (err) {
-      alert(err.response?.data?.detail || "Something went wrong");
+      toast.error(err.response?.data?.detail || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white px-6">
-      <h1 className="text-3xl font-bold mb-4">Forgot Password</h1>
+    <div className="min-h-screen flex items-center justify-center bg-[#f7faf7] px-4">
+      <div className="bg-[#f4fbf4] rounded-2xl px-10 py-12 w-full max-w-md text-center">
+        <h1 className="text-xl font-semibold mb-8">Forget Password</h1>
 
-      <form className="w-full max-w-md space-y-4" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          className="w-full p-3 rounded bg-[#081a33] border border-[#14324f] text-white"
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="text-left">
+            <label className="text-sm text-gray-600 block mb-2">
+              Enter your email
+            </label>
+            <input
+              type="email"
+              placeholder="john@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-green-500"
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full py-2 bg-(--primary-color) rounded text-black font-semibold"
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium"
+          >
+            {loading ? "Sending..." : "Reset Password"}
+          </button>
+        </form>
+
+        <Link
+          to="/login"
+          className="inline-block mt-6 text-sm text-gray-500 hover:text-gray-700"
         >
-          Send Reset Link
-        </button>
-      </form>
-
-      {success && <p className="text-green-400 mt-4">{success}</p>}
+          Back to login
+        </Link>
+      </div>
     </div>
   );
 };
