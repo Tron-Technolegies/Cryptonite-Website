@@ -14,7 +14,6 @@ import UsersDetailPage from "../pages/dashboard/UsersDetailPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
 import RentCheckoutPage from "../pages/shop/RentCheckoutPage";
 import ForgotPasswordPage from "../pages/dashboard/ForgotPasswordPage";
-import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 import BlogPage from "../pages/BlogPage";
 import BlogDetails from "../components/blogs/BlogDetails";
 import ProductDetailsPage from "../pages/shop//ProductDetailsPage";
@@ -25,6 +24,8 @@ import PaymentSuccess from "../pages/shop/checkout/components/PaymentSuccess";
 import AsicProfitabilityPage from "../pages/AsicProfitabilityPage";
 import BundleProductPage from "../pages/bundleproducts/BundleProductPage";
 import BundleSinglePage from "../pages/bundleproducts/BundleSinglePage";
+import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
+// import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 
 const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -98,6 +99,14 @@ const AppRoutes = () => {
           path: "/verify-email/:uid/:token",
           element: <VerifyEmailPage />,
         },
+        {
+          path: "/forgot-password",
+          element: <ForgotPasswordPage/>
+        },
+       {
+        path: "/reset-password/:uid/:token",
+        element : <ResetPasswordPage/>
+       },
         {
           path: "/dashboard",
           element: (
