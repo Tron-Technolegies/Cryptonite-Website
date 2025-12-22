@@ -17,6 +17,7 @@ import CoinTicker from "../components/home/CoinTicker";
 import MinerProfitability from "../components/home/MinerProfitability";
 import AsicTopMiners from "../components/home/AsicTopMiners";
 import AnnouncementBar from "../components/header/AnnouncementBar";
+import BundleProductsSection from "../components/home/BundleProductsSection";
 
 const HomePage = () => {
   useEffect(() => {
@@ -36,6 +37,7 @@ const HomePage = () => {
       <AsicTopMiners />
       <ProductCards />
       <MiningLocations />
+      <BundleProductsSection />
       <WhyCryptonite />
       {/* <MinerProfitability/> */}
 

@@ -1,6 +1,4 @@
-
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/dfe8yna1k/image/upload/";
+const CLOUDINARY_BASE = "https://res.cloudinary.com/dfe8yna1k/image/upload/";
 
 export const getImageUrl = (image) => {
   if (!image) return "";
