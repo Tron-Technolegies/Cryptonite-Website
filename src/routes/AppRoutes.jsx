@@ -22,6 +22,8 @@ import CalculatorPage from "../pages/calculator/CalculatorPage";
 import CheckoutPage from "../pages/shop/checkout/CheckoutPage";
 import PaymentSuccess from "../pages/shop/checkout/components/PaymentSuccess";
 import AsicProfitabilityPage from "../pages/AsicProfitabilityPage";
+import BundleProductPage from "../pages/bundleproducts/BundleProductPage";
+import BundleSinglePage from "../pages/bundleproducts/BundleSinglePage";
 import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 // import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 
@@ -67,6 +69,8 @@ const AppRoutes = () => {
           path: "/product/:id",
           element: <ProductDetailsPage />,
         },
+        { path: "/bundles", element: <BundleProductPage /> },
+        { path: "/bundles/:id", element: <BundleSinglePage /> },
         {
           path: "/cart",
           element: <CartPage />,

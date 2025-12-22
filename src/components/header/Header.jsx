@@ -77,6 +77,7 @@ const Header = () => {
             { name: "Calculator", path: "/calculator" },
             // { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
+            { name: "Bundle Products", path: "/bundles" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
             <Link
@@ -187,6 +188,7 @@ const Header = () => {
             { name: "Calculator", path: "/calculator" },
             // { name: "Blogs", path: "/blogs" },
             { name: "Shop", path: "/shop" },
+            { name: "Bundle Products", path: "/bundles" },
             { name: "Contact", path: "/contact" },
           ].map((item) => (
             <Link
