@@ -4,6 +4,7 @@ import authApi from "../api/authApi";
 import { toast } from "react-toastify";
 import LoaderButton from "../components/common/LoaderButton";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -76,9 +77,12 @@ const LoginPage = () => {
           </div>
 
           <div className="text-right text-sm">
-            <span className="text-gray-600 cursor-pointer hover:underline">
-              Forgot Password
-            </span>
+            <Link
+              to="/forgot-password"
+              className="text-sm text-green-600 hover:underline"
+            >
+              Forgot password?
+            </Link>
           </div>
 
           <LoaderButton
