@@ -9,7 +9,7 @@ const Achievements = () => {
   ];
 
   return (
-    <section className="bg-[#F8FBF9] py-16 px-6 md:px-20">
+    <section className="bg-[#F8FBF9] dm-sans py-16 px-6 md:px-20">
       <div className="max-w-7xl mx-auto">
         {/* Stats Grid */}
         <div

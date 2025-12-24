@@ -8,6 +8,8 @@ import { getImageUrl } from "../../utils/imageUtils";
 export default function AsicTopMiners() {
   const [miners, setMiners] = useState([]);
   const navigate = useNavigate();
+  const ELECTRICITY_COST = 0.058; // $ / kWh
+  const REVENUE_PER_TH = 8.5; // $ / TH / day (example, realistic)
 
   useEffect(() => {
     Promise.all([axiosClient.get("/products/"), axiosClient.get("/asic-profitability/")]).then(
@@ -15,16 +17,30 @@ export default function AsicTopMiners() {
         const coins = cRes.data?.data?.coins || {};
 
         const rows = (pRes.data || []).map((p) => {
-          const coin = getCoinByAlgorithm(coins, p.algorithm);
-          if (!coin) return { ...p, profit: 0, coin: null };
+          const hashrate = Number(p.hashrate);
+          const power = Number(p.power);
+          const electricity = Number(p.hosting_fee_per_kw || 0);
 
-          const revenue = Number(coin.btc_revenue || 0) * Number(p.hashrate) * 100000;
-          const powerCost = (Number(p.power) / 1000) * 24 * Number(p.hosting_fee_per_kw);
+          if (!isFinite(hashrate) || !isFinite(power)) {
+            return { ...p, profit: 0, electricityCost: 0 };
+          }
 
-          return { ...p, coin, profit: revenue - powerCost };
+          /* ===== ESTIMATED REVENUE ===== */
+          const dailyRevenue = hashrate * 8.5; // $ / day (example)
+
+          /* ===== ELECTRICITY COST ===== */
+          const powerKW = power / 1000;
+          const electricityCost = powerKW * 24 * ELECTRICITY_COST;
+
+          const profit = dailyRevenue - electricityCost;
+
+          return {
+            ...p,
+            profit,
+            electricityCost,
+          };
         });
 
-        // sort + limit 5
         setMiners(rows.sort((a, b) => b.profit - a.profit).slice(0, 5));
       }
     );
@@ -43,6 +59,8 @@ export default function AsicTopMiners() {
               <th className="p-4 text-center">HASHRATE</th>
               <th className="p-4 text-center">POWER</th>
               <th className="p-4 text-center">COIN</th>
+              <th className="p-4 text-center">ELECTRICITY</th>
+
               <th className="p-4 text-right">PROFITABILITY</th>
             </tr>
           </thead>
@@ -74,6 +92,9 @@ export default function AsicTopMiners() {
 
                 <td className="p-4 text-center">
                   <CoinBadge coin={m.coin} />
+                </td>
+                <td className="p-4 text-center text-gray-400">
+                  ${m.electricityCost.toFixed(2)}/day
                 </td>
 
                 <td className="p-4 text-right">

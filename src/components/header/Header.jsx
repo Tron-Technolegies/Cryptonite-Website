@@ -70,7 +70,7 @@ const Header = () => {
         </Link>
 
         {/* DESKTOP MENU */}
-        <ul className="hidden md:flex items-center space-x-10 text-[16px] font-medium">
+        <ul className="hidden lg:flex items-center space-x-6 xl:space-x-10 text-[16px] font-medium">
           {[
             { name: "About", path: "/about" },
             { name: "Hosting", path: "/hosting" },
@@ -125,8 +125,7 @@ const Header = () => {
           </div>
         </ul>
 
-        {/* DESKTOP ACTIONS */}
-        <div className="hidden md:flex items-center space-x-6 text-xl">
+        <div className="hidden lg:flex items-center space-x-6 text-xl">
           <FiSearch
             className={`cursor-pointer ${hoverColor}`}
             onClick={() => setSearchOpen(true)}
@@ -142,7 +141,11 @@ const Header = () => {
           </Link>
 
           {isLoggedIn ? (
-            <Link to="/dashboard" className="text-2xl">
+            <Link
+              to="/dashboard"
+              className="text-2xl cursor-pointer hover:text-green-400 transition"
+              title="Profile"
+            >
               <FiUser />
             </Link>
           ) : (
@@ -157,7 +160,7 @@ const Header = () => {
         </div>
 
         {/* MOBILE ICONS */}
-        <div className="md:hidden flex items-center gap-4 text-2xl">
+        <div className="lg:hidden flex items-center gap-4 text-2xl">
           <FiSearch onClick={() => setSearchOpen(true)} />
           <GiHamburgerMenu onClick={() => setIsOpen(true)} />
         </div>
@@ -246,13 +249,14 @@ const Header = () => {
           </div>
 
           {/* MOBILE AUTH */}
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <Link
-              to="/login"
+              to="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="mt-4 text-center px-4 py-2 rounded-full border border-white hover:bg-green-500 hover:text-black"
+              className="flex items-center gap-3 border-b border-white/10 pb-2 hover:text-green-400"
             >
-              Sign in
+              <FiUser />
+              <span>My Profile</span>
             </Link>
           )}
         </nav>
