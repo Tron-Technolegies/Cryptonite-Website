@@ -15,7 +15,6 @@ const BundleSpecifications = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TABS.SPECIFICATIONS);
 
-  /* ================= FETCH BUNDLE ================= */
   useEffect(() => {
     const fetchBundleSpecs = async () => {
       try {

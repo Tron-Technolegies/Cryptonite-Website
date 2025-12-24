@@ -15,11 +15,12 @@ import cartApi from "../../../api/cartApi";
 import { toast } from "react-toastify";
 import { getImageUrl } from "../../../utils/imageUtils";
 
-const ProductInfo = () => {
+const ProductInfo = ({ setProduct }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [product, setProduct] = useState(null);
+  // ✅ USE DIFFERENT NAME
+  const [localProduct, setLocalProduct] = useState(null);
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState(false);
@@ -31,7 +32,9 @@ const ProductInfo = () => {
     const fetchProduct = async () => {
       try {
         const res = await productApi.getOne(id);
-        setProduct(res.data);
+
+        setLocalProduct(res.data); // local UI
+        setProduct(res.data); // 🔥 parent (GRAPH)
       } catch (err) {
         console.error("Error fetching product:", err);
         toast.error("Failed to load product");
@@ -41,7 +44,7 @@ const ProductInfo = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, setProduct]);
 
   /* ================= ADD TO CART ================= */
   const handleAddToCart = async () => {
@@ -52,13 +55,13 @@ const ProductInfo = () => {
       return;
     }
 
-    if (!product.is_available || addingToCart) return;
+    if (!localProduct.is_available || addingToCart) return;
 
     try {
       setAddingToCart(true);
 
       await cartApi.addToCart({
-        product_id: product.id,
+        product_id: localProduct.id,
         quantity: Number(qty),
       });
 
@@ -75,13 +78,11 @@ const ProductInfo = () => {
   /* ================= LOADING / ERROR ================= */
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
-        Loading...
-      </div>
+      <div className="min-h-[70vh] flex items-center justify-center text-gray-600">Loading...</div>
     );
   }
 
-  if (!product) {
+  if (!localProduct) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
         Product not found
@@ -101,30 +102,30 @@ const ProductInfo = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* ================= LEFT ================= */}
+        {/* LEFT */}
         <div>
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <img
-              src={getImageUrl(product.image)}
-              alt={product.model_name}
+              src={getImageUrl(localProduct.image)}
+              alt={localProduct.model_name}
               className="w-full object-contain"
             />
           </div>
         </div>
 
-        {/* ================= RIGHT ================= */}
+        {/* RIGHT */}
         <div>
           {/* BADGES */}
           <div className="flex flex-wrap gap-3 mb-4">
             <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-              {product.brand || "Unknown Brand"}
+              {localProduct.brand || "Unknown Brand"}
             </span>
 
             <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs">
-              {product.category?.toUpperCase()}
+              {localProduct.category?.toUpperCase()}
             </span>
 
-            {product.is_available ? (
+            {localProduct.is_available ? (
               <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
                 In Stock
               </span>
@@ -135,41 +136,35 @@ const ProductInfo = () => {
             )}
 
             <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">
-              {product.delivery_type === "future"
-                ? `Delivery on ${product.delivery_date}`
+              {localProduct.delivery_type === "future"
+                ? `Delivery on ${localProduct.delivery_date}`
                 : "Spot Delivery"}
             </span>
           </div>
 
           {/* TITLE */}
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {product.model_name}
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{localProduct.model_name}</h1>
 
           {/* PRICE */}
-          <p className="text-3xl font-bold text-green-600 mb-1">
-            ${product.price}
-          </p>
+          <p className="text-3xl font-bold text-green-600 mb-1">${localProduct.price}</p>
 
-          {product.hosting_fee_per_kw && (
+          {localProduct.hosting_fee_per_kw && (
             <p className="text-sm text-gray-500 mb-6">
-              Hosting fee: ${product.hosting_fee_per_kw} / kW
+              Hosting fee: ${localProduct.hosting_fee_per_kw} / kW
             </p>
           )}
 
           {/* DESCRIPTION */}
-          <p className="text-gray-600 leading-relaxed max-w-xl mb-8">
-            {product.description}
-          </p>
+          <p className="text-gray-600 leading-relaxed max-w-xl mb-8">{localProduct.description}</p>
 
           {/* SPECS */}
           <div className="grid grid-cols-2 gap-4 mb-8">
-            <Spec icon={<FiCpu />} label="Hashrate" value={product.hashrate} />
-            <Spec icon={<FiZap />} label="Power" value={product.power} />
-            <Spec icon={<FiZap />} label="Efficiency" value={product.efficiency || "—"} />
-            <Spec icon={<FiVolume2 />} label="Noise" value={product.noise || "—"} />
-            <Spec label="Algorithm" value={product.algorithm} />
-            <Spec label="Minable Coins" value={product.minable_coins} />
+            <Spec icon={<FiCpu />} label="Hashrate" value={localProduct.hashrate} />
+            <Spec icon={<FiZap />} label="Power" value={localProduct.power} />
+            <Spec icon={<FiZap />} label="Efficiency" value={localProduct.efficiency || "—"} />
+            <Spec icon={<FiVolume2 />} label="Noise" value={localProduct.noise || "—"} />
+            <Spec label="Algorithm" value={localProduct.algorithm} />
+            <Spec label="Minable Coins" value={localProduct.minable_coins} />
           </div>
 
           {/* CART */}
@@ -192,10 +187,10 @@ const ProductInfo = () => {
 
               <button
                 onClick={handleAddToCart}
-                disabled={!product.is_available || addingToCart}
+                disabled={!localProduct.is_available || addingToCart}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition
                   ${
-                    !product.is_available
+                    !localProduct.is_available
                       ? "bg-gray-300 cursor-not-allowed"
                       : addingToCart
                       ? "bg-green-300 cursor-not-allowed text-white"
@@ -203,7 +198,7 @@ const ProductInfo = () => {
                   }`}
               >
                 <FiShoppingCart />
-                {!product.is_available
+                {!localProduct.is_available
                   ? "Out of Stock"
                   : addingToCart
                   ? "Adding..."

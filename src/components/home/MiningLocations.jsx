@@ -8,10 +8,10 @@ const MiningLocations = () => {
   return (
     <section className="bg-white py-20 px-6 md:px-16">
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl josefin-sans font-extrabold text-black uppercase tracking-wide josefin-sans">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-black uppercase tracking-wide josefin-sans">
           GLOBAL MINING LOCATIONS
         </h2>
-        <p className="text-(text--black-color) mt-2 text-lg dm-sans">
+        <p className="text-black mt-2 text-lg dm-sans">
           Strategic data centers worldwide powered by 100% renewable energy
         </p>
       </div>
@@ -21,10 +21,20 @@ const MiningLocations = () => {
         {topLocations.map((location) => (
           <div
             key={location.id}
-            className="border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg overflow-hidden bg-white transition"
+            className="border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg bg-white transition overflow-hidden"
           >
             {/* IMAGE */}
-            <img src={location.image} alt={location.name} className="w-full h-56 object-cover" />
+            <div className="relative">
+              <img src={location.image} alt={location.name} className="w-full h-56 object-cover" />
+
+              {/* FULL LABEL */}
+              <span
+                className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 
+                               text-xs font-bold rounded-full tracking-wider shadow-md"
+              >
+                FULL
+              </span>
+            </div>
 
             {/* CONTENT */}
             <div className="p-6">
@@ -45,7 +55,6 @@ const MiningLocations = () => {
 
               {/* SPECS */}
               <div className="mt-4 space-y-3 text-sm">
-                {/* Capacity */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-gray-600">
                     <FiZap className="text-(--primary-color)" />
@@ -54,7 +63,6 @@ const MiningLocations = () => {
                   <span className="font-semibold text-black">{location.capacity}</span>
                 </div>
 
-                {/* Hash Rate */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-gray-600">
                     <FiTrendingUp className="text-(--primary-color)" />
@@ -63,12 +71,9 @@ const MiningLocations = () => {
                   <span className="font-semibold text-black">{location.hashRateCapacity}</span>
                 </div>
 
-                {/* Energy */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-gray-600">⚡ Energy</div>
-                  <span className="font-semibold text-black text-right">
-                    {location.energySource}
-                  </span>
+                  <span className="font-semibold text-black">{location.energySource}</span>
                 </div>
               </div>
             </div>

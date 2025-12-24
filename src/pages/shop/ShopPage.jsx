@@ -8,7 +8,7 @@ const ShopPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   const [products, setProducts] = useState([]);
   const [bundles, setBundles] = useState([]);
   const [search, setSearch] = useState("");
@@ -23,9 +23,9 @@ const ShopPage = () => {
       try {
         const [productsRes, bundlesRes] = await Promise.all([
           productApi.getAll(),
-          productApi.getBundles()
+          productApi.getBundles(),
         ]);
-        
+
         setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
         setBundles(Array.isArray(bundlesRes.data) ? bundlesRes.data : []);
       } catch (error) {
@@ -46,15 +46,15 @@ const ShopPage = () => {
 
   // Combine products and bundles for filtering
   const allItems = [
-    ...products.map(p => ({ ...p, type: 'product' })),
-    ...bundles.map(b => ({ ...b, type: 'bundle' }))
+    ...products.map((p) => ({ ...p, type: "product" })),
+    ...bundles.map((b) => ({ ...b, type: "bundle" })),
   ];
 
   const filteredItems = allItems
     .filter((item) => {
       // Filter by product type (All/Products/Bundles)
-      if (productType === "Products") return item.type === 'product';
-      if (productType === "Bundles") return item.type === 'bundle';
+      if (productType === "Products") return item.type === "product";
+      if (productType === "Bundles") return item.type === "bundle";
       return true;
     })
     .filter((item) => {
@@ -66,7 +66,7 @@ const ShopPage = () => {
     .filter((item) => {
       // Manufacturer filter (only applies to products)
       if (manufacturer === "All Manufacturers") return true;
-      if (item.type === 'bundle') return true; // Don't filter bundles by manufacturer
+      if (item.type === "bundle") return true; // Don't filter bundles by manufacturer
       return item?.model_name?.toLowerCase().includes(manufacturer.toLowerCase());
     })
     .filter((item) => {
@@ -151,7 +151,7 @@ const ShopPage = () => {
         {/* ================= PRODUCTS GRID ================= */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-14">
           {filteredItems.map((item) => {
-            const isBundle = item.type === 'bundle';
+            const isBundle = item.type === "bundle";
             const itemName = isBundle ? item.bundle_name : item.model_name;
             const itemPrice = isBundle ? item.discounted_price : item.price;
             const originalPrice = isBundle ? item.original_price : null;
@@ -184,16 +184,18 @@ const ShopPage = () => {
 
                 {/* TITLE & PRICE */}
                 <div className="flex justify-between items-center mt-5">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    {itemName}
-                  </h2>
+                  <h2 className="text-lg font-semibold text-gray-900">{itemName}</h2>
                   <div className="flex flex-col items-end">
                     {isBundle && originalPrice && (
-                      <span className="text-gray-400 text-xs line-through">
-                        ${originalPrice}
-                      </span>
+                      <span className="text-gray-400 text-xs line-through">${originalPrice}</span>
                     )}
-                    <span className={`${isBundle ? 'bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700' : 'bg-[#E7F8E7] text-green-600'} font-semibold px-4 py-1 rounded-full`}>
+                    <span
+                      className={`${
+                        isBundle
+                          ? "bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700"
+                          : "bg-[#E7F8E7] text-green-600"
+                      } font-semibold px-4 py-1 rounded-full`}
+                    >
                       ${itemPrice}
                     </span>
                   </div>
@@ -238,7 +240,11 @@ const ShopPage = () => {
                 <div className="mt-6">
                   <Link
                     to={isBundle ? `/bundle/${itemId}` : `/product/${itemId}`}
-                    className={`block w-full ${isBundle ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700' : 'bg-green-600 hover:bg-green-700'} text-white rounded-full py-2.5 text-center font-semibold transition`}
+                    className={`block w-full ${
+                      isBundle
+                        ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                        : "bg-green-600 hover:bg-green-700"
+                    } text-white rounded-full py-2.5 text-center font-semibold transition`}
                   >
                     Know More
                   </Link>
