@@ -7,7 +7,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /* ================= LOAD CART (PRESERVE STRUCTURE) ================= */
+  /* ================= LOAD CART ================= */
   const loadCart = async () => {
     const token = localStorage.getItem("access");
 
@@ -20,13 +20,10 @@ export const CartProvider = ({ children }) => {
     try {
       const res = await cartApi.getCart();
 
-      // ✅ PRESERVE ORIGINAL STRUCTURE - Don't strip product object
       const normalizedCart = Array.isArray(res.data)
         ? res.data.map((item) => ({
             id: item.id,
             quantity: Number(item.quantity ?? 1),
-            
-            // ✅ KEEP ORIGINAL PRODUCT OBJECT
             product: item.product || {
               id: item.product_id,
               name: item.product_name ?? item.name ?? "Product",
@@ -53,8 +50,7 @@ export const CartProvider = ({ children }) => {
         product_id: productId,
         quantity: qty,
       });
-      
-      // Reload cart after adding
+
       await loadCart();
       return res;
     } catch (err) {
@@ -66,13 +62,13 @@ export const CartProvider = ({ children }) => {
   /* ================= UPDATE QUANTITY ================= */
   const updateQty = async (cartItemId, newQty) => {
     if (newQty < 1) {
-      // If quantity is 0 or less, remove the item
       await removeFromCart(cartItemId);
       return;
     }
 
     try {
-      await cartApi.updateCart(cartItemId, { quantity: newQty });
+      // ✅ FIXED METHOD NAME
+      await cartApi.updateQty(cartItemId, { quantity: newQty });
       await loadCart();
     } catch (err) {
       console.error("Update qty error:", err);
@@ -83,7 +79,8 @@ export const CartProvider = ({ children }) => {
   /* ================= REMOVE ITEM ================= */
   const removeFromCart = async (cartItemId) => {
     try {
-      await cartApi.deleteItem(cartItemId);
+      // ✅ FIXED METHOD NAME
+      await cartApi.removeItem(cartItemId);
       await loadCart();
     } catch (err) {
       console.error("Remove item error:", err);
@@ -91,14 +88,12 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  /* ================= CLEAR CART (AFTER PURCHASE) ================= */
+  /* ================= CLEAR CART ================= */
   const clearCart = async () => {
     try {
-      // If you have a clear cart endpoint
-      // await cartApi.clearCart();
-      
-      // Otherwise remove items one by one
-      await Promise.all(cart.map(item => cartApi.deleteItem(item.id)));
+      await Promise.all(
+        cart.map((item) => cartApi.removeItem(item.id))
+      );
       await loadCart();
     } catch (err) {
       console.error("Clear cart error:", err);

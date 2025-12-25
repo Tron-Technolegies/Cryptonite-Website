@@ -25,6 +25,7 @@ import AsicProfitabilityPage from "../pages/AsicProfitabilityPage";
 import BundleProductPage from "../pages/bundleproducts/BundleProductPage";
 import BundleSinglePage from "../pages/bundleproducts/BundleSinglePage";
 import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
+import UsersOrdersPage from "../pages/dashboard/UsersOrdersPage";
 // import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 
 const AppRoutes = () => {
@@ -86,6 +87,10 @@ const AppRoutes = () => {
         {
           path: "/payment-success",
           element: <PaymentSuccess />,
+        },
+        {
+          path: "/view-orders",
+          element : <UsersOrdersPage/>
         },
         {
           path: "/signup",

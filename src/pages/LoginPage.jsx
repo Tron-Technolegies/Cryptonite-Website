@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import authApi from "../api/authApi";
 import { toast } from "react-toastify";
 import LoaderButton from "../components/common/LoaderButton";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,7 +34,22 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       toast.success("Login successful");
-      navigate("/dashboard");
+
+      // ✅ HANDLE REDIRECT AFTER LOGIN
+      const redirectData = sessionStorage.getItem("redirectAfterLogin");
+
+      if (redirectData) {
+        const { path, state, productId } = JSON.parse(redirectData);
+
+        sessionStorage.removeItem("redirectAfterLogin");
+
+        // Add item to cart before checkout
+        await addToCart(productId, 1);
+
+        navigate(path, { state });
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       const message =
         error.response?.data?.detail || "Invalid email or password";
@@ -53,8 +70,8 @@ const LoginPage = () => {
             <input
               name="email"
               type="email"
-              className="w-full mt-1 px-3 py-2 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
               required
+              className="w-full mt-1 px-3 py-2 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
             />
           </div>
 
@@ -64,8 +81,8 @@ const LoginPage = () => {
               <input
                 name="password"
                 type={showPassword ? "text" : "password"}
-                className="w-full mt-1 px-3 py-2 pr-10 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
                 required
+                className="w-full mt-1 px-3 py-2 pr-10 rounded-md border border-gray-300 text-sm outline-none focus:ring-1 focus:ring-green-500"
               />
               <span
                 className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
@@ -79,7 +96,7 @@ const LoginPage = () => {
           <div className="text-right text-sm">
             <Link
               to="/forgot-password"
-              className="text-sm text-green-600 hover:underline"
+              className="text-green-600 hover:underline"
             >
               Forgot password?
             </Link>
