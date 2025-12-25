@@ -10,56 +10,45 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
     email: "",
     phone: "",
     quantity: "1",
-    duration: "3", // months
+    duration: "3",
   });
 
   const [errors, setErrors] = useState({});
 
-  /* ---------------- PRICE CALCULATION ---------------- */
-  const monthlyPrice = useMemo(() => {
+  /* ================= ESTIMATED PRICE (UI ONLY) ================= */
+  const estimatedMonthly = useMemo(() => {
     if (!product?.price) return 0;
     return Math.round(Number(product.price) / 12);
   }, [product]);
 
-  const totalMonthly = useMemo(() => {
-    return monthlyPrice * Number(form.quantity);
-  }, [monthlyPrice, form.quantity]);
-
-  const totalAmount = useMemo(() => {
-    return totalMonthly * Number(form.duration);
-  }, [totalMonthly, form.duration]);
+  const estimatedTotal = useMemo(() => {
+    return (
+      estimatedMonthly *
+      Number(form.quantity) *
+      Number(form.duration)
+    );
+  }, [estimatedMonthly, form.quantity, form.duration]);
 
   /* ---------------- HANDLERS ---------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    
-    // Clear error for this field
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: null }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!form.firstName.trim()) {
-      newErrors.firstName = "First name is required";
-    }
-
-    if (!form.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
-    }
+    if (!form.firstName.trim()) newErrors.firstName = "Required";
+    if (!form.lastName.trim()) newErrors.lastName = "Required";
 
     if (!form.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Required";
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = "Email is invalid";
+      newErrors.email = "Invalid email";
     }
 
-    if (!form.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    }
+    if (!form.phone.trim()) newErrors.phone = "Required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -67,179 +56,170 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate()) return;
 
-    if (validate()) {
-      onContinue({
-        rental_details: {
-          product_id: product.id,
-          quantity: Number(form.quantity),
-          duration_months: Number(form.duration),
-          first_name: form.firstName,
-          last_name: form.lastName,
-          email: form.email,
-          phone: form.phone,
-        },
-      });
-    }
+    onContinue({
+      rental_details: {
+        product_id: product.id,
+        quantity: Number(form.quantity),
+        duration_months: Number(form.duration),
+        first_name: form.firstName.trim(),
+        last_name: form.lastName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+      },
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* HEADER */}
       <div className="text-center">
-        <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+        <span className="inline-block bg-green-100 text-green-700 text-xs font-semibold px-4 py-1 rounded-full mb-2">
           Renting {product?.model_name}
         </span>
-        <h3 className="text-xl font-semibold">Complete Your Order</h3>
+        <h3 className="text-xl font-semibold">Rental Details</h3>
+        <p className="text-sm text-gray-500 mt-1">
+          Enter your details to continue with rental
+        </p>
       </div>
 
-      {/* NAME FIELDS */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+      {/* PERSONAL DETAILS */}
+      <div className="space-y-4">
+        <h4 className="text-sm font-semibold text-gray-700">
+          Personal Information
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             name="firstName"
-            value={form.firstName}
             placeholder="First Name"
+            value={form.firstName}
             onChange={handleChange}
-            className={`w-full border ${errors.firstName ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
+            className={`input ${errors.firstName && "border-red-500"}`}
           />
-          {errors.firstName && (
-            <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
-          )}
-        </div>
-        
-        <div>
           <input
             name="lastName"
-            value={form.lastName}
             placeholder="Last Name"
+            value={form.lastName}
             onChange={handleChange}
-            className={`w-full border ${errors.lastName ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
+            className={`input ${errors.lastName && "border-red-500"}`}
           />
-          {errors.lastName && (
-            <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
-          )}
         </div>
-      </div>
 
-      {/* EMAIL & PHONE */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             type="email"
             name="email"
+            placeholder="Email Address"
             value={form.email}
-            placeholder="Email"
             onChange={handleChange}
-            className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
+            className={`input ${errors.email && "border-red-500"}`}
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-          )}
-        </div>
-        
-        <div>
           <input
             type="tel"
             name="phone"
+            placeholder="Phone Number"
             value={form.phone}
-            placeholder="Phone"
             onChange={handleChange}
-            className={`w-full border ${errors.phone ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
+            className={`input ${errors.phone && "border-red-500"}`}
           />
-          {errors.phone && (
-            <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
-          )}
         </div>
       </div>
 
-      {/* QUANTITY & DURATION */}
-      <div className="grid grid-cols-2 gap-4">
-        <select
-          name="quantity"
-          value={form.quantity}
-          onChange={handleChange}
-          className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-        >
-          <option value="1">1 Unit</option>
-          <option value="2">2 Units</option>
-          <option value="3">3 Units</option>
-          <option value="4">4 Units</option>
-          <option value="5">5 Units</option>
-        </select>
+      {/* RENT OPTIONS */}
+      <div className="space-y-4">
+        <h4 className="text-sm font-semibold text-gray-700">
+          Rental Configuration
+        </h4>
 
-        <select
-          name="duration"
-          value={form.duration}
-          onChange={handleChange}
-          className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-        >
-          <option value="1">1 Month</option>
-          <option value="3">3 Months</option>
-          <option value="6">6 Months</option>
-          <option value="12">12 Months</option>
-        </select>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">
+              Quantity
+            </label>
+            <select
+              name="quantity"
+              value={form.quantity}
+              onChange={handleChange}
+              className="input"
+            >
+              {[1, 2, 3, 4, 5].map((q) => (
+                <option key={q} value={q}>
+                  {q} Unit{q > 1 && "s"}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-xs text-gray-500 mb-1 block">
+              Rental Duration
+            </label>
+            <select
+              name="duration"
+              value={form.duration}
+              onChange={handleChange}
+              className="input"
+            >
+              <option value="1">1 Month</option>
+              <option value="3">3 Months</option>
+              <option value="6">6 Months</option>
+              <option value="12">12 Months</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      {/* ORDER SUMMARY */}
-      <div className="bg-gray-50 p-5 rounded-xl border">
-        <div className="flex items-center gap-2 mb-3">
+      {/* ESTIMATED SUMMARY */}
+      <div className="bg-green-50 p-6 rounded-xl border border-green-200">
+        <div className="flex items-center gap-2 mb-4">
           <FiBox className="text-green-600" />
-          <h4 className="font-semibold">Order Summary</h4>
+          <h4 className="font-semibold text-green-700">
+            Estimated Cost Summary
+          </h4>
         </div>
 
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-600">
-              {product?.model_name} × {form.quantity}
-            </span>
-            <span className="font-medium">${totalMonthly}/month</span>
+            <span>Monthly estimate</span>
+            <span>${estimatedMonthly}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="text-gray-600">Duration</span>
-            <span className="font-medium">{form.duration} months</span>
+            <span>Units</span>
+            <span>{form.quantity}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span>Duration</span>
+            <span>{form.duration} months</span>
           </div>
 
           <hr className="my-2" />
 
-          <div className="flex justify-between text-base">
-            <span className="font-semibold">Total Amount</span>
-            <span className="text-green-600 font-bold text-lg">
-              ${totalAmount.toLocaleString()}
+          <div className="flex justify-between text-base font-semibold">
+            <span>Total estimate</span>
+            <span className="text-green-700">
+              ${estimatedTotal.toLocaleString()}
             </span>
           </div>
 
-          <p className="text-xs text-gray-500 mt-1">
-            (${totalMonthly}/month × {form.duration} months)
-          </p>
+          {/* <p className="text-xs text-gray-600 mt-2">
+            This amount is an estimate. Final pricing is securely calculated
+            on the server during checkout.
+          </p> */}
         </div>
       </div>
 
-      {/* SUBMIT BUTTON */}
+      {/* SUBMIT */}
       <button
         type="submit"
         disabled={loading}
-        className={`w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition-colors ${
-          loading ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
       >
-        {loading ? (
-          <span className="flex items-center justify-center">
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Processing...
-          </span>
-        ) : (
-          "Continue to Payment"
-        )}
+        {loading ? "Processing..." : "Continue to Payment"}
       </button>
-
-      <p className="text-xs text-center text-gray-500">
-        Your rental will be activated after payment confirmation
-      </p>
     </form>
   );
 };

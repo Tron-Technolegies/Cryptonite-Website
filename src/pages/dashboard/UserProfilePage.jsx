@@ -42,7 +42,7 @@ const UserProfilePage = () => {
             breakAll
           />
 
-          <ProfileField
+          {/* <ProfileField
             label="Phone Number"
             value={loading ? "—" : user?.phone || "—"}
           />
@@ -56,7 +56,7 @@ const UserProfilePage = () => {
                 ? formatDate(user.created_at)
                 : "—"
             }
-          />
+          /> */}
 
         </div>
       </div>
