@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  FiShoppingCart,
   FiShield,
   FiTruck,
   FiBox,
@@ -11,7 +10,6 @@ import {
   FiVolume2,
 } from "react-icons/fi";
 import productApi from "../../../api/productApi";
-import cartApi from "../../../api/cartApi";
 import { toast } from "react-toastify";
 import { getImageUrl } from "../../../utils/imageUtils";
 
@@ -19,11 +17,8 @@ const ProductInfo = ({ setProduct }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // ✅ USE DIFFERENT NAME
   const [localProduct, setLocalProduct] = useState(null);
-  const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [addingToCart, setAddingToCart] = useState(false);
 
   /* ================= FETCH PRODUCT ================= */
   useEffect(() => {
@@ -32,9 +27,8 @@ const ProductInfo = ({ setProduct }) => {
     const fetchProduct = async () => {
       try {
         const res = await productApi.getOne(id);
-
-        setLocalProduct(res.data); // local UI
-        setProduct(res.data); // 🔥 parent (GRAPH)
+        setLocalProduct(res.data);   // local UI
+        setProduct(res.data);        // parent (graph)
       } catch (err) {
         console.error("Error fetching product:", err);
         toast.error("Failed to load product");
@@ -46,39 +40,12 @@ const ProductInfo = ({ setProduct }) => {
     fetchProduct();
   }, [id, setProduct]);
 
-  /* ================= ADD TO CART ================= */
-  const handleAddToCart = async () => {
-    const token = localStorage.getItem("access");
-    if (!token) {
-      toast.info("Please login to add items to cart");
-      navigate("/login");
-      return;
-    }
-
-    if (!localProduct.is_available || addingToCart) return;
-
-    try {
-      setAddingToCart(true);
-
-      await cartApi.addToCart({
-        product_id: localProduct.id,
-        quantity: Number(qty),
-      });
-
-      toast.success("Product added to cart");
-      navigate("/cart");
-    } catch (err) {
-      console.error("Add to cart failed:", err);
-      toast.error("Unable to add product to cart");
-    } finally {
-      setAddingToCart(false);
-    }
-  };
-
   /* ================= LOADING / ERROR ================= */
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center text-gray-600">Loading...</div>
+      <div className="min-h-[70vh] flex items-center justify-center text-gray-600">
+        Loading...
+      </div>
     );
   }
 
@@ -143,10 +110,14 @@ const ProductInfo = ({ setProduct }) => {
           </div>
 
           {/* TITLE */}
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{localProduct.model_name}</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {localProduct.model_name}
+          </h1>
 
           {/* PRICE */}
-          <p className="text-3xl font-bold text-green-600 mb-1">${localProduct.price}</p>
+          <p className="text-3xl font-bold text-green-600 mb-1">
+            ${localProduct.price}
+          </p>
 
           {localProduct.hosting_fee_per_kw && (
             <p className="text-sm text-gray-500 mb-6">
@@ -155,56 +126,18 @@ const ProductInfo = ({ setProduct }) => {
           )}
 
           {/* DESCRIPTION */}
-          <p className="text-gray-600 leading-relaxed max-w-xl mb-8">{localProduct.description}</p>
+          <p className="text-gray-600 leading-relaxed max-w-xl mb-8">
+            {localProduct.description}
+          </p>
 
           {/* SPECS */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="grid grid-cols-2 gap-4 mb-10">
             <Spec icon={<FiCpu />} label="Hashrate" value={localProduct.hashrate} />
             <Spec icon={<FiZap />} label="Power" value={localProduct.power} />
             <Spec icon={<FiZap />} label="Efficiency" value={localProduct.efficiency || "—"} />
             <Spec icon={<FiVolume2 />} label="Noise" value={localProduct.noise || "—"} />
             <Spec label="Algorithm" value={localProduct.algorithm} />
             <Spec label="Minable Coins" value={localProduct.minable_coins} />
-          </div>
-
-          {/* CART */}
-          <div className="border border-gray-200 rounded-xl p-4 mb-8">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center border border-gray-300 rounded-md px-4 py-2 w-36">
-                <span className="text-sm text-gray-500 mr-2">Qty</span>
-                <select
-                  value={qty}
-                  onChange={(e) => setQty(e.target.value)}
-                  className="bg-transparent outline-none flex-1"
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <button
-                onClick={handleAddToCart}
-                disabled={!localProduct.is_available || addingToCart}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition
-                  ${
-                    !localProduct.is_available
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : addingToCart
-                      ? "bg-green-300 cursor-not-allowed text-white"
-                      : "bg-green-500 hover:bg-green-600 text-white"
-                  }`}
-              >
-                <FiShoppingCart />
-                {!localProduct.is_available
-                  ? "Out of Stock"
-                  : addingToCart
-                  ? "Adding..."
-                  : "Add to Cart"}
-              </button>
-            </div>
           </div>
 
           {/* TRUST */}
