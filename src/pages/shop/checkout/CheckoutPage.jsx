@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import paymentApi from "../../../api/paymentApi";
-import rentApi from "../../../api/rentApi";
 import hostingApi from "../../../api/hostingApi";
 import { getImageUrl } from "../../../utils/imageUtils";
 
@@ -18,9 +17,16 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { FiArrowLeft } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiPlus,
+  FiMinus,
+  FiTrash2,
+} from "react-icons/fi";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+);
 
 /* ================= PAYMENT FORM ================= */
 const PaymentForm = ({ onSuccess }) => {
@@ -40,6 +46,7 @@ const PaymentForm = ({ onSuccess }) => {
       const { error: submitError } = await elements.submit();
       if (submitError) {
         setError(submitError.message);
+        setPaying(false);
         return;
       }
 
@@ -50,12 +57,13 @@ const PaymentForm = ({ onSuccess }) => {
 
       if (confirmError) {
         setError(confirmError.message);
+        setPaying(false);
       } else {
         onSuccess();
       }
-    } catch {
+    } catch (err) {
+      console.error("Payment error:", err);
       setError("Payment failed. Please try again.");
-    } finally {
       setPaying(false);
     }
   };
@@ -63,12 +71,19 @@ const PaymentForm = ({ onSuccess }) => {
   return (
     <form onSubmit={handlePayment} className="space-y-6">
       <PaymentElement />
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+
       <button
+        type="submit"
         disabled={!stripe || paying}
-        className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold"
+        className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold disabled:opacity-50"
       >
-        {paying ? "Processing..." : "Pay Now"}
+        {paying ? "Processing Payment..." : "Pay Now"}
       </button>
     </form>
   );
@@ -78,7 +93,14 @@ const PaymentForm = ({ onSuccess }) => {
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { cart, reloadCart, loading } = useCart();
+
+  const {
+    cart,
+    reloadCart,
+    updateQty,       // ✅ correct function
+    removeFromCart,
+    loading,
+  } = useCart();
 
   const mode = location.state?.mode;       // buy / rent
   const buyType = location.state?.buyType; // ship / host
@@ -87,6 +109,7 @@ const CheckoutPage = () => {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [updatingItem, setUpdatingItem] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,10 +123,44 @@ const CheckoutPage = () => {
   const total = useMemo(() => {
     return cart.reduce(
       (sum, item) =>
-        sum + Number(item.product?.price || 0) * Number(item.quantity || 1),
+        sum +
+        Number(item.product?.price || 0) *
+          Number(item.quantity || 1),
       0
     );
   }, [cart]);
+
+  /* ================= QUANTITY HANDLERS ================= */
+  const handleUpdateQuantity = async (itemId, newQuantity) => {
+    if (newQuantity < 1) return;
+
+    setUpdatingItem(itemId);
+    try {
+      await updateQty(itemId, newQuantity); // ✅ FIXED
+      await reloadCart();
+    } catch (err) {
+      console.error("Failed to update quantity:", err);
+      alert("Failed to update quantity. Please try again.");
+    } finally {
+      setUpdatingItem(null);
+    }
+  };
+
+  const handleRemoveItem = async (itemId) => {
+    if (!confirm("Remove this item from cart?")) return;
+
+    setUpdatingItem(itemId);
+    try {
+      await removeFromCart(itemId);
+      await reloadCart();
+      if (cart.length === 1) navigate("/cart");
+    } catch (err) {
+      console.error("Failed to remove item:", err);
+      alert("Failed to remove item. Please try again.");
+    } finally {
+      setUpdatingItem(null);
+    }
+  };
 
   /* ================= CREATE PAYMENT ================= */
   const createPaymentIntent = async (data) => {
@@ -111,107 +168,214 @@ const CheckoutPage = () => {
     setError(null);
 
     try {
-      // ================= HOSTING =================
+      // HOSTING
       if (mode === "buy" && buyType === "host") {
         const hostingRes = await hostingApi.createHostingRequest(data);
 
         const paymentRes = await paymentApi.createPaymentIntent({
           purchase_type: "hosting",
-          hosting_request_id: hostingRes.data.hosting_request_id,
+          hosting_request_id:
+            hostingRes.data.hosting_request_id,
         });
 
         setClientSecret(paymentRes.data.client_secret);
         return;
       }
 
-      // ================= BUY (SHIP) =================
+      // BUY (SHIP)
       if (mode === "buy" && buyType === "ship") {
-        const res = await paymentApi.createPaymentIntent({
-          purchase_type: "buy",
-          address: data.address,
-        });
+        const res =
+          await paymentApi.createPaymentIntent({
+            purchase_type: "buy",
+            address: data.address,
+          });
 
         setClientSecret(res.data.client_secret);
         return;
       }
 
-      // ================= RENT =================
+      // RENT
       if (mode === "rent") {
-        const res = await paymentApi.createPaymentIntent({
-          purchase_type: "rent",
-          duration_days: data.duration_days,
-        });
+        const durationDays =
+          data.rental_details.duration_months * 30;
+
+        const product = cart[0]?.product;
+        const monthlyPrice = Math.round(
+          Number(product?.price || 0) / 12
+        );
+
+        const totalAmount =
+          monthlyPrice *
+          data.rental_details.quantity *
+          data.rental_details.duration_months;
+
+        const res =
+          await paymentApi.createPaymentIntent({
+            purchase_type: "rent",
+            product_id:
+              data.rental_details.product_id,
+            quantity:
+              data.rental_details.quantity,
+            duration_days: durationDays,
+            amount: totalAmount,
+            rental_details:
+              data.rental_details,
+          });
 
         setClientSecret(res.data.client_secret);
       }
     } catch (err) {
-      console.error(err.response?.data || err);
+      console.error("Payment intent error:", err);
       setError(
-        err.response?.data?.error ||
-          err.response?.data?.detail ||
-          "Unable to create payment intent"
+        err.response?.data?.message ||
+          "Unable to create payment."
       );
     } finally {
       setProcessing(false);
     }
   };
 
-  if (loading) return <div className="py-20 text-center">Loading...</div>;
-  if (success) return <PaymentSuccess />;
+  if (loading)
+    return (
+      <div className="py-20 text-center">
+        Loading...
+      </div>
+    );
+
+  if (success) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        <PaymentSuccess />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       {/* HEADER */}
       <div className="flex items-center gap-4 mb-8">
-        <button onClick={() => navigate(-1)} className="p-2 border rounded-full">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 border rounded-full"
+        >
           <FiArrowLeft />
         </button>
-        <h1 className="text-2xl font-semibold">Checkout</h1>
+        <h1 className="text-2xl font-semibold">
+          Checkout
+        </h1>
       </div>
 
       {/* ORDER SUMMARY */}
       <div className="bg-white border rounded-2xl p-6 mb-8">
-        <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          Order Summary
+        </h2>
 
         {cart.map((item) => (
-          <div key={item.id} className="flex items-center gap-4 mb-4">
+          <div
+            key={item.id}
+            className="flex items-center gap-4 pb-4 border-b"
+          >
             <img
               src={getImageUrl(item.product?.image)}
               className="w-16 h-16 object-contain bg-gray-50 rounded"
             />
+
             <div className="flex-1">
-              <p className="font-medium">{item.product?.model_name}</p>
-              <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+              <p className="font-medium">
+                {item.product?.model_name}
+              </p>
+              <p className="text-sm text-gray-500">
+                $
+                {Number(
+                  item.product?.price
+                ).toFixed(2)}{" "}
+                each
+              </p>
             </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() =>
+                  handleUpdateQuantity(
+                    item.id,
+                    item.quantity - 1
+                  )
+                }
+                disabled={
+                  item.quantity <= 1 ||
+                  updatingItem === item.id ||
+                  clientSecret
+                }
+              >
+                <FiMinus />
+              </button>
+
+              <span className="px-3">
+                {updatingItem === item.id
+                  ? "..."
+                  : item.quantity}
+              </span>
+
+              <button
+                onClick={() =>
+                  handleUpdateQuantity(
+                    item.id,
+                    item.quantity + 1
+                  )
+                }
+                disabled={
+                  updatingItem === item.id ||
+                  clientSecret
+                }
+              >
+                <FiPlus />
+              </button>
+
+              <button
+                onClick={() =>
+                  handleRemoveItem(item.id)
+                }
+                className="text-red-500"
+                disabled={clientSecret}
+              >
+                <FiTrash2 />
+              </button>
+            </div>
+
             <p className="font-semibold text-green-600">
-              ${(item.product.price * item.quantity).toFixed(2)}
+              $
+              {(
+                item.product.price *
+                item.quantity
+              ).toFixed(2)}
             </p>
           </div>
         ))}
 
-        <div className="border-t pt-4 flex justify-between text-lg font-semibold">
+        <div className="flex justify-between mt-4 text-lg font-semibold">
           <span>Total</span>
-          <span className="text-green-600">${total.toFixed(2)}</span>
+          <span className="text-green-600">
+            ${total.toFixed(2)}
+          </span>
         </div>
       </div>
 
       {/* DETAILS FORM */}
       {!clientSecret && (
         <div className="bg-white border rounded-2xl p-6 mb-8">
-          <h2 className="text-lg font-semibold mb-4">
-            {mode === "rent"
-              ? "Rental Details"
-              : buyType === "host"
-              ? "Hosting Details"
-              : "Shipping Details"}
-          </h2>
-
           {mode === "buy" && buyType === "ship" && (
-            <ShippingForm onContinue={createPaymentIntent} loading={processing} />
+            <ShippingForm
+              onContinue={createPaymentIntent}
+              loading={processing}
+            />
           )}
 
           {mode === "buy" && buyType === "host" && (
-            <HostForm onContinue={createPaymentIntent} loading={processing} />
+            <HostForm
+              onContinue={createPaymentIntent}
+              loading={processing}
+            />
           )}
 
           {mode === "rent" && (
@@ -223,7 +387,9 @@ const CheckoutPage = () => {
           )}
 
           {error && (
-            <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
+            <p className="text-red-500 text-center mt-4">
+              {error}
+            </p>
           )}
         </div>
       )}
@@ -231,9 +397,15 @@ const CheckoutPage = () => {
       {/* PAYMENT */}
       {clientSecret && (
         <div className="bg-white border rounded-2xl p-6">
-          <h2 className="text-lg font-semibold mb-4">Payment</h2>
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <PaymentForm onSuccess={() => setSuccess(true)} />
+          <Elements
+            stripe={stripePromise}
+            options={{ clientSecret }}
+          >
+            <PaymentForm
+              onSuccess={() =>
+                setSuccess(true)
+              }
+            />
           </Elements>
         </div>
       )}
