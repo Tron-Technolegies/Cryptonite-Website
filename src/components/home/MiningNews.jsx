@@ -1,5 +1,6 @@
 import React from "react";
 import { FiUser, FiCalendar } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const MiningNews = () => {
   const articles = [
@@ -12,7 +13,7 @@ const MiningNews = () => {
       author: "Michael Chen",
       date: "June 10, 2025",
       button: "Read Article",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475", // dummy
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
       reversed: false,
     },
     {
@@ -24,7 +25,7 @@ const MiningNews = () => {
       author: null,
       date: null,
       button: "Start Mining",
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d", // dummy
+      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
       reversed: true,
     },
   ];
@@ -61,22 +62,18 @@ const MiningNews = () => {
 
             {/* CONTENT */}
             <div className="w-full lg:w-1/2">
-              {/* CATEGORY */}
               <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                 {article.category}
               </span>
 
-              {/* TITLE */}
               <h3 className="text-2xl md:text-3xl font-extrabold text-black mt-4 leading-snug">
                 {article.title}
               </h3>
 
-              {/* DESCRIPTION */}
               <p className="text-gray-600 mt-3 whitespace-pre-line text-sm md:text-base leading-relaxed">
                 {article.description}
               </p>
 
-              {/* AUTHOR + DATE */}
               {article.author && (
                 <div className="flex items-center gap-6 text-gray-500 text-sm mt-5">
                   <span className="flex items-center gap-1">
@@ -88,10 +85,12 @@ const MiningNews = () => {
                 </div>
               )}
 
-              {/* BUTTON */}
-              <button className="mt-6 bg-(--primary-color) text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition">
-                {article.button} →
-              </button>
+              {/* BUTTON → BLOG ROUTE */}
+              <Link to={`/blogs/${article.id}`}>
+                <button className="mt-6 bg-(--primary-color) text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition">
+                  {article.button} →
+                </button>
+              </Link>
             </div>
           </div>
         ))}

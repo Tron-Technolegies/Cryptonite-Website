@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FiClock, FiHeadphones, FiMapPin } from "react-icons/fi";
+import { sendToWhatsApp } from "../../utils/whatsApp";
 
 const ContactDetails = () => {
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const phoneRef = useRef();
+  const subjectRef = useRef();
+  const messageRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = {
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+      email: emailRef.current.value,
+      phone: phoneRef.current.value,
+      subject: subjectRef.current.value,
+      message: messageRef.current.value,
+    };
+
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+      alert("Please fill all required fields");
+      return;
+    }
+
+    sendToWhatsApp(formData);
+  };
+
   return (
     <section className="w-full bg-[#f8fbf8] py-16 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -13,7 +41,7 @@ const ContactDetails = () => {
             Fill out the form and we’ll get back to you within 24 hours.
           </p>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -21,8 +49,9 @@ const ContactDetails = () => {
                   First Name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  ref={firstNameRef}
                   type="text"
-                  placeholder="John"
+                 
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -32,8 +61,9 @@ const ContactDetails = () => {
                   Last Name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  ref={lastNameRef}
                   type="text"
-                  placeholder="Doe"
+                  
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -46,8 +76,9 @@ const ContactDetails = () => {
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
+                  ref={emailRef}
                   type="email"
-                  placeholder="john@example.com"
+                  
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -57,8 +88,9 @@ const ContactDetails = () => {
                   Phone <span className="text-red-500">*</span>
                 </label>
                 <input
+                  ref={phoneRef}
                   type="tel"
-                  placeholder="+1234567890"
+                 
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -67,7 +99,10 @@ const ContactDetails = () => {
             {/* Subject */}
             <div>
               <label className="text-sm font-medium">Subject</label>
-              <select className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500">
+              <select
+                ref={subjectRef}
+                className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500"
+              >
                 <option>Select a topic</option>
                 <option>Mining Hardware</option>
                 <option>Hosting</option>
@@ -79,6 +114,7 @@ const ContactDetails = () => {
             <div>
               <label className="text-sm font-medium">Message</label>
               <textarea
+                ref={messageRef}
                 rows="4"
                 placeholder="Tell us about your mining needs..."
                 className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
@@ -86,13 +122,16 @@ const ContactDetails = () => {
             </div>
 
             {/* Button */}
-            <button className="w-full bg-green-500 text-white py-2.5 rounded-md text-sm font-semibold hover:bg-green-600 transition">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white py-2.5 rounded-md text-sm font-semibold hover:bg-green-600 transition"
+            >
               Send Message
             </button>
           </form>
         </div>
 
-        {/* RIGHT : INFO */}
+        {/* RIGHT : INFO (UNCHANGED) */}
         <div className="space-y-6">
 
           {/* Business Hours */}

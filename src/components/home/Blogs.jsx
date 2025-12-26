@@ -55,9 +55,9 @@ const Blogs = () => {
       </div>
 
       <div className="text-center mt-14">
-        <button className="border border-gray-300 py-3 px-10 rounded-full text-sm font-medium hover:bg-gray-100 transition flex items-center gap-2 mx-auto">
+        {/* <button className="border border-gray-300 py-3 px-10 rounded-full text-sm font-medium hover:bg-gray-100 transition flex items-center gap-2 mx-auto">
           Load More Articles →
-        </button>
+        </button> */}
       </div>
     </section>
   );

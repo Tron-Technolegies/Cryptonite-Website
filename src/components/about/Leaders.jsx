@@ -3,59 +3,82 @@ import React from "react";
 const Leaders = () => {
   const leaders = [
     {
-      name: "Michael Chen",
+      name: "DI Martin Hekel",
       role: "CEO & Founder",
-      img: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80",
+      quote:
+        "System stability is not an accident—it is the result of precise architecture.",
+      description:
+        "With nearly 15 years of experience in mission-critical railway infrastructure, Martin applies industrial-grade precision to crypto mining. He founded Cryptonite to transform mining into predictable, efficient, and sustainable digital infrastructure.",
+      img: "/owners/michael.jpeg",
     },
     {
-      name: "David Martinez",
-      role: "CTO",
-      img: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=80",
+      name: "Mag. Michael Köhler",
+      role: "Managing Director & Partner",
+      quote:
+        "Innovation requires security. We make crypto bankable and regulatorily sound.",
+      description:
+        "A seasoned tax advisor and strategic entrepreneur, Michael ensures Cryptonite operates with full legal, tax, and regulatory transparency. His expertise makes mining audit-ready and trusted by institutional partners.",
+      img: "/owners/kohler.jpeg",
     },
     {
-      name: "Thomas Reed",
-      role: "Head of Operations",
-      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80",
-    },
-    {
-      name: "Robert Hayes",
-      role: "Head of Customer Success",
-      img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+      name: "DI Rene Haas",
+      role: "CEO – Operations & Engineering",
+      quote:
+        "Efficiency means not just consuming energy, but perfecting it.",
+      description:
+        "An electrical engineering expert and operations leader, Rene specializes in energy optimization, safety, and heat recovery. He transforms mining infrastructure into smart energy systems through industrial-grade engineering.",
+      img: "/owners/rene.jpeg",
     },
   ];
 
   return (
-    <div className="w-[90%] mx-auto my-20 text-center">
-      <h2 className="text-3xl font-bold josefin-sans">LEADERSHIP TEAM</h2>
-      <p className="text-gray-600 mt-2">
-        Experienced professionals dedicated to your mining success
-      </p>
+    <section className="w-[90%] max-w-7xl mx-auto my-24">
+      {/* Header */}
+      <div className="text-center mb-14">
+        <h2 className="text-3xl md:text-4xl font-bold tracking-wide">
+          Leadership Team
+        </h2>
+        <p className="text-gray-600 mt-3 max-w-xl mx-auto">
+          Experienced leaders building industrial-grade, reliable, and
+          sustainable mining infrastructure
+        </p>
+      </div>
 
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      {/* Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {leaders.map((leader, index) => (
-          <div key={index} className="relative rounded-xl overflow-hidden shadow-md">
-            
+          <div
+            key={index}
+            className="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2"
+          >
             {/* Image */}
-            <img
-              src={leader.img}
-              alt={leader.name}
-              className="w-full h-64 object-cover"
-            />
+            <div className="overflow-hidden">
+              <img
+                src={leader.img}
+                alt={leader.name}
+                className="w-full h-[360px] object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
 
-            {/* Dark gradient for visibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            {/* Content */}
+            <div className="p-6">
+              <h3 className="text-xl font-semibold">{leader.name}</h3>
+              <p className="text-sm text-green-600 font-medium mt-1">
+                {leader.role}
+              </p>
 
-            {/* Text Overlay */}
-            <div className="absolute bottom-4 left-4 text-white z-10">
-              <h3 className="text-lg font-bold drop-shadow-xl tracking-wide">
-                {leader.name}
-              </h3>
-              <p className="text-sm opacity-95 drop-shadow-xl">{leader.role}</p>
+              <p className="italic text-gray-700 mt-4 text-sm leading-relaxed">
+                “{leader.quote}”
+              </p>
+
+              <p className="text-gray-600 text-sm mt-4 leading-relaxed">
+                {leader.description}
+              </p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
