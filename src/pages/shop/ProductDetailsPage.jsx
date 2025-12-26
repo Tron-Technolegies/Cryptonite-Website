@@ -4,7 +4,7 @@ import MinableCoins from "./productdetails/MinableCoins";
 import ProductSpecifications from "./productdetails/ProductSpecifications";
 import MiningProfitGraph from "./productdetails/MiningProfitGraph";
 import PurchaseOptions from "./productdetails/PurchaseOptions";
-import BundleOfferPopup from "../../components/common/BundleOfferPopup";
+// import BundleOfferPopup from "../../components/common/BundleOfferPopup";
 
 
 const ProductDetailsPage = () => {
@@ -25,10 +25,10 @@ const ProductDetailsPage = () => {
 
   return (
     <div>
-      <BundleOfferPopup
+      {/* <BundleOfferPopup
         open={showPopup}
         onClose={() => setShowPopup(false)}
-      />
+      /> */}
 
       <ProductInfo setProduct={setProduct} />
       <PurchaseOptions product={product} />
