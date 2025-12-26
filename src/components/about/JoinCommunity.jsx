@@ -1,4 +1,5 @@
 import React from "react";
+import {sendEnquiryMessage} from "../../utils/whatsApp"
 
 const JoinCommunity = () => {
   return (
@@ -12,7 +13,7 @@ const JoinCommunity = () => {
         dedicated support.
       </p>
 
-      <button className="mt-8 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md transition flex items-center gap-2 mx-auto">
+      <button onClick={sendEnquiryMessage} className="mt-8 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md transition flex items-center gap-2 mx-auto">
         Get Started Today
         <span className="text-xl">→</span>
       </button>

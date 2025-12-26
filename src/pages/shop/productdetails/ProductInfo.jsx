@@ -135,7 +135,7 @@ const ProductInfo = ({ setProduct }) => {
             <Spec icon={<FiCpu />} label="Hashrate" value={localProduct.hashrate} />
             <Spec icon={<FiZap />} label="Power" value={localProduct.power} />
             <Spec icon={<FiZap />} label="Efficiency" value={localProduct.efficiency || "—"} />
-            <Spec icon={<FiVolume2 />} label="Noise" value={localProduct.noise || "—"} />
+            <Spec icon={<FiVolume2 />} label="Hosting Fee per KW" value={localProduct.hosting_fee_per_kw} />
             <Spec label="Algorithm" value={localProduct.algorithm} />
             <Spec label="Minable Coins" value={localProduct.minable_coins} />
           </div>

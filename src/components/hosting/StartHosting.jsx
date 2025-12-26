@@ -1,4 +1,5 @@
 import React from "react";
+import { sendEnquiryMessage } from "../../utils/whatsApp";
 
 const StartHosting = () => {
   return (
@@ -13,11 +14,19 @@ const StartHosting = () => {
       </p>
 
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button className="bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold px-6 py-3 rounded-md shadow flex items-center gap-2 transition">
+        {/* BUTTON 1 */}
+        <button
+          onClick={sendEnquiryMessage}
+          className="w-full sm:w-auto max-w-xs bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold px-6 py-3 rounded-md shadow flex items-center justify-center gap-2 transition"
+        >
           Get Started Today →
         </button>
 
-        <button className="border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 font-semibold px-6 py-3 rounded-md transition">
+        {/* BUTTON 2 */}
+        <button
+          onClick={sendEnquiryMessage}
+          className="w-full sm:w-auto max-w-xs border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 font-semibold px-6 py-3 rounded-md transition"
+        >
           Schedule a Call
         </button>
       </div>
