@@ -75,8 +75,8 @@ const PurchaseOptions = ({ product }) => {
                   className={`px-4 py-1 rounded-md border text-sm transition-colors
                     ${
                       location === loc
-                        ? "bg-green-100 border-green-400 text-green-700"
-                        : "border-gray-300 text-gray-600 hover:border-green-300"
+                        // ? "bg-green-100 border-green-400 text-green-700"
+                        // : "border-gray-300 text-gray-600 hover:border-green-300"
                     }`}
                 >
                   {loc}

@@ -49,7 +49,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
             </h3>
           </div>
           <p className="text-green-50">
-            You're ordering in bulk! Unlock special bundle pricing and premium accessories.
+            Ordering more than 5? We have Special offers for you
           </p>
         </div>
 
@@ -57,7 +57,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
         <div className="p-6">
           
           {/* Benefits Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="grid grid-cols-3 gap-3 mb-6 ml-20">
             <div className="text-center p-3 bg-green-50 rounded-xl">
               <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
               <p className="text-xs text-gray-600">Priority setup</p>
             </div>
             
-            <div className="text-center p-3 bg-purple-50 rounded-xl">
+            {/* <div className="text-center p-3 bg-purple-50 rounded-xl">
               <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -86,11 +86,11 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
               </div>
               <h4 className="font-semibold text-gray-900 text-sm mb-1">Free Extras</h4>
               <p className="text-xs text-gray-600">Cables & cooling</p>
-            </div>
+            </div> */}
           </div>
 
           {/* Special Offer Banner */}
-          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl p-4 mb-5">
+          {/* <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl p-4 mb-5">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🎉</span>
               <div className="flex-1">
@@ -100,7 +100,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* CTA Button */}
           <button
@@ -110,11 +110,11 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            Chat with our Bundle Specialist
+            Chat with our team
           </button>
 
           {/* Trust Indicators */}
-          <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
+          {/* <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
             <div className="flex items-center gap-1.5">
               <span className="text-green-500">✓</span>
               <span>Instant Response</span>
@@ -127,7 +127,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
               <span className="text-green-500">✓</span>
               <span>No Obligation</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
