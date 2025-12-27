@@ -10,7 +10,6 @@ export const CartProvider = ({ children }) => {
   /* ================= LOAD CART ================= */
   const loadCart = async () => {
     const token = localStorage.getItem("access");
-
     if (!token) {
       setCart([]);
       setLoading(false);
@@ -20,23 +19,38 @@ export const CartProvider = ({ children }) => {
     try {
       const res = await cartApi.getCart();
 
-      const normalizedCart = Array.isArray(res.data)
-        ? res.data.map((item) => ({
-            id: item.id,
-            quantity: Number(item.quantity ?? 1),
-            product: item.product || {
-              id: item.product_id,
-              name: item.product_name ?? item.name ?? "Product",
-              model_name: item.model_name ?? item.product_name,
-              price: Number(item.product_price ?? item.price ?? 0),
-              image: item.product_image ?? item.image,
-            },
-          }))
-        : [];
+      const normalized = (res.data || [])
+        .map((item) => {
+          if (!item) return null;
 
-      setCart(normalizedCart);
+          return {
+            id: item.id,
+            quantity: Number(item.quantity || 1),
+
+            product: item.product
+              ? {
+                  id: item.product.id,
+                  model_name: item.product.model_name,
+                  price: Number(item.product.price || 0),
+                  image: item.product.image,
+                }
+              : null,
+
+            bundle: item.bundle
+              ? {
+                  id: item.bundle.id,
+                  name: item.bundle.name,
+                  price: Number(item.bundle.price || 0),
+                  image: item.bundle.image,
+                }
+              : null,
+          };
+        })
+        .filter(Boolean);
+
+      setCart(normalized);
     } catch (err) {
-      console.error("Error loading cart:", err);
+      console.error("Cart load error:", err);
       setCart([]);
     } finally {
       setLoading(false);
@@ -44,63 +58,53 @@ export const CartProvider = ({ children }) => {
   };
 
   /* ================= ADD TO CART ================= */
-  const addToCart = async (productId, qty = 1) => {
+  const addToCart = async (payload, qty = 1) => {
     try {
-      const res = await cartApi.addToCart({
-        product_id: productId,
-        quantity: qty,
-      });
+      let body = {};
 
+      // old usage: addToCart(productId)
+      if (typeof payload === "number") {
+        body = {
+          product_id: payload,
+          quantity: qty,
+        };
+      }
+
+      // new usage: addToCart({ product_id, bundle_id })
+      else if (typeof payload === "object") {
+        body = {
+          product_id: payload.product_id || null,
+          bundle_id: payload.bundle_id || null,
+          quantity: payload.quantity || 1,
+        };
+      }
+
+      if (!body.product_id && !body.bundle_id) {
+        throw new Error("Invalid cart payload");
+      }
+
+      await cartApi.addToCart(body);
       await loadCart();
-      return res;
     } catch (err) {
-      console.error("Add to cart error:", err);
+      console.error("Add to cart failed:", err);
       throw err;
     }
   };
 
   /* ================= UPDATE QUANTITY ================= */
-  const updateQty = async (cartItemId, newQty) => {
-    if (newQty < 1) {
-      await removeFromCart(cartItemId);
-      return;
-    }
+  const updateQty = async (cartItemId, qty) => {
+    if (qty < 1) return removeFromCart(cartItemId);
 
-    try {
-      // ✅ FIXED METHOD NAME
-      await cartApi.updateQty(cartItemId, { quantity: newQty });
-      await loadCart();
-    } catch (err) {
-      console.error("Update qty error:", err);
-      throw err;
-    }
+    await cartApi.updateQty(cartItemId, { quantity: qty });
+    await loadCart();
   };
 
-  /* ================= REMOVE ITEM ================= */
-  const removeFromCart = async (cartItemId) => {
-    try {
-      // ✅ FIXED METHOD NAME
-      await cartApi.removeItem(cartItemId);
-      await loadCart();
-    } catch (err) {
-      console.error("Remove item error:", err);
-      throw err;
-    }
+  /* ================= REMOVE ================= */
+  const removeFromCart = async (id) => {
+    await cartApi.removeItem(id);
+    await loadCart();
   };
 
-  /* ================= CLEAR CART ================= */
-  const clearCart = async () => {
-    try {
-      await Promise.all(
-        cart.map((item) => cartApi.removeItem(item.id))
-      );
-      await loadCart();
-    } catch (err) {
-      console.error("Clear cart error:", err);
-    }
-  };
-
-  /* ================= INITIAL LOAD ================= */
   useEffect(() => {
     loadCart();
   }, []);
@@ -113,7 +117,6 @@ export const CartProvider = ({ children }) => {
         addToCart,
         updateQty,
         removeFromCart,
-        clearCart,
         reloadCart: loadCart,
       }}
     >
@@ -122,10 +125,4 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within CartProvider");
-  }
-  return context;
-};
+export const useCart = () => useContext(CartContext);

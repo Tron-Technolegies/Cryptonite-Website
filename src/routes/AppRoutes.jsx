@@ -26,6 +26,7 @@ import BundleProductPage from "../pages/bundleproducts/BundleProductPage";
 import BundleSinglePage from "../pages/bundleproducts/BundleSinglePage";
 import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 import UsersOrdersPage from "../pages/dashboard/UsersOrdersPage";
+import BundleCheckout from "../pages/bundleproducts/bundleDetails/BundleCheckout";
 // import ResetPasswordPage from "../pages/dashboard/ResetPasswordPage";
 
 const AppRoutes = () => {
@@ -72,6 +73,7 @@ const AppRoutes = () => {
         },
         { path: "/bundles", element: <BundleProductPage /> },
         { path: "/bundles/:id", element: <BundleSinglePage /> },
+        { path: "/bundle-checkout", element: <BundleCheckout /> },
         {
           path: "/cart",
           element: <CartPage />,
@@ -90,7 +92,7 @@ const AppRoutes = () => {
         },
         {
           path: "/view-orders",
-          element : <UsersOrdersPage/>
+          element: <UsersOrdersPage />,
         },
         {
           path: "/signup",
@@ -106,12 +108,12 @@ const AppRoutes = () => {
         },
         {
           path: "/forgot-password",
-          element: <ForgotPasswordPage/>
+          element: <ForgotPasswordPage />,
         },
-       {
-        path: "/reset-password/:uid/:token",
-        element : <ResetPasswordPage/>
-       },
+        {
+          path: "/reset-password/:uid/:token",
+          element: <ResetPasswordPage />,
+        },
         {
           path: "/dashboard",
           element: (

@@ -249,7 +249,7 @@ const Header = () => {
           </div>
 
           {/* MOBILE AUTH */}
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <Link
               to="/dashboard"
               onClick={() => setIsOpen(false)}
@@ -257,6 +257,22 @@ const Header = () => {
             >
               <FiUser />
               <span>My Profile</span>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(false)}
+              className="
+      mt-4 text-center
+      border border-green-500
+      text-green-400
+      py-2 rounded-full
+      font-semibold
+      hover:bg-green-500 hover:text-black
+      transition
+    "
+            >
+              Sign in
             </Link>
           )}
         </nav>
