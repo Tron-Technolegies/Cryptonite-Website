@@ -113,19 +113,6 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
             </div> */}
           </div>
 
-          {/* Special Offer Banner */}
-          {/* <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl p-4 mb-5">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🎉</span>
-              <div className="flex-1">
-                <h4 className="font-bold text-gray-900 mb-1">Limited Time Offer</h4>
-                <p className="text-sm text-gray-700">
-                  Orders of 5+ miners qualify for special bundle pricing. Our team will create a custom package for you!
-                </p>
-              </div>
-            </div>
-          </div> */}
-
           {/* CTA Button */}
           <button
             onClick={handleChatClick}
@@ -141,22 +128,6 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
             </svg>
             Chat with our team
           </button>
-
-          {/* Trust Indicators */}
-          {/* <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>Instant Response</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>Custom Pricing</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>No Obligation</span>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
