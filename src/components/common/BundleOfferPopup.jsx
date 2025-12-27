@@ -132,7 +132,7 @@ const BundleOfferPopup = ({ open, onClose }) => {
             className="w-full flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             <FiMessageCircle size={22} />
-            Chat with our Bundle Specialist
+            contact us to receive a customized discount
           </button>
 
           {/* Trust Indicators */}
