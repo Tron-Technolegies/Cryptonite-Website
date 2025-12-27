@@ -77,30 +77,7 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
               <h4 className="font-semibold text-gray-900 text-sm mb-1">Premium Support</h4>
               <p className="text-xs text-gray-600">Priority setup</p>
             </div>
-            
-            {/* <div className="text-center p-3 bg-purple-50 rounded-xl">
-              <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              </div>
-              <h4 className="font-semibold text-gray-900 text-sm mb-1">Free Extras</h4>
-              <p className="text-xs text-gray-600">Cables & cooling</p>
-            </div> */}
           </div>
-
-          {/* Special Offer Banner */}
-          {/* <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl p-4 mb-5">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🎉</span>
-              <div className="flex-1">
-                <h4 className="font-bold text-gray-900 mb-1">Limited Time Offer</h4>
-                <p className="text-sm text-gray-700">
-                  Orders of 5+ miners qualify for special bundle pricing. Our team will create a custom package for you!
-                </p>
-              </div>
-            </div>
-          </div> */}
 
           {/* CTA Button */}
           <button
@@ -112,22 +89,6 @@ const BundleOfferPopupCompact = ({ open, onClose }) => {
             </svg>
             Chat with our team
           </button>
-
-          {/* Trust Indicators */}
-          {/* <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>Instant Response</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>Custom Pricing</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
-              <span>No Obligation</span>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
@@ -258,6 +219,21 @@ const CheckoutPage = () => {
   }, [totalQuantity, clientSecret]);
 
   const total = useMemo(() => {
+    const cartTotal = cart.reduce(
+      (sum, item) =>
+        sum +
+        Number(item.product?.price || 0) *
+          Number(item.quantity || 1),
+      0
+    );
+    
+    // Add hosting fee if in hosting mode
+    const hostingFee = (mode === "buy" && buyType === "host") ? 1150 : 0;
+    
+    return cartTotal + hostingFee;
+  }, [cart, mode, buyType]);
+
+  const cartSubtotal = useMemo(() => {
     return cart.reduce(
       (sum, item) =>
         sum +
@@ -311,8 +287,8 @@ const CheckoutPage = () => {
 
         const paymentRes = await paymentApi.createPaymentIntent({
           purchase_type: "hosting",
-          hosting_request_id:
-            hostingRes.data.hosting_request_id,
+          hosting_request_id: hostingRes.data.hosting_request_id,
+          hosting_fee: 1150,
         });
 
         setClientSecret(paymentRes.data.client_secret);
@@ -501,12 +477,32 @@ const CheckoutPage = () => {
           </div>
         ))}
 
-        <div className="flex justify-between mt-4 text-lg font-semibold">
-          <span>Total</span>
-          <span className="text-green-600">
-            ${total.toFixed(2)}
-          </span>
-        </div>
+        {/* Show breakdown if hosting */}
+        {mode === "buy" && buyType === "host" ? (
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-gray-600">
+              <span>Products Subtotal:</span>
+              <span>${cartSubtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-gray-600">
+              <span>Hosting Fee:</span>
+              <span>$1,150.00</span>
+            </div>
+            <div className="flex justify-between pt-2 border-t text-lg font-semibold">
+              <span>Total</span>
+              <span className="text-green-600">
+                ${total.toFixed(2)}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-between mt-4 text-lg font-semibold">
+            <span>Total</span>
+            <span className="text-green-600">
+              ${total.toFixed(2)}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* DETAILS FORM */}

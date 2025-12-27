@@ -8,85 +8,55 @@ const Leaders = () => {
       quote:
         "System stability is not an accident—it is the result of precise architecture.",
       story: [
-        "With nearly 15 years of experience in critical railway infrastructure, DI Martin Hekel understands one thing above all: a system is only as strong as its weakest link.",
-        "In a world where every second counts and failure is not an option, he specialized in managing complex network architectures and ensuring maximum stability.",
-        "In 2018, Martin recognized that blockchain technology was becoming the next global critical infrastructure. He saw that crypto mining faced the same challenges as the rail sector: massive energy efficiency, absolute reliability, and engineering-grade precision.",
+        "15 years in railway infrastructure shaped his mission-critical mindset.",
+        "He built highly reliable systems where failure was never an option.",
+        "In 2018, he identified blockchain mining as critical infrastructure.",
       ],
-      missionTitle: "The Mission: Professionalizing the Mining Industry",
+      missionTitle: "The Mission: Professionalizing Mining",
       missionPoints: [
-        {
-          title: "Energy Commitment",
-          text: "We consistently strive to use clean energy sources whenever possible.",
-        },
-        {
-          title: "Predictability",
-          text: "Applying railway-grade precision to calculable financial models.",
-        },
-        {
-          title: "Operational Excellence",
-          text: "Every variable optimized for maximum system efficiency.",
-        },
+        { title: "Energy Commitment", text: "Clean energy wherever possible." },
+        { title: "Predictability", text: "Results must be calculable." },
+        { title: "Operational Excellence", text: "Every variable optimized." },
       ],
-      closingQuote:
-        "We don't build hype; we build digital infrastructure on a solid, predictable foundation.",
+      closingQuote: "No hype. Only reliable digital infrastructure.",
       img: "./owners/kohler.jpeg",
     },
     {
       name: "Mag. Michael Köhler",
       role: "Managing Director & Partner",
       quote:
-        "Innovation requires security. We make crypto bankable and regulatorily sound.",
+        "Innovation requires security. We make crypto bankable.",
       story: [
-        "Mag. Michael Köhler is the steady hand ensuring compliance in a fast-moving industry.",
-        "As a seasoned tax advisor and partner at Grant Thornton, he guides national and international companies through complex financial structures.",
-        "He recognized early that mining projects must be built on transparent, audit-ready legal foundations.",
+        "Ensures compliance in a fast-moving industry.",
+        "Grant Thornton partner with deep tax expertise.",
+        "Builds audit-ready legal foundations.",
       ],
-      missionTitle: "The Mission: Transparency & Strategic Financial Logic",
+      missionTitle: "The Mission: Transparency & Structure",
       missionPoints: [
-        {
-          title: "Tax & Compliance Excellence",
-          text: "Deep expertise in crypto taxation and digital assets.",
-        },
-        {
-          title: "Strategic Growth",
-          text: "Preparing Cryptonite for international scaling through M&A experience.",
-        },
-        {
-          title: "Regulatory Anchor",
-          text: "Highest standards in accounting and reporting.",
-        },
+        { title: "Tax & Compliance", text: "Clear crypto structures." },
+        { title: "Strategic Growth", text: "Scaling through M&A." },
+        { title: "Regulatory Anchor", text: "Highest reporting standards." },
       ],
-      closingQuote:
-        "We provide the security needed to scale digital assets with total confidence.",
+      closingQuote: "We remove complexity so clients scale confidently.",
       img: "./owners/michael.jpeg",
     },
     {
       name: "DI Rene Haas",
       role: "CEO – Operations & Engineering",
       quote:
-        "Efficiency means not just consuming energy, but perfecting it.",
+        "Efficiency means perfecting energy.",
       story: [
-        "DI Rene Haas leads the technical and operational backbone of Cryptonite.",
-        "With decades of experience in electrical engineering and operations management, he ensures safety, order, and uninterrupted performance.",
-        "He specializes in sector coupling—integrating mining hardware into energy and heating infrastructure.",
+        "Leads operations and engineering.",
+        "Decades of electrical experience.",
+        "Integrates mining into energy systems.",
       ],
-      missionTitle: "The Mission: Engineering the Future of Energy",
+      missionTitle: "The Mission: Engineering Energy",
       missionPoints: [
-        {
-          title: "Electrical Precision",
-          text: "Industrial-grade safety standards and system design.",
-        },
-        {
-          title: "Thermal Synergy",
-          text: "Converting mining exhaust into usable heat.",
-        },
-        {
-          title: "Operational Safety",
-          text: "Fail-safe processes built on decades of leadership.",
-        },
+        { title: "Electrical Precision", text: "Industrial-grade safety." },
+        { title: "Thermal Synergy", text: "Heat reused intelligently." },
+        { title: "Operational Safety", text: "Fail-safe by design." },
       ],
-      closingQuote:
-        "Electricity doesn’t just create coins—it creates usable heat.",
+      closingQuote: "Electricity creates coins—and usable heat.",
       img: "./owners/rene.jpeg",
     },
   ];
@@ -94,57 +64,67 @@ const Leaders = () => {
   return (
     <section className="w-[90%] max-w-7xl mx-auto my-28">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold">Leadership Team</h2>
-        <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Engineering, compliance, and operational excellence behind Cryptonite
+        <h2 className="text-4xl font-bold tracking-tight">
+          Leadership Team
+        </h2>
+        <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+          Precision. Compliance. Operational excellence.
         </p>
       </div>
 
-      {/* GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
         {leaders.map((leader, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl shadow-xl overflow-hidden"
+            className="h-full flex flex-col rounded-2xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 shadow-md hover:shadow-xl transition-all duration-300"
           >
             {/* IMAGE */}
-            <img
-              src={leader.img}
-              alt={leader.name}
-              className="w-full h-[340px] object-cover"
-            />
+            <div className="relative">
+              <img
+                src={leader.img}
+                alt={leader.name}
+                className="w-full h-[340px] object-cover rounded-t-2xl"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
+            </div>
 
             {/* CONTENT */}
-            <div className="p-7">
-              <h3 className="text-2xl font-semibold">{leader.name}</h3>
+            <div className="p-7 flex flex-col flex-grow">
+              <h3 className="text-2xl font-semibold tracking-tight">
+                {leader.name}
+              </h3>
               <p className="text-green-600 font-medium mt-1">
                 {leader.role}
               </p>
 
-              <p className="italic text-gray-700 mt-4 text-sm">
-                “{leader.quote}”
-              </p>
+              <div className="mt-4 border-l-2 border-green-500 pl-4">
+                <p className="italic text-gray-700 text-sm">
+                  “{leader.quote}”
+                </p>
+              </div>
 
-              <div className="mt-5 space-y-4 text-gray-700 text-sm leading-relaxed">
+              <div className="mt-5 space-y-3 text-gray-700 text-sm">
                 {leader.story.map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
               </div>
 
-              <h4 className="mt-6 font-semibold">
-                {leader.missionTitle}
-              </h4>
+              <div className="mt-6">
+                <h4 className="font-semibold text-sm uppercase tracking-wide text-gray-800">
+                  {leader.missionTitle}
+                </h4>
+                <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                  {leader.missionPoints.map((point, i) => (
+                    <li key={i}>
+                      <span className="font-semibold">{point.title}:</span>{" "}
+                      {point.text}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              <ul className="mt-3 space-y-2 text-sm text-gray-700">
-                {leader.missionPoints.map((point, i) => (
-                  <li key={i}>
-                    <span className="font-semibold">{point.title}:</span>{" "}
-                    {point.text}
-                  </li>
-                ))}
-              </ul>
-
-              <p className="mt-5 italic text-gray-800 text-sm">
+              {/* FOOTER */}
+              <p className="mt-auto pt-6 italic text-gray-800 text-sm border-t border-gray-200">
                 “{leader.closingQuote}”
               </p>
             </div>
