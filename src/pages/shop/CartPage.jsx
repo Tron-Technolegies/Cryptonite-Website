@@ -168,7 +168,7 @@ const CartPage = () => {
           </p>
         </div>
 
-        <button
+        {/* <button
           onClick={() => navigate("/checkout")}
           className="
             w-full md:w-auto
@@ -182,7 +182,7 @@ const CartPage = () => {
           "
         >
           Proceed to Payment
-        </button>
+        </button> */}
       </div>
     </div>
   );
