@@ -75,7 +75,7 @@ const ShippingForm = ({ onContinue, loading }) => {
     e.preventDefault();
     
     if (validate()) {
-      // ✅ FIXED: Backend expects 'address' at root level, not nested in 'shipping_address'
+      
       const payload = {
         address: {
           full_name: formData.fullName,
@@ -109,7 +109,7 @@ const ShippingForm = ({ onContinue, loading }) => {
           value={formData.fullName}
           onChange={handleChange}
           className={`w-full border ${errors.fullName ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-          placeholder="John Doe"
+         
         />
         {errors.fullName && (
           <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
@@ -127,7 +127,7 @@ const ShippingForm = ({ onContinue, loading }) => {
           value={formData.email}
           onChange={handleChange}
           className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-          placeholder="john@example.com"
+          
         />
         {errors.email && (
           <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -145,7 +145,7 @@ const ShippingForm = ({ onContinue, loading }) => {
           value={formData.phone}
           onChange={handleChange}
           className={`w-full border ${errors.phone ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-          placeholder="9876543210"
+          
         />
         {errors.phone && (
           <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -163,7 +163,7 @@ const ShippingForm = ({ onContinue, loading }) => {
           onChange={handleChange}
           rows="3"
           className={`w-full border ${errors.address ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-          placeholder="123 Main Street, Apartment 4B"
+          
         />
         {errors.address && (
           <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -182,7 +182,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.city}
             onChange={handleChange}
             className={`w-full border ${errors.city ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="Vienna"
+            
           />
           {errors.city && (
             <p className="text-red-500 text-sm mt-1">{errors.city}</p>
@@ -199,7 +199,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.state}
             onChange={handleChange}
             className={`w-full border ${errors.state ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="Vienna"
+            
           />
           {errors.state && (
             <p className="text-red-500 text-sm mt-1">{errors.state}</p>
@@ -219,7 +219,7 @@ const ShippingForm = ({ onContinue, loading }) => {
             value={formData.zipCode}
             onChange={handleChange}
             className={`w-full border ${errors.zipCode ? 'border-red-500' : 'border-gray-300'} p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-            placeholder="1010"
+            
           />
           {errors.zipCode && (
             <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>

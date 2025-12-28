@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { FiBox } from "react-icons/fi";
 
 const RentForm = ({ cart = [], onContinue, loading }) => {
   const item = cart?.[0];
@@ -7,28 +6,48 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
   const product = item?.product || null;
   const bundle = item?.bundle || null;
 
-  const basePrice = product?.price || bundle?.price || 0;
-
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     quantity: "1",
-    duration: "3",
+    duration: "3", // months
   });
 
   const [errors, setErrors] = useState({});
 
-  /* ================= PRICE CALCULATION ================= */
-  const monthlyPrice = useMemo(() => {
-    if (!basePrice) return 0;
-    return Math.round(Number(basePrice) / 12);
-  }, [basePrice]);
+  /* ================= BACKEND-EQUIVALENT RENT CALCULATION ================= */
+  const rentCalculation = useMemo(() => {
+    if (!product?.power || !product?.hosting_fee_per_kw) return null;
 
-  const totalPrice = useMemo(() => {
-    return monthlyPrice * Number(form.quantity) * Number(form.duration);
-  }, [monthlyPrice, form.quantity, form.duration]);
+    const powerWatts = Number(product.power);
+    const powerKw = powerWatts / 1000;
+
+    const hostingFeePerKw = Number(product.hosting_fee_per_kw);
+
+    const durationDays = Number(form.duration) * 30;
+    const quantity = Number(form.quantity);
+
+    // Backend logic replica
+    const monthlyCost = powerKw * hostingFeePerKw;
+    const dailyCost = monthlyCost / 30.5;
+    const singleTotal = dailyCost * durationDays;
+    const grandTotal = singleTotal * quantity;
+
+    return {
+      powerKw: powerKw.toFixed(2),
+      dailyCost: dailyCost.toFixed(2),
+      durationDays,
+      quantity,
+      grandTotal: grandTotal.toFixed(2),
+    };
+  }, [
+    product?.power,
+    product?.hosting_fee_per_kw,
+    form.duration,
+    form.quantity,
+  ]);
 
   /* ================= HANDLERS ================= */
   const handleChange = (e) => {
@@ -41,7 +60,8 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
     const err = {};
     if (!form.firstName) err.firstName = "Required";
     if (!form.lastName) err.lastName = "Required";
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) err.email = "Valid email required";
+    if (!form.email || !/\S+@\S+\.\S+/.test(form.email))
+      err.email = "Valid email required";
     if (!form.phone) err.phone = "Phone required";
 
     setErrors(err);
@@ -83,28 +103,28 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
           placeholder="First Name"
           value={form.firstName}
           onChange={handleChange}
-          className="input border p-2"
+          className="border p-2 rounded"
         />
         <input
           name="lastName"
           placeholder="Last Name"
           value={form.lastName}
           onChange={handleChange}
-          className="input border p-2"
+          className="border p-2 rounded"
         />
         <input
           name="email"
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="input border p-2"
+          className="border p-2 rounded"
         />
         <input
           name="phone"
           placeholder="Phone"
           value={form.phone}
           onChange={handleChange}
-          className="input border p-2"
+          className="border p-2 rounded"
         />
       </div>
 
@@ -112,7 +132,12 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="text-sm">Quantity</label>
-          <select name="quantity" value={form.quantity} onChange={handleChange} className="input">
+          <select
+            name="quantity"
+            value={form.quantity}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          >
             {[1, 2, 3, 4, 5].map((q) => (
               <option key={q} value={q}>
                 {q}
@@ -123,7 +148,12 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
 
         <div>
           <label className="text-sm">Duration</label>
-          <select name="duration" value={form.duration} onChange={handleChange} className="input">
+          <select
+            name="duration"
+            value={form.duration}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          >
             <option value="1">1 Month</option>
             <option value="3">3 Months</option>
             <option value="6">6 Months</option>
@@ -134,23 +164,35 @@ const RentForm = ({ cart = [], onContinue, loading }) => {
 
       {/* SUMMARY */}
       <div className="bg-green-50 p-5 rounded-xl border border-green-200">
-        <div className="flex justify-between">
-          <span>Monthly</span>
-          <span>${monthlyPrice}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Quantity</span>
-          <span>{form.quantity}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Duration</span>
-          <span>{form.duration} months</span>
-        </div>
-        <hr className="my-2" />
-        <div className="flex justify-between font-bold text-green-700">
-          <span>Total</span>
-          <span>${totalPrice}</span>
-        </div>
+        {rentCalculation ? (
+          <>
+            <div className="flex justify-between">
+              <span>Power Usage</span>
+              <span>{rentCalculation.powerKw} kW</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Daily Cost</span>
+              <span>${rentCalculation.dailyCost}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Duration</span>
+              <span>{rentCalculation.durationDays} days</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Quantity</span>
+              <span>{rentCalculation.quantity}</span>
+            </div>
+            <hr className="my-2" />
+            <div className="flex justify-between font-bold text-green-700">
+              <span>Total</span>
+              <span>${rentCalculation.grandTotal}</span>
+            </div>
+          </>
+        ) : (
+          <p className="text-sm text-gray-600">
+            Rent will be calculated based on machine power and hosting cost.
+          </p>
+        )}
       </div>
 
       <button
