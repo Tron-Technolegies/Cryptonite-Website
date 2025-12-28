@@ -138,7 +138,7 @@ const PurchaseOptions = ({ product }) => {
             <div className="text-right mb-8">
               <div className="text-sm text-gray-600 mb-1">Starting from</div>
               <div className="text-2xl font-bold text-green-600">
-                €{monthlyRentPrice}/mo
+                €50/mo
               </div>
             </div>
 

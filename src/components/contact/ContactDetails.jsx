@@ -172,23 +172,23 @@ const ContactDetails = () => {
             <div className="text-sm text-gray-600 space-y-4">
               <div>
                 <p className="font-medium text-black">San Francisco</p>
-                <p>1234 Blockchain Ave, Suite 500</p>
+                {/* <p>1234 Blockchain Ave, Suite 500</p>
                 <p>California, 94102</p>
-                <p>United States</p>
+                <p>United States</p> */}
               </div>
 
               <div>
                 <p className="font-medium text-black">Reykjavík</p>
-                <p>Laugavegur 28</p>
+                {/* <p>Laugavegur 28</p>
                 <p>101 Reykjavík</p>
-                <p>Iceland</p>
+                <p>Iceland</p> */}
               </div>
 
               <div>
                 <p className="font-medium text-black">Singapore</p>
-                <p>1 Marina Boulevard, #20-01</p>
+                {/* <p>1 Marina Boulevard, #20-01</p>
                 <p>Singapore 018989</p>
-                <p>Singapore</p>
+                <p>Singapore</p> */}
               </div>
             </div>
           </div>

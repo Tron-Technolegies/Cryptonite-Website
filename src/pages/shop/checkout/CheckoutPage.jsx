@@ -11,134 +11,21 @@ import RentForm from "./components/RentForm";
 import PaymentSuccess from "./components/PaymentSuccess";
 import BundleOfferPopup from "../../../components/common/BundleOfferPopup";
 
-/* ================= BUNDLE OFFER POPUP (COMPACT) ================= */
-const BundleOfferPopupCompact = ({ open, onClose }) => {
-  if (!open) return null;
-
-  const handleChatClick = () => {
-    window.open(
-      "https://wa.me/919999999999?text=Hi%20I%20am%20interested%20in%20your%20bundle%20offers",
-      "_blank"
-    );
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="sticky top-4 left-full ml-[-56px] z-20 p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 hover:text-gray-800 transition shadow-lg"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-
-        {/* Header Section with Gradient */}
-        <div className="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white -mt-12 pt-14">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold">Exclusive Bundle Offers</h3>
-          </div>
-          <p className="text-green-50">Ordering more than 5? We have Special offers for you</p>
-        </div>
-
-        {/* Content Section */}
-        <div className="p-6">
-          {/* Benefits Grid */}
-          <div className="grid grid-cols-3 gap-3 mb-6 ml-20">
-            <div className="text-center p-3 bg-green-50 rounded-xl">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-              </div>
-              <h4 className="font-semibold text-gray-900 text-sm mb-1">Save More</h4>
-              <p className="text-xs text-gray-600">Up to 15% off</p>
-            </div>
-
-            <div className="text-center p-3 bg-blue-50 rounded-xl">
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <h4 className="font-semibold text-gray-900 text-sm mb-1">Premium Support</h4>
-              <p className="text-xs text-gray-600">Priority setup</p>
-            </div>
-
-            {/* <div className="text-center p-3 bg-purple-50 rounded-xl">
-              <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-2">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              </div>
-              <h4 className="font-semibold text-gray-900 text-sm mb-1">Free Extras</h4>
-              <p className="text-xs text-gray-600">Cables & cooling</p>
-            </div> */}
-          </div>
-
-          {/* CTA Button */}
-          <button
-            onClick={handleChatClick}
-            className="w-full flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3.5 text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            Chat with our team
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { FiArrowLeft, FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+/* ================= SMALL LOADER FOR QTY ================= */
+const QtyLoader = () => (
+  <span className="inline-block w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+);
 
 /* ================= PAYMENT FORM ================= */
 const PaymentForm = ({ onSuccess }) => {
@@ -154,29 +41,23 @@ const PaymentForm = ({ onSuccess }) => {
     setPaying(true);
     setError(null);
 
-    try {
-      const { error: submitError } = await elements.submit();
-      if (submitError) {
-        setError(submitError.message);
-        setPaying(false);
-        return;
-      }
-
-      const { error: confirmError } = await stripe.confirmPayment({
-        elements,
-        redirect: "if_required",
-      });
-
-      if (confirmError) {
-        setError(confirmError.message);
-        setPaying(false);
-      } else {
-        onSuccess();
-      }
-    } catch (err) {
-      console.error("Payment error:", err);
-      setError("Payment failed. Please try again.");
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setError(submitError.message);
       setPaying(false);
+      return;
+    }
+
+    const { error: confirmError } = await stripe.confirmPayment({
+      elements,
+      redirect: "if_required",
+    });
+
+    if (confirmError) {
+      setError(confirmError.message);
+      setPaying(false);
+    } else {
+      onSuccess();
     }
   };
 
@@ -205,7 +86,6 @@ const PaymentForm = ({ onSuccess }) => {
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { cart, reloadCart, updateQty, removeFromCart, loading } = useCart();
 
   const mode = location.state?.mode;
@@ -217,21 +97,27 @@ const CheckoutPage = () => {
   const [success, setSuccess] = useState(false);
   const [updatingItem, setUpdatingItem] = useState(null);
   const [showBundlePopup, setShowBundlePopup] = useState(false);
-  const getItemPrice = (item) => {
-    if (item?.product?.price) return Number(item.product.price);
-    if (item?.bundle?.price) return Number(item.bundle.price);
-    return 0;
-  };
 
-  const getItemTitle = (item) => {
-    if (item?.product?.model_name) return item.product.model_name;
-    if (item?.bundle?.name) return item.bundle.name;
-    return "Item";
-  };
+  /* ================= POPUP LOGIC ================= */
+  const totalQuantity = useMemo(
+    () => cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0),
+    [cart]
+  );
 
-  const getItemImage = (item) => {
-    return item?.product?.image || item?.bundle?.image || "/placeholder.png";
-  };
+  useEffect(() => {
+    if (totalQuantity >= 5 && !clientSecret) {
+      setShowBundlePopup(true);
+    }
+  }, [totalQuantity, clientSecret]);
+
+  const getItemPrice = (item) =>
+    Number(item?.product?.price || item?.bundle?.price || 0);
+
+  const getItemTitle = (item) =>
+    item?.product?.model_name || item?.bundle?.name || "Item";
+
+  const getItemImage = (item) =>
+    item?.product?.image || item?.bundle?.image || "/placeholder.png";
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -242,36 +128,19 @@ const CheckoutPage = () => {
     if (!mode) navigate("/products");
   }, [mode, navigate]);
 
-  // Calculate total quantity in cart
-  const totalQuantity = useMemo(() => {
-    return cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
-  }, [cart]);
+  const total = useMemo(
+    () => cart.reduce((sum, i) => sum + getItemPrice(i) * i.quantity, 0),
+    [cart]
+  );
 
-  // Show bundle popup when total quantity is 5 or more
-  useEffect(() => {
-    if (totalQuantity >= 5 && !clientSecret) {
-      setShowBundlePopup(true);
-    }
-  }, [totalQuantity, clientSecret]);
-
-  const total = useMemo(() => {
-    return cart.reduce((sum, item) => {
-      const price = getItemPrice(item);
-      return sum + price * item.quantity;
-    }, 0);
-  }, [cart]);
-
-  /* ================= QUANTITY HANDLERS ================= */
+  /* ================= QTY HANDLERS ================= */
   const handleUpdateQuantity = async (itemId, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1 || updatingItem === itemId) return;
 
     setUpdatingItem(itemId);
     try {
       await updateQty(itemId, newQuantity);
       await reloadCart();
-    } catch (err) {
-      console.error("Failed to update quantity:", err);
-      alert("Failed to update quantity. Please try again.");
     } finally {
       setUpdatingItem(null);
     }
@@ -284,10 +153,6 @@ const CheckoutPage = () => {
     try {
       await removeFromCart(itemId);
       await reloadCart();
-      if (cart.length === 1) navigate("/cart");
-    } catch (err) {
-      console.error("Failed to remove item:", err);
-      alert("Failed to remove item. Please try again.");
     } finally {
       setUpdatingItem(null);
     }
@@ -299,15 +164,7 @@ const CheckoutPage = () => {
     setError(null);
 
     try {
-      // ==========================
-      // HOSTING FLOW
-      // ==========================
       if (mode === "buy" && buyType === "host") {
-        // ✅ ENSURE CART HAS ITEMS
-        if (!cart.length) {
-          throw new Error("Cart is empty. Please add item again.");
-        }
-
         const hostingRes = await hostingApi.createHostingRequest({
           phone: data.phone,
           message: data.message,
@@ -323,13 +180,6 @@ const CheckoutPage = () => {
         return;
       }
 
-      // Get the primary cart item (assume single item for rent flows)
-      const primaryItem = cart[0];
-      if (!primaryItem) {
-        throw new Error("Cart is empty. Please add an item.");
-      }
-
-      // BUY/SHIP
       if (mode === "buy" && buyType === "ship") {
         const res = await paymentApi.createPaymentIntent({
           purchase_type: "buy",
@@ -340,27 +190,15 @@ const CheckoutPage = () => {
         return;
       }
 
-      // RENT
       if (mode === "rent") {
-        const rentBody = {
+        const res = await paymentApi.createPaymentIntent({
           purchase_type: "rent",
-          quantity: data.rental_details.quantity,
           duration_days: data.rental_details.duration_months * 30,
-        };
-
-        // Add item reference for product or bundle
-        if (primaryItem.product) {
-          rentBody.product_id = primaryItem.product.id;
-        } else if (primaryItem.bundle) {
-          rentBody.bundle_id = primaryItem.bundle.id;
-        }
-
-        const res = await paymentApi.createPaymentIntent(rentBody);
+        });
 
         setClientSecret(res.data.client_secret);
       }
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.error || err.message);
     } finally {
       setProcessing(false);
@@ -368,19 +206,14 @@ const CheckoutPage = () => {
   };
 
   if (loading) return <div className="py-20 text-center">Loading...</div>;
-
-  if (success) {
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-10">
-        <PaymentSuccess />
-      </div>
-    );
-  }
+  if (success) return <PaymentSuccess />;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      {/* Bundle Offer Popup */}
-      <BundleOfferPopupCompact open={showBundlePopup} onClose={() => setShowBundlePopup(false)} />
+      <BundleOfferPopup
+        open={showBundlePopup}
+        onClose={() => setShowBundlePopup(false)}
+      />
 
       {/* HEADER */}
       <div className="flex items-center gap-4 mb-8">
@@ -394,43 +227,64 @@ const CheckoutPage = () => {
       <div className="bg-white border rounded-2xl p-6 mb-8">
         <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
-        {cart
-          .filter((item) => item?.product || item?.bundle)
-          .map((item) => {
-            const price = getItemPrice(item);
-            const title = getItemTitle(item);
-            const image = getItemImage(item);
+        {cart.map((item) => {
+          const price = getItemPrice(item);
+          const title = getItemTitle(item);
+          const image = getItemImage(item);
 
-            return (
-              <div key={item.id} className="flex items-center gap-4 pb-4 border-b">
-                <img
-                  src={getImageUrl(image)}
-                  className="w-16 h-16 object-contain bg-gray-50 rounded"
-                />
+          return (
+            <div
+              key={item.id}
+              className="grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] gap-4 py-4 border-b items-start sm:items-center"
+            >
+              <img
+                src={getImageUrl(image)}
+                className="w-20 h-20 object-contain bg-gray-50 rounded self-center"
+                alt={title}
+              />
 
-                <div className="flex-1">
-                  <p className="font-medium">{title}</p>
-                  <p className="text-sm text-gray-500">€{price.toFixed(2)} each</p>
-                </div>
+              <div className="min-w-0">
+                <p className="font-medium truncate">{title}</p>
+                <p className="text-sm text-gray-500">
+                  €{price.toFixed(2)} each
+                </p>
+              </div>
 
+              <div className="flex flex-col items-end gap-2">
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                    onClick={() =>
+                      handleUpdateQuantity(item.id, item.quantity - 1)
+                    }
                     disabled={item.quantity <= 1 || updatingItem === item.id}
+                    className="p-1 border rounded w-8 h-8 flex items-center justify-center"
                   >
-                    <FiMinus />
+                    {updatingItem === item.id ? <QtyLoader /> : <FiMinus />}
                   </button>
 
-                  <span className="px-3">{item.quantity}</span>
+                  <span
+                    className={`w-6 text-center transition-opacity ${
+                      updatingItem === item.id ? "opacity-50" : "opacity-100"
+                    }`}
+                  >
+                    {item.quantity}
+                  </span>
 
                   <button
-                    onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                    onClick={() =>
+                      handleUpdateQuantity(item.id, item.quantity + 1)
+                    }
                     disabled={updatingItem === item.id}
+                    className="p-1 border rounded w-8 h-8 flex items-center justify-center"
                   >
-                    <FiPlus />
+                    {updatingItem === item.id ? <QtyLoader /> : <FiPlus />}
                   </button>
 
-                  <button onClick={() => handleRemoveItem(item.id)} className="text-red-500">
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className="text-red-500 ml-2"
+                    disabled={updatingItem === item.id}
+                  >
                     <FiTrash2 />
                   </button>
                 </div>
@@ -439,8 +293,9 @@ const CheckoutPage = () => {
                   €{(price * item.quantity).toFixed(2)}
                 </p>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
 
         <div className="flex justify-between mt-4 text-lg font-semibold">
           <span>Total</span>
@@ -454,15 +309,16 @@ const CheckoutPage = () => {
           {mode === "buy" && buyType === "ship" && (
             <ShippingForm onContinue={createPaymentIntent} loading={processing} />
           )}
-
           {mode === "buy" && buyType === "host" && (
             <HostForm onContinue={createPaymentIntent} loading={processing} />
           )}
-
           {mode === "rent" && (
-            <RentForm cart={cart} onContinue={createPaymentIntent} loading={processing} />
+            <RentForm
+              cart={cart}
+              onContinue={createPaymentIntent}
+              loading={processing}
+            />
           )}
-
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         </div>
       )}
