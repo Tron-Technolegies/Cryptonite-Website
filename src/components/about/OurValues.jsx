@@ -30,8 +30,8 @@ const OurValues = () => {
 
   return (
     <div className="max-w-5xl mx-auto text-center my-20">
-      <h2 className="text-3xl font-bold">OUR VALUES</h2>
-      <p className="text-gray-600 mt-2">The principles that guide everything we do</p>
+      <h2 className="text-3xl font-bold josefin-sans">OUR VALUES</h2>
+      <p className="text-black mt-2 dm-sans">The principles that guide everything we do</p>
 
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
         {values.map((item, index) => (
@@ -44,8 +44,8 @@ const OurValues = () => {
           >
             <div className="mb-4">{item.icon}</div>
 
-            <h3 className="font-semibold text-lg">{item.title}</h3>
-            <p className="text-gray-600 text-sm mt-2">{item.desc}</p>
+            <h3 className="font-semibold text-lg dm-sans">{item.title}</h3>
+            <p className="text-gray-600 text-sm mt-2 dm-sans">{item.desc}</p>
           </div>
         ))}
       </div>

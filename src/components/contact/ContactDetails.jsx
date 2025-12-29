@@ -22,7 +22,12 @@ const ContactDetails = () => {
       message: messageRef.current.value,
     };
 
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phone
+    ) {
       alert("Please fill all required fields");
       return;
     }
@@ -33,12 +38,12 @@ const ContactDetails = () => {
   return (
     <section className="w-full bg-[#f8fbf8] py-16 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-
         {/* LEFT : FORM */}
         <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-6 md:p-8">
-          <h3 className="text-xl font-semibold mb-1">Send us a Message</h3>
-          <p className="text-gray-500 text-sm mb-6">
-            Fill out the form and we’ll get back to you within 24 hours.
+          <h3 className="text-xl font-semibold mb-1">SEND US A MESSAGE</h3>
+          <p className="text-gray-500 text-sm mb-6 dm-sans">
+            Tell us about your mining or hosting requirements. <br />
+            Our team reviews all enquiries and responds with clear next steps.
           </p>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
@@ -51,7 +56,7 @@ const ContactDetails = () => {
                 <input
                   ref={firstNameRef}
                   type="text"
-                 
+                  placeholder="John"
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -63,7 +68,7 @@ const ContactDetails = () => {
                 <input
                   ref={lastNameRef}
                   type="text"
-                  
+                  placeholder="Doe"
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -78,21 +83,33 @@ const ContactDetails = () => {
                 <input
                   ref={emailRef}
                   type="email"
-                  
+                  placeholder="name@company.com"
                   className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
 
+              {/* Phone with Country Code */}
               <div>
                 <label className="text-sm font-medium">
                   Phone <span className="text-red-500">*</span>
                 </label>
-                <input
-                  ref={phoneRef}
-                  type="tel"
-                 
-                  className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
-                />
+
+                <div className="mt-1 flex">
+                  <select className="border border-gray-300 rounded-l-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500">
+                    <option value="+43">🇦🇹 +43</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+91">🇮🇳 +91</option>
+                    <option value="+971">🇦🇪 +971</option>
+                  </select>
+
+                  <input
+                    ref={phoneRef}
+                    type="tel"
+                    className="w-full border border-gray-300 rounded-r-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
               </div>
             </div>
 
@@ -104,9 +121,11 @@ const ContactDetails = () => {
                 className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-500"
               >
                 <option>Select a topic</option>
-                <option>Mining Hardware</option>
-                <option>Hosting</option>
-                <option>Support</option>
+                <option>Hosting Enquiry</option>
+                <option>Infrastructure Deployment</option>
+                <option>Equipment & Hardware</option>
+                <option>Partnership / Enterprise</option>
+                <option>General Enquiry</option>
               </select>
             </div>
 
@@ -116,7 +135,7 @@ const ContactDetails = () => {
               <textarea
                 ref={messageRef}
                 rows="4"
-                placeholder="Tell us about your mining needs..."
+                placeholder="Describe your requirements (location, capacity, timeline)."
                 className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
               />
             </div>
@@ -126,14 +145,13 @@ const ContactDetails = () => {
               type="submit"
               className="w-full bg-green-500 text-white py-2.5 rounded-md text-sm font-semibold hover:bg-green-600 transition"
             >
-              Send Message
+              Submit Enquiry
             </button>
           </form>
         </div>
 
-        {/* RIGHT : INFO (UNCHANGED) */}
+        {/* RIGHT : INFO */}
         <div className="space-y-6">
-
           {/* Business Hours */}
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -158,7 +176,7 @@ const ContactDetails = () => {
 
             <div className="mt-4 flex items-center gap-2 bg-green-100 text-green-700 px-3 py-2 rounded-md text-sm">
               <FiHeadphones />
-              24/7 Technical Support for existing customers
+              24/7 Technical Support for hosted clients
             </div>
           </div>
 
@@ -171,28 +189,16 @@ const ContactDetails = () => {
 
             <div className="text-sm text-gray-600 space-y-4">
               <div>
-                <p className="font-medium text-black">San Francisco</p>
-                {/* <p>1234 Blockchain Ave, Suite 500</p>
-                <p>California, 94102</p>
-                <p>United States</p> */}
+                <p className="font-medium text-black">San Francisco (USA)</p>
               </div>
-
               <div>
-                <p className="font-medium text-black">Reykjavík</p>
-                {/* <p>Laugavegur 28</p>
-                <p>101 Reykjavík</p>
-                <p>Iceland</p> */}
+                <p className="font-medium text-black">Reykjavík (Iceland)</p>
               </div>
-
               <div>
                 <p className="font-medium text-black">Singapore</p>
-                {/* <p>1 Marina Boulevard, #20-01</p>
-                <p>Singapore 018989</p>
-                <p>Singapore</p> */}
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

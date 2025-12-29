@@ -9,7 +9,7 @@ const BlogSearchFunctions = () => {
     "Events",
     "Industry Insights",
     "Market Analysis",
-    "Technical",
+    "Technical Guides",
     "Case Studies",
     
   ];

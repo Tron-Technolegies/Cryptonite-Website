@@ -64,11 +64,11 @@ const Leaders = () => {
   return (
     <section className="w-[90%] max-w-7xl mx-auto my-28">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold tracking-tight">
-          Leadership Team
+        <h2 className="text-4xl font-bold tracking-tight josefin-sans">
+          LEADERSHIP TEAM
         </h2>
-        <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
-          Precision. Compliance. Operational excellence.
+        <p className="text-black mt-4 max-w-2xl mx-auto">
+          Experienced professionals dedicated to your mining success
         </p>
       </div>
 
