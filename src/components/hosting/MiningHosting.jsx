@@ -13,9 +13,7 @@ const MiningHosting = () => {
         max-w-xl sm:max-w-2xl md:max-w-3xl
         text-sm sm:text-base md:text-lg
         leading-relaxed md:leading-8">
-        Looking for a hosting location for your ASIC miners? We offer the best
-        and most affordable spots in our modern hosting farms — with the highest
-        German-level service quality.
+        Operate your ASIC miners across professionally managed hosting locations, selected for stable power, efficient energy pricing, and reliable operations.
       </p>
 
       {/* Image */}
