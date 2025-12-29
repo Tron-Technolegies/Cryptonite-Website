@@ -6,12 +6,11 @@ const ContactHeader = () => {
     <section className="w-full bg-white py-20 px-4">
       {/* Heading */}
       <div className="text-center mb-14">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide text-black">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide text-black josefin-sans">
           GET IN TOUCH
         </h2>
         <p className="mt-3 text-gray-600 max-w-xl mx-auto">
-          Have questions about our services? Our team is here to help you get
-          started with professional cryptocurrency mining.
+          Speak with our team about mining infrastructure and hosting.
         </p>
       </div>
 
@@ -26,6 +25,9 @@ const ContactHeader = () => {
             </div>
           </div>
           <h4 className="font-semibold text-lg mb-1">Email Us</h4>
+          <p className="text-black text-sm mb-4 dm-sans">
+            For enquiries related to hosting, infrastructure, or partnerships.
+          </p>
           <p className="text-gray-600 text-sm mb-4">
             contact@cryptonite.com
           </p>
@@ -42,6 +44,9 @@ const ContactHeader = () => {
             </div>
           </div>
           <h4 className="font-semibold text-lg mb-1">Call Us</h4>
+          <p className="text-black text-sm mb-4 dm-sans">
+           Direct access to our operations and support team.
+          </p>
           <p className="text-gray-600 text-sm mb-4">
             +1 (555) 123-4567
           </p>
@@ -58,6 +63,9 @@ const ContactHeader = () => {
             </div>
           </div>
           <h4 className="font-semibold text-lg mb-1">Live Chat</h4>
+           <p className="text-black text-sm mb-4 dm-sans">
+           Operational support and general <br /> enquiries.
+          </p>
           <p className="text-gray-600 text-sm mb-4">
             Available 24/7
           </p>

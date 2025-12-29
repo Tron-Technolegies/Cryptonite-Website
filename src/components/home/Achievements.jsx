@@ -22,7 +22,7 @@ const Achievements = () => {
             <div key={stat.id} className="flex flex-col items-center">
               {/* Number */}
               <h3
-                className="text-4xl md:text-5xl font-semibold"
+                className="text-4xl md:text-5xl font-semibold dm-sans"
                 style={{ color: "var(--primary-color)" }}
               >
                 {stat.number}

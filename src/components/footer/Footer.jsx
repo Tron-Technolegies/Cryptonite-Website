@@ -27,8 +27,7 @@ const Footer = () => {
               className="h-12 w-auto mb-4"
             />
             <p className="text-white text-sm leading-relaxed max-w-xs">
-              Professional cryptocurrency mining solutions with premium hosting
-              and support.
+             Professional Bitcoin mining infrastructure and hosting operations.
             </p>
 
             {/* SOCIAL */}

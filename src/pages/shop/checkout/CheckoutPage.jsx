@@ -22,7 +22,7 @@ import { FiArrowLeft, FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-/* ================= SMALL LOADER FOR QTY ================= */
+/* ================= SMALL LOADER ================= */
 const QtyLoader = () => (
   <span className="inline-block w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
 );
@@ -216,7 +216,7 @@ const CheckoutPage = () => {
       />
 
       {/* HEADER */}
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-6">
         <button onClick={() => navigate(-1)} className="p-2 border rounded-full">
           <FiArrowLeft />
         </button>
@@ -224,8 +224,8 @@ const CheckoutPage = () => {
       </div>
 
       {/* ORDER SUMMARY */}
-      <div className="bg-white border rounded-2xl p-6 mb-8">
-        <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+      <div className="bg-white border rounded-2xl p-5 mb-6">
+        <h2 className="text-lg font-semibold mb-3">Order Summary</h2>
 
         {cart.map((item) => {
           const price = getItemPrice(item);
@@ -235,11 +235,11 @@ const CheckoutPage = () => {
           return (
             <div
               key={item.id}
-              className="grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] gap-4 py-4 border-b items-start sm:items-center"
+              className="grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] gap-3 py-3 border-b items-center"
             >
               <img
                 src={getImageUrl(image)}
-                className="w-20 h-20 object-contain bg-gray-50 rounded self-center"
+                className="w-16 h-16 object-contain bg-gray-50 rounded"
                 alt={title}
               />
 
@@ -250,7 +250,7 @@ const CheckoutPage = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-col items-end gap-1">
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() =>
@@ -262,11 +262,7 @@ const CheckoutPage = () => {
                     {updatingItem === item.id ? <QtyLoader /> : <FiMinus />}
                   </button>
 
-                  <span
-                    className={`w-6 text-center transition-opacity ${
-                      updatingItem === item.id ? "opacity-50" : "opacity-100"
-                    }`}
-                  >
+                  <span className="w-6 text-center text-sm">
                     {item.quantity}
                   </span>
 
@@ -282,14 +278,14 @@ const CheckoutPage = () => {
 
                   <button
                     onClick={() => handleRemoveItem(item.id)}
-                    className="text-red-500 ml-2"
+                    className="text-red-500 ml-1"
                     disabled={updatingItem === item.id}
                   >
                     <FiTrash2 />
                   </button>
                 </div>
 
-                <p className="font-semibold text-green-600">
+                <p className="text-sm font-semibold text-green-600">
                   €{(price * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -297,7 +293,7 @@ const CheckoutPage = () => {
           );
         })}
 
-        <div className="flex justify-between mt-4 text-lg font-semibold">
+        <div className="flex justify-between mt-3 text-base font-semibold">
           <span>Total</span>
           <span className="text-green-600">€{total.toFixed(2)}</span>
         </div>
@@ -305,7 +301,7 @@ const CheckoutPage = () => {
 
       {/* DETAILS FORM */}
       {!clientSecret && (
-        <div className="bg-white border rounded-2xl p-6 mb-8">
+        <div className="bg-white border rounded-2xl p-6 mb-6">
           {mode === "buy" && buyType === "ship" && (
             <ShippingForm onContinue={createPaymentIntent} loading={processing} />
           )}

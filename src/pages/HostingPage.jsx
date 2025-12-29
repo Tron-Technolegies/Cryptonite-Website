@@ -8,6 +8,8 @@ import WhyCryptonite from '../components/home/WhyCryptonite'
 import DataCenters from '../components/hosting/DataCenters'
 import StartHosting from '../components/hosting/StartHosting'
 import MiningHosting from '../components/hosting/MiningHosting'
+import WhyChooseHosting from '../components/hosting/WhyChooseHosting'
+import MonitoringSupport from '../components/hosting/MonitoringSupport'
 
 const HostingPage = () => {
   useEffect(() => {
@@ -19,9 +21,12 @@ const HostingPage = () => {
       {/* <PartnerCompanies/> */}
       {/* <ProductCards/> */}
       <DataCenters/>
+      <WhyChooseHosting/>
+      {/* <WhyCryptonite/> */}
       <MiningHosting/>
-      <WhyCryptonite/>
+      
        <DataCenters/>
+       {/* <MonitoringSupport/> */}
        <StartHosting/>
       {/* <HostingPurchaseSteps/> */}
     </div>
