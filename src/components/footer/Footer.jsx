@@ -72,9 +72,9 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li className="hover:text-(--primary-color)">ASIC Mining</li>
               <li className="hover:text-(--primary-color)">Hosting Solutions</li>
-              <li className="hover:text-(--primary-color)">Mining</li>
+              {/* <li className="hover:text-(--primary-color)">Mining</li>
               <li className="hover:text-(--primary-color)">Consultation</li>
-              <li className="hover:text-(--primary-color)">Maintenance</li>
+              <li className="hover:text-(--primary-color)">Maintenance</li> */}
             </ul>
           </div>
 

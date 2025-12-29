@@ -19,9 +19,9 @@ const AboutHeroSection = () => {
             max-w-xl sm:max-w-2xl mx-auto
           "
         >
-          Leading the future of cryptocurrency mining with professional
-          infrastructure, renewable energy, and unwavering commitment to our
-          clients' success.
+          Cryptonite Mining is an infrastructure operator focused on designing,
+          deploying, and running Bitcoin mining facilities that perform reliably
+          through market cycles.
         </p>
       </div>
     </section>

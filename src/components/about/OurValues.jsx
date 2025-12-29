@@ -9,29 +9,29 @@ const OurValues = () => {
     {
       icon: <FaUserShield className="text-green-600 text-2xl" />,
       title: "Mission-Driven",
-      desc: "Democratize cryptocurrency mining with accessible, professional grade infrastructure for everyone.",
+      desc: "We focus on building professional mining infrastructure that is accessible, reliable, and built to last.",
     },
     {
       icon: <BsLightningChargeFill className="text-green-600 text-2xl" />,
       title: "Innovation First",
-      desc: "Constantly improving our technology and processes to deliver the best mining experience.",
+      desc: "We continuously improve our systems, processes, and operations to stay efficient and resilient"
     },
     {
       icon: <MdSupportAgent className="text-green-600 text-2xl" />,
-      title: "Customer Focused",
-      desc: "Your success is our success. We're committed to providing exceptional support and service.",
+      title: "Operator-Focused",
+      desc: "We design our infrastructure around the real needs of miners, from deployment to daily operations",
     },
     {
       icon: <GiDiamondHard className="text-green-600 text-2xl" />,
       title: "Quality Assured",
-      desc: "Enterprise-grade infrastructure with industry-leading uptime and security standards.",
+      desc: "Enterprise-grade facilities with strict standards for uptime, security, and performance"
     },
   ];
 
   return (
     <div className="max-w-5xl mx-auto text-center my-20">
       <h2 className="text-3xl font-bold josefin-sans">OUR VALUES</h2>
-      <p className="text-black mt-2 dm-sans">The principles that guide everything we do</p>
+      <p className="text-black mt-2 dm-sans">The principles behind how we build and operate.</p>
 
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
         {values.map((item, index) => (

@@ -13,23 +13,19 @@ const OurStory = () => {
           </h2>
 
           <p className="text-base sm:text-[16px] md:text-[17px] leading-relaxed mb-4 text-gray-800 dm-sans">
-            Founded in 2019, Cryptonite Mining emerged from a vision to make
-            professional cryptocurrency mining accessible to everyone. What
-            started as a single data center in Iceland has grown into a global
-            operation spanning three continents.
+           Founded in 2019, Cryptonite Mining was created with a clear focus: to make professional-grade Bitcoin mining accessible through reliable infrastructure and responsible energy use.
+
           </p>
 
           <p className="text-base sm:text-[16px] md:text-[17px] leading-relaxed mb-4 text-gray-800 dm-sans">
-            We recognized that mining success requires more than just equipment—
-            it demands optimal infrastructure, competitive energy rates, and
-            expert support. That’s why we built our facilities in locations with
-            abundant renewable energy and optimal cooling conditions.
+            What began as a single data center deployment has grown into a global mining operation spanning multiple regions, supported by renewable energy sources and purpose-built facilities.
+
           </p>
 
           <p className="text-base sm:text-[16px] md:text-[17px] leading-relaxed text-gray-800 dm-sans">
-            Today, we’re proud to serve hundreds of clients worldwide, from
-            individual miners to large-scale operations, all benefiting from our
-            enterprise-grade infrastructure and dedicated support.
+           From the beginning, we understood that successful mining depends on more than hardware alone. It requires stable power, efficient cooling, secure environments, and operational expertise. Cryptonite was built to deliver all four — consistently and at scale.
+Today, we support miners ranging from individual operators to large-scale deployments, all running on enterprise-grade infrastructure managed by experienced teams.
+
           </p>
         </div>
 

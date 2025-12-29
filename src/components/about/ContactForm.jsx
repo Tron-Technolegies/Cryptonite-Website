@@ -51,7 +51,7 @@ const ContactForm = () => {
             </h2>
 
             <p className="text-gray-300 mt-2 text-sm md:text-base">
-              Our expert team is ready to help you get started
+              Talk to our team and get started with confidence.
             </p>
 
             <button
@@ -84,7 +84,8 @@ const ContactForm = () => {
             </h2>
 
             <p className="text-gray-600 mb-10">
-              Ready to start mining? Let’s discuss how we can help you succeed
+              Speak with our team about infrastructure, hosting, or deployment.
+
             </p>
 
             <div className="space-y-8">
@@ -174,6 +175,7 @@ const ContactForm = () => {
                   focus:ring-2 focus:ring-green-500 
                   outline-none
                 "
+                placeholder=" Tell us about your mining requirements"
               ></textarea>
             </div>
 
@@ -190,7 +192,7 @@ const ContactForm = () => {
                 transition
               "
             >
-              Send Message →
+              Submit Enquiry →
             </button>
           </form>
 
