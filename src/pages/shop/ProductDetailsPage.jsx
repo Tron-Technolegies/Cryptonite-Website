@@ -4,17 +4,17 @@ import MinableCoins from "./productdetails/MinableCoins";
 import ProductSpecifications from "./productdetails/ProductSpecifications";
 import MiningProfitGraph from "./productdetails/MiningProfitGraph";
 import PurchaseOptions from "./productdetails/PurchaseOptions";
-// import BundleOfferPopup from "../../components/common/BundleOfferPopup";
-
+import axiosClient from "../../api/axiosClient";
+import { getCoinByAlgorithm } from "../../utils/asicUi";
 
 const ProductDetailsPage = () => {
   const [product, setProduct] = useState(null);
+  const [coin, setCoin] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Show once per session
     if (!sessionStorage.getItem("bundlePopupShown")) {
       setTimeout(() => {
         setShowPopup(true);
@@ -23,17 +23,30 @@ const ProductDetailsPage = () => {
     }
   }, []);
 
+  // 🔥 Load coin data when product is available
+  useEffect(() => {
+    if (!product) return;
+
+    axiosClient.get("/asic-profitability").then((res) => {
+      const coins = res.data?.data?.coins || {};
+      const matchedCoin = getCoinByAlgorithm(coins, product.algorithm);
+      setCoin(matchedCoin || null);
+    });
+  }, [product]);
+
   return (
     <div>
-      {/* <BundleOfferPopup
-        open={showPopup}
-        onClose={() => setShowPopup(false)}
-      /> */}
+      {/* <BundleOfferPopup open={showPopup} onClose={() => setShowPopup(false)} /> */}
 
       <ProductInfo setProduct={setProduct} />
+
       <PurchaseOptions product={product} />
+
       <MinableCoins />
-      {product && <MiningProfitGraph product={product} />}
+
+      {/* Pass coin explicitly */}
+      {product && coin && <MiningProfitGraph product={{ ...product, coin }} />}
+
       <ProductSpecifications />
     </div>
   );
