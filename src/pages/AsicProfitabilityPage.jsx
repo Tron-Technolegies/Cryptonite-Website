@@ -5,6 +5,14 @@ import { getCoinByAlgorithm, profitBarWidth } from "../utils/asicUi";
 import { getImageUrl } from "../utils/imageUtils";
 import { useNavigate } from "react-router-dom";
 
+// ---------- HELPERS ----------
+
+// Parse "500W" → 500
+const parsePower = (power) => {
+  if (!power) return 0;
+  return parseFloat(power.toLowerCase().replace("w", ""));
+};
+
 export default function AsicProfitabilityPage() {
   const [products, setProducts] = useState([]);
   const [coins, setCoins] = useState({});
@@ -21,20 +29,31 @@ export default function AsicProfitabilityPage() {
     );
   }, []);
 
+  // ----------------- CORE CALCULATION -----------------
+  const calculateElectricityCost = (p) => {
+    const powerKW = parsePower(p.power) / 1000;
+    const rate = parseFloat(p.hosting_fee_per_kw);
+    return powerKW * (rate / 30);
+  };
+
   const calculateProfit = (p) => {
     const coin = getCoinByAlgorithm(coins, p.algorithm);
     if (!coin) return 0;
 
-    const revenue = Number(coin.btc_revenue || 0) * Number(p.hashrate) * 100000;
-    const powerCost = (Number(p.power) / 1000) * 24 * Number(p.hosting_fee_per_kw);
+    const btcRevenue = Number(coin.btc_revenue || 0);
+    const btcPrice = Number(coin.exchange_rate || 0);
 
-    return revenue - powerCost;
+    const revenueUSD = btcRevenue * btcPrice;
+    const electricityCost = calculateElectricityCost(p);
+
+    return revenueUSD - electricityCost;
   };
 
   const rows = products
     .map((p) => ({
       ...p,
       profit: calculateProfit(p),
+      electricity: calculateElectricityCost(p),
       coin: getCoinByAlgorithm(coins, p.algorithm),
     }))
     .filter((p) => p.model_name.toLowerCase().includes(search.toLowerCase()))
@@ -42,17 +61,15 @@ export default function AsicProfitabilityPage() {
       sort === "profit"
         ? b.profit - a.profit
         : sort === "power"
-        ? a.power - b.power
-        : b.hashrate - a.hashrate
+        ? parsePower(a.power) - parsePower(b.power)
+        : a.hashrate.localeCompare(b.hashrate)
     );
 
   return (
     <div className="bg-[#0d1210] min-h-screen p-6 text-white">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <h1 className="text-2xl font-bold mb-6">ASIC Miner Profitability</h1>
 
-        {/* Controls */}
         <div className="flex flex-wrap gap-3 mb-6">
           <input
             className="px-4 py-2 rounded-lg bg-[#161c1a] border border-gray-700"
@@ -72,7 +89,6 @@ export default function AsicProfitabilityPage() {
           </select>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto border border-gray-800 rounded-xl">
           <table className="min-w-full text-sm">
             <thead className="bg-[#161c1a] text-gray-400">
@@ -80,8 +96,9 @@ export default function AsicProfitabilityPage() {
                 <th className="p-4 text-left">MODEL</th>
                 <th className="p-4 text-center">HASHRATE</th>
                 <th className="p-4 text-center">POWER</th>
+                <th className="p-4 text-center">ELECTRICITY</th>
                 <th className="p-4 text-center">COIN</th>
-                <th className="p-4 text-right">PROFITABILITY</th>
+                <th className="p-4 text-right">PROFIT / DAY</th>
               </tr>
             </thead>
 
@@ -90,9 +107,7 @@ export default function AsicProfitabilityPage() {
                 <tr
                   key={p.id}
                   onClick={() => navigate(`/product/${p.id}`)}
-                  className="border-t border-gray-800 
-                 hover:bg-[#161c1a] transition 
-                 cursor-pointer"
+                  className="border-t border-gray-800 hover:bg-[#161c1a] cursor-pointer"
                 >
                   <td className="p-4 flex items-center gap-3">
                     <img
@@ -107,33 +122,51 @@ export default function AsicProfitabilityPage() {
                   </td>
 
                   <td className="p-4 text-center">{p.hashrate}</td>
-                  <td className="p-4 text-center">{p.power} W</td>
+                  <td className="p-4 text-center">{p.power}</td>
+                  <td className="p-4 text-center text-orange-400">
+                    ${p.electricity.toFixed(2)}/day
+                  </td>
 
                   <td className="p-4 text-center">
                     <CoinBadge coin={p.coin} />
                   </td>
 
                   <td className="p-4 text-right">
-                    <p className="text-green-400 font-semibold">${p.profit.toFixed(2)}/day</p>
+                    <p
+                      className={`font-semibold ${
+                        p.profit >= 0 ? "text-green-400" : "text-red-500"
+                      }`}
+                    >
+                      {p.profit >= 0 ? "+" : "-"}${Math.abs(p.profit).toFixed(2)}/day
+                    </p>
                     <div className="mt-1 h-1 bg-gray-800 rounded">
                       <div
-                        className="h-1 bg-green-500 rounded"
+                        className={`h-1 rounded ${p.profit >= 0 ? "bg-green-500" : "bg-red-500"}`}
                         style={{ width: `${profitBarWidth(p.profit)}%` }}
                       />
                     </div>
                   </td>
                 </tr>
               ))}
-
-              {rows.length === 0 && (
-                <tr>
-                  <td colSpan="5" className="p-6 text-center text-gray-400">
-                    No miners found
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
+        </div>
+
+        {/* DISCLAIMER */}
+        <div className="mt-6 text-sm text-gray-400 bg-[#141a18] border border-gray-700 rounded-lg p-4">
+          <p className="font-medium text-gray-300 mb-1">Profitability Information</p>
+          <p>
+            Profit estimates are based on real-time network data from WhatToMine and assume current
+            difficulty and market conditions.
+          </p>
+          <p className="mt-1">
+            Electricity cost is calculated using your selected rate. Actual results may vary due to
+            pool fees, downtime, and market volatility.
+          </p>
+          <p className="mt-1">
+            Negative values indicate that mining is currently not profitable at the selected
+            electricity rate.
+          </p>
         </div>
       </div>
     </div>
